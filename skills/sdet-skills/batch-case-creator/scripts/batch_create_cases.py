@@ -49,22 +49,44 @@ def filter_cases(cases: list) -> list:
     return filtered
 
 
-def copy_steps_from_case(client: PlatformClient, source_case_id: int, target_case_id: int):
+def add_public_step(client: PlatformClient, case_id: int, public_case_id: int):
     """
-    从源用例复制所有步骤到目标用例
+    为用例添加公共步骤引用
     
     Args:
         client: PlatformClient实例
-        source_case_id: 源用例ID
-        target_case_id: 目标用例ID
-    
-    Note:
-        由于API路径问题，此功能暂未实现。
-        建议在SDET平台上手动添加公共步骤。
+        case_id: 目标用例ID
+        public_case_id: 公共步骤用例ID
     """
-    print(f"  [跳过] 公共步骤复制功能暂未实现")
-    print(f"  [提示] 请在SDET平台上手动为用例 {target_case_id} 添加公共步骤")
-    return True
+    import requests
+    
+    url = f"{client.base_url}/flow"
+    headers = {
+        "Content-Type": "application/json",
+        "token": client.token
+    }
+    data = {
+        "caseId": case_id,
+        "type": "1",
+        "status": 0,
+        "exception": 0,
+        "delayTime": 0,
+        "quoteId": str(public_case_id)
+    }
+    
+    try:
+        response = requests.post(url, json=data, headers=headers, verify=False)
+        result = response.json()
+        
+        if response.status_code == 200 and result.get('success', True):
+            print(f"  [OK] 公共步骤引用成功 (quoteId={public_case_id})")
+            return True
+        else:
+            print(f"  [ERROR] 公共步骤引用失败: {result}")
+            return False
+    except Exception as e:
+        print(f"  [ERROR] 公共步骤引用异常: {e}")
+        return False
 
 
 def create_case_with_steps(client: PlatformClient, case_data: dict, directory_id: int, public_case_id: int):
@@ -100,7 +122,7 @@ def create_case_with_steps(client: PlatformClient, case_data: dict, directory_id
     
     # 复制公共步骤
     if public_case_id:
-        copy_steps_from_case(client, public_case_id, case_id)
+        add_public_step(client, case_id, public_case_id)
     
     return {
         "success": True,
