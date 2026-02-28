@@ -1,0 +1,16 @@
+{
+    "lark": {
+        "app_id": "cli_a83faf50a228900e",
+        "app_secret": "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH"
+    },
+    "sdet": {
+        "base_url": "https://sdet.ruishan.cc/api/sdet-atp",
+        "token": "NDY7d2VpYmluOzE3NzI1MDc0ODAxNzQ7M2UwMTEzMGZjYWZmZjRkMDE1MTU5ZGNmYmE4OWY5OWJiNGUxNDMyZTY3NzAxNTIxMDJlNjVlOGZkNjIwMGUyMQ==",
+        "creator_name": "自动化脚本",
+        "creator_id": "9999"
+    },
+    "defaults": {
+        "directory_id": 66241,
+        "public_case_id": 51401
+    }
+}
