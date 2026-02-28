@@ -1,0 +1,25 @@
+{
+  "sdet": {
+    "base_url": "https://sdet.ruishan.cc/api/sdet-atp",
+    "token": "NDY7d2VpYmluOzE3NzI1MDc0ODAxNzQ7M2UwMTEzMGZjYWZmZjRkMDE1MTU5ZGNmYmE4OWY5OWJiNGUxNDMyZTY3NzAxNTIxMDJlNjVlOGZkNjIwMGUyMQ==",
+    "description": "SDET平台配置"
+  },
+  "lark": {
+    "app_id": "cli_a83faf50a228900e",
+    "app_secret": "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH",
+    "description": "飞书应用配置"
+  },
+  "spreadsheet": {
+    "token": "K8V2sTKLyhE54Ot75EycbnKLnvb",
+    "sheet_id": "FYZ5JP",
+    "sheet_title": "测试用例-业务",
+    "case_name_col": "用例名称",
+    "script_id_col": "脚本序号",
+    "description": "飞书表格配置"
+  },
+  "backfill": {
+    "default_case_id_range": [66249, 66274],
+    "auto_update": false,
+    "description": "回填操作配置"
+  }
+}
