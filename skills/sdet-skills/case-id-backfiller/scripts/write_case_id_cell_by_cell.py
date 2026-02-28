@@ -50,7 +50,7 @@ def col_index_to_letter(col: int) -> str:
 def write_single_cell(spreadsheet_token: str, sheet_id: str, access_token: str,
                       row_index: int, col_index: int, value: str) -> bool:
     """
-    逐个单元格写入
+    逐个单元格写入（使用正确的飞书API格式）
     
     Args:
         spreadsheet_token: 表格token
@@ -65,41 +65,42 @@ def write_single_cell(spreadsheet_token: str, sheet_id: str, access_token: str,
     """
     col_letter = col_index_to_letter(col_index)
     row_num = row_index + 1  # Excel行号从1开始
-    range_str = f"{sheet_id}!{col_letter}{row_num}"
+    # range格式：sheet_id!起始单元格:结束单元格（单个单元格也要写成范围）
+    range_str = f"{sheet_id}!{col_letter}{row_num}:{col_letter}{row_num}"
     
-    url = f"https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values/{range_str}"
+    # 使用正确的URL格式
+    url = f"https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values"
+    
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Content-Type": "application/json"
     }
+    
+    # 使用正确的请求体格式
     data = {
         "valueRange": {
+            "range": range_str,
             "values": [[value]]
         }
     }
     
     try:
-        # 先尝试POST方法
-        response = requests.post(url, headers=headers, json=data)
+        # 使用PUT方法（根据飞书文档）
+        response = requests.put(url, headers=headers, json=data)
         
-        # 打印响应以便调试
-        print(f"  [DEBUG] 状态码: {response.status_code}")
-        print(f"  [DEBUG] 响应头: {response.headers.get('Content-Type')}")
-        print(f"  [DEBUG] 响应内容: {response.text[:200]}")
-        
-        if "application/json" in response.headers.get("Content-Type", ""):
+        if response.status_code == 200:
             result = response.json()
             if result.get("code") == 0:
-                print(f"  [OK] 写入成功: {range_str} = {value}")
+                print(f"  [OK] 写入成功: {col_letter}{row_num} = {value}")
                 return True
             else:
-                print(f"  [ERROR] 写入失败: {range_str}, 错误: {result.get('msg')}")
+                print(f"  [ERROR] 写入失败: {col_letter}{row_num}, 错误: {result.get('msg')}")
                 return False
         else:
-            print(f"  [ERROR] 非JSON响应: {response.text}")
+            print(f"  [ERROR] HTTP错误: {response.status_code}, 响应: {response.text[:200]}")
             return False
     except Exception as e:
-        print(f"  [ERROR] 写入异常: {range_str}, 异常: {e}")
+        print(f"  [ERROR] 写入异常: {col_letter}{row_num}, 异常: {e}")
         return False
 
 
