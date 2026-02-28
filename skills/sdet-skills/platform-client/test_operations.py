@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from platform_client import PlatformClient
 
 # 配置
-PLATFORM_URL = "https://your-platform.com"  # 需要替换为实际地址
+PLATFORM_URL = "https://sdet.ruishan.cc/api/sdet-atp"  # 实际平台地址
 PLATFORM_TOKEN = "NDY7d2VpYmluOjE3NzI1MDc0ODAxNzQ7M2UwMTEzMGZjYWZmZjRkMDE1MTU5ZGNmYmE4OWY5OWJiNGUxNDMyZTY3NzAxNTIxMDJlNjVlOGZkNjIwMGUyMQ=="
 PARENT_DIR_ID = 66241  # 父目录ID
 CASE_ID = 66242  # 测试用例ID
@@ -22,8 +22,8 @@ CASE_ID = 66242  # 测试用例ID
 client = PlatformClient(
     base_url=PLATFORM_URL,
     token=PLATFORM_TOKEN,
-    creator_name="AutoTest",
-    creator_id="99999"
+    creator_name="魏斌",
+    creator_id="46"
 )
 
 

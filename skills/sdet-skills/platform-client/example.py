@@ -7,7 +7,7 @@
 from platform_client import PlatformClient
 
 # 配置信息
-PLATFORM_URL = "https://your-platform.com"  # 替换为实际平台地址
+PLATFORM_URL = "https://sdet.ruishan.cc/api/sdet-atp"  # 实际平台地址
 PLATFORM_TOKEN = "NDY7d2VpYmluOjE3NzI1MDc0ODAxNzQ7M2UwMTEzMGZjYWZmZjRkMDE1MTU5ZGNmYmE4OWY5OWJiNGUxNDMyZTY3NzAxNTIxMDJlNjVlOGZkNjIwMGUyMQ=="
 DEFAULT_PARENT_ID = 66241  # 默认父目录ID
 
@@ -15,8 +15,8 @@ DEFAULT_PARENT_ID = 66241  # 默认父目录ID
 client = PlatformClient(
     base_url=PLATFORM_URL,
     token=PLATFORM_TOKEN,
-    creator_name="TestUser",
-    creator_id="12345"
+    creator_name="魏斌",
+    creator_id="46"
 )
 
 
