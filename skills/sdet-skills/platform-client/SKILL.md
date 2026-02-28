@@ -1,0 +1,190 @@
+# 自动化平台操作 Skill
+
+自动化测试平台 API 交互工具，提供用例目录、用例、步骤的完整 CRUD 操作。
+
+## 功能特性
+
+- ✅ 用例目录增删改查
+- ✅ 用例增删改查
+- ✅ 用例步骤增删改查
+- ✅ 变量管理
+- ✅ 完整的日志记录
+
+## 配置
+
+在使用前需要设置以下环境变量或配置文件：
+
+```python
+TEST_PLATFORM_URL = "https://your-platform.com"  # 平台地址
+TEST_PLATFORM_TOKEN = "NDY7d2VpYmluOjE3NzI1MDc0ODAxNzQ7M2UwMTEzMGZjYWZmZjRkMDE1MTU5ZGNmYmE4OWY5OWJiNGUxNDMyZTY3NzAxNTIxMDJlNjVlOGZkNjIwMGUyMQ=="
+CREATOR_NAME = "your_name"
+CREATOR_ID = "12345"
+DEFAULT_PARENT_ID = 66241  # 默认父目录ID
+```
+
+## 使用方法
+
+### 1. 用例目录操作
+
+```python
+from platform_client import PlatformClient
+
+client = PlatformClient()
+
+# 创建目录
+dir_id = client.create_directory(
+    name="测试目录",
+    parent_id=66241,
+    note="目录描述"
+)
+
+# 更新目录
+client.update_directory(
+    dir_id=66241,
+    name="新目录名",
+    note="更新后的描述"
+)
+
+# 删除目录
+client.delete_directory(dir_id=66241)
+
+# 查询目录
+dir_info = client.get_directory(dir_id=66241)
+sub_dirs = client.list_directories(parent_id=66241)
+```
+
+### 2. 用例操作
+
+```python
+# 创建用例
+case_data = {
+    "name": "测试用例名称",
+    "description": "用例描述",
+    "priority": 2,
+    "note": "备注信息"
+}
+
+case_id = client.create_case(
+    case_data=case_data,
+    directory_id=66241
+)
+
+# 更新用例
+client.update_case(
+    case_id=66242,
+    case_data={
+        "name": "更新后的用例名",
+        "description": "新描述"
+    }
+)
+
+# 删除用例
+client.delete_case(case_id=66242)
+
+# 查询用例
+case_info = client.get_case(case_id=66242)
+cases = client.list_cases(directory_id=66241)
+```
+
+### 3. 用例步骤操作
+
+```python
+# 创建步骤
+step_data = {
+    "name": "步骤1",
+    "order": 1,
+    "host": "${G_host}",
+    "protocol": 0,  # 0=HTTP
+    "path": "/api/test",
+    "method": "POST",
+    "headers": {"Content-Type": "application/json"},
+    "body": {"key": "value"},
+    "check": [{"expect": 200}]
+}
+
+step_id = client.create_step(
+    case_id=66242,
+    step_data=step_data
+)
+
+# 更新步骤
+client.update_step(
+    step_id=step_id,
+    step_data={"name": "更新后的步骤名"}
+)
+
+# 删除步骤
+client.delete_step(step_id=step_id)
+
+# 查询步骤
+step_info = client.get_step(step_id)
+steps = client.list_steps(case_id=66242)
+```
+
+### 4. 变量操作
+
+```python
+# 创建变量
+var_id = client.create_variable(
+    case_id=66242,
+    name="变量名",
+    value="变量值"
+)
+
+# 更新变量
+client.update_variable(
+    var_id=var_id,
+    value="新值"
+)
+
+# 删除变量
+client.delete_variable(var_id=var_id)
+
+# 查询变量
+variables = client.list_variables(case_id=66242)
+```
+
+## API 接口说明
+
+### 目录相关接口
+
+- `POST /case` - 创建目录 (caseType=0)
+- `PUT /case/{id}` - 更新目录
+- `DELETE /case/{id}` - 删除目录
+- `GET /case/{id}` - 查询目录
+- `GET /case/list` - 查询目录列表
+
+### 用例相关接口
+
+- `POST /case` - 创建用例 (caseType=2)
+- `PUT /case/{id}` - 更新用例
+- `DELETE /case/{id}` - 删除用例
+- `GET /case/{id}` - 查询用例
+- `GET /case/list` - 查询用例列表
+
+### 步骤相关接口
+
+- `POST /flow` - 创建步骤
+- `PUT /flow/{id}` - 更新步骤
+- `DELETE /flow/{id}` - 删除步骤
+- `GET /flow/{id}` - 查询步骤
+- `GET /flow/list` - 查询步骤列表
+
+### 变量相关接口
+
+- `POST /case/variable` - 创建变量
+- `PUT /case/variable/{id}` - 更新变量
+- `DELETE /case/variable/{id}` - 删除变量
+- `GET /case/variable/list` - 查询变量列表
+
+## 示例
+
+查看 `platform_client.py` 获取完整的实现和示例代码。
+
+## 注意事项
+
+1. 所有接口调用都需要在 header 中携带 token
+2. 平台使用自签名证书，代码中已禁用 SSL 警告
+3. 创建者和修改者信息会自动注入
+4. caseType: 0=目录, 2=自动化用例
+5. protocol: 0=HTTP, 1=HTTPS
