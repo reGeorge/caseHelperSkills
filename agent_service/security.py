@@ -5,7 +5,7 @@
 
 import re
 import ast
-from typing import Set, List
+from typing import Set, List, Tuple
 from pathlib import Path
 
 
@@ -44,7 +44,7 @@ class SecurityPolicy:
     def __init__(self):
         self.workspace_dir = Path("d:/Code/caseHelper/sandbox/workspace")
 
-    def validate_code(self, code: str) -> tuple[bool, str]:
+    def validate_code(self, code: str) -> Tuple[bool, str]:
         """
         验证代码安全性
 
@@ -52,12 +52,12 @@ class SecurityPolicy:
             code: Python代码字符串
 
         Returns:
-            (is_valid, error_message)
+            (is_valid, error_message) - 错误消息已简化，不包含堆栈
         """
         # 1. 检查危险操作
         for forbidden in self.FORBIDDEN_OPERATIONS:
             if forbidden in code:
-                return False, f"禁止使用危险操作: {forbidden}"
+                return False, f"禁止使用: {forbidden}"
 
         # 2. 检查导入语句
         try:
@@ -66,12 +66,12 @@ class SecurityPolicy:
                 if isinstance(node, ast.Import):
                     for alias in node.names:
                         if alias.name not in self.ALLOWED_MODULES:
-                            return False, f"禁止导入模块: {alias.name}"
+                            return False, f"禁止导入: {alias.name}"
 
                 if isinstance(node, ast.ImportFrom):
                     if node.module and node.module not in self.ALLOWED_MODULES:
-                        return False, f"禁止导入模块: {node.module}"
-        except SyntaxError as e:
+                        return False, f"禁止导入: {node.module}"
+        except SyntaxError:
             # 这里不阻止语法错误，让执行阶段自然失败
             pass
 
