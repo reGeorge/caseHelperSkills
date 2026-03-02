@@ -3,9 +3,7 @@
 Write case ID to Lark spreadsheet cell by cell
 """
 import sys
-import os
 import requests
-import json
 
 
 def get_access_token(app_id: str, app_secret: str) -> str:
@@ -20,7 +18,7 @@ def get_access_token(app_id: str, app_secret: str) -> str:
     return result.get("app_access_token")
 
 
-def read_sheet_data(spreadsheet_token: str, sheet_id: str, access_token: str) -> tuple:
+def read_sheet_data(spreadsheet_token: str, sheet_id: str, access_token: str) -> tuple[list[str], list[list[str]]]:
     """读取飞书表格数据，返回 (headers, data)"""
     read_url = f"https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values/{sheet_id}"
     headers = {"Authorization": f"Bearer {access_token}"}
@@ -105,21 +103,26 @@ def write_single_cell(spreadsheet_token: str, sheet_id: str, access_token: str,
 
 
 def write_case_ids_cell_by_cell(spreadsheet_token: str, sheet_id: str,
-                                  case_id_mapping: dict,
+                                  case_id_mapping: dict[int, int],
                                   app_id: str = "cli_a83faf50a228900e",
-                                  app_secret: str = "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH") -> dict:
+                                  app_secret: str = "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH") -> dict[str, int | bool]:
     """
     逐个单元格写入Case ID
-    
+
     Args:
         spreadsheet_token: 表格token
         sheet_id: 工作表ID
         case_id_mapping: 映射字典 {行号: case_id}
         app_id: 飞书应用ID
         app_secret: 飞书应用密钥
-    
+
     Returns:
-        dict: 写入结果统计
+        dict[str, int | bool]: 写入结果统计
+            success_count: 成功行数 (int)
+            error_count: 失败行数 (int)
+            not_found_count: 未找到行数 (int)
+            total: 总行数 (int)
+            success: 整体是否成功 (bool)
     """
     print("=" * 80)
     print("逐个单元格写入Case ID")
@@ -206,7 +209,7 @@ def main():
     sheet_id = "FYZ5JP"
     
     # Case ID映射（行号 -> Case ID）
-    case_id_mapping = {
+    case_id_mapping: dict[int, int] = {
         60: 66249,
         61: 66250,
         67: 66251,
