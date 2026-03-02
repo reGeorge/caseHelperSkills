@@ -52,11 +52,13 @@ class CodeExecutor:
 
     def _wrap_code(self, code: str) -> str:
         """包装代码，添加sys.path设置"""
+        skills_dir_str = str(self.skills_dir).replace('\\', '\\\\')
         wrapper = f'''import sys
 import os
+from pathlib import Path
 
 # 添加skills目录到Python路径
-skills_dir = "{self.skills_dir}"
+skills_dir = Path(r"{skills_dir_str}")
 sys.path.insert(0, str(skills_dir))
 
 # 添加各个skill子目录

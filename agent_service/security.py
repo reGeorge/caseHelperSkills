@@ -87,10 +87,15 @@ class SecurityPolicy:
         matches = re.findall(open_pattern, code)
 
         for path in matches:
-            # 检查是否尝试访问workspace以外的路径
             path_obj = Path(path)
-            # 相对路径中包含 .. 或不以 ./ 开头（且不是文件名）
-            if '..' in str(path_obj) or (str(path_obj).startswith('/') or (len(str(path_obj)) > 2 and str(path_obj)[1] == ':' and str(path_obj)[2] == '\\')):
+
+            # 允许读取 ../skills 目录（SKILL.md 文档）
+            if path.startswith('../skills'):
+                continue
+
+            # 检查是否尝试访问workspace以外的路径
+            # 相对路径中包含 .. 或绝对路径
+            if '..' in str(path_obj) or path_obj.is_absolute():
                 raise SecurityError(f"禁止访问路径: {path}. 所有文件操作必须在当前工作目录 ./ 中")
 
     def validate_workspace_file(self, filepath: str) -> bool:
