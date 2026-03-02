@@ -1,8 +1,3 @@
----
-name: "lark-skills"
-description: "飞书技能集合总入口，提供飞书API的完整操作支持。Invoke when user needs to work with Feishu/Lark platform, including authentication, spreadsheet operations, reading, and writing data."
----
-
 # 飞书技能集合 (Lark Skills Collection)
 
 这是飞书相关技能的总入口，集成了所有飞书API操作的技能模块。通过这个技能，你可以完整地使用飞书平台的各种功能。

@@ -1,8 +1,3 @@
----
-name: "case-skills"
-description: "测试用例相关技能集合，支持用例读取、AI概述生成等功能。Invoke when user needs to work with test cases, including reading from Lark spreadsheets and generating AI summaries."
----
-
 # 测试用例技能集合 (Case Skills Collection)
 
 这是测试用例相关技能的总入口，集成了所有用例操作的技能模块。

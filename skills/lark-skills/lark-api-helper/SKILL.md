@@ -1,8 +1,3 @@
----
-name: "lark-api-helper"
-description: "飞书API综合助手，提供access_token获取、表格操作等功能。Invoke when user needs to work with Feishu/Lark APIs or requests any Lark/Feishu operations."
----
-
 # 飞书API综合助手
 
 这个skill提供飞书API的完整操作支持，包括认证、表格操作等功能。

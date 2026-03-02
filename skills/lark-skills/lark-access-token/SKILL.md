@@ -1,8 +1,3 @@
----
-name: "lark-access-token"
-description: "获取飞书API的access_token。Invoke when user needs to authenticate with Feishu/Lark API or requests access token generation."
----
-
 # 飞书Access Token获取器
 
 这个skill帮助用户获取飞书API的access_token，用于后续的API调用。

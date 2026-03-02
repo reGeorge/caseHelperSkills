@@ -1,8 +1,3 @@
----
-name: "lark-sheets"
-description: "获取飞书表格的所有工作表列表。Invoke when user needs to list sheets in a Feishu/Lark spreadsheet or requests sheet information."
----
-
 # 飞书表格工作表列表获取器
 
 这个skill帮助用户获取飞书表格中的所有工作表（sheet）列表。

@@ -1,8 +1,3 @@
----
-name: "case-id-backfiller"
-description: "匹配SDET用例ID与飞书表格用例名称，并将用例ID回写到飞书表格的脚本序号列。Invoke when user needs to sync SDET test case IDs back to Feishu spreadsheet after batch creation."
----
-
 # 用例ID回填工具
 
 这个skill帮助用户将SDET平台上创建的测试用例ID回写到飞书表格中，通过匹配用例名称来定位并更新对应记录。

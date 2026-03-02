@@ -1,8 +1,3 @@
----
-name: "lark-sheet-reader"
-description: "读取飞书表格内容并转换为JSON格式。Invoke when user needs to read Feishu/Lark spreadsheet content or export test cases to JSON."
----
-
 # 飞书表格内容读取器
 
 这个skill帮助用户读取飞书表格的内容，并将其转换为JSON格式输出。

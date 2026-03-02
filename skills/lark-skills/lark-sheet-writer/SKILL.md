@@ -1,8 +1,3 @@
----
-name: "lark-sheet-writer"
-description: "写入和编辑飞书表格记录。Invoke when user needs to write or update data in Feishu/Lark spreadsheet or edit records."
----
-
 # 飞书表格记录写入器
 
 这个skill帮助用户写入和编辑飞书表格的记录，支持指定工作表、批量操作等功能。

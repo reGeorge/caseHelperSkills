@@ -1,8 +1,3 @@
----
-name: batch-case-creator
-description: 从飞书表格批量创建SDET自动化测试用例。当需要从飞书表格筛选符合条件的测试用例并批量创建到SDET平台时使用此技能。适用于需要自动化生成测试用例的场景，特别是从Excel或在线表格导入测试用例的情况。
----
-
 # Batch Case Creator
 
 ## Overview

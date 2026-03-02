@@ -1,8 +1,3 @@
----
-name: "case-ai-overview"
-description: "读取飞书表格中的测试用例，分析后为每条用例生成AI概述列。Invoke when user needs to analyze test cases and generate concise summaries."
----
-
 # 测试用例AI概述生成器
 
 这个skill帮助用户读取飞书表格中的测试用例，并使用AI为每条用例生成简洁的概述。
