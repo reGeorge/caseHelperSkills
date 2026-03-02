@@ -105,7 +105,7 @@ def write_single_cell(spreadsheet_token: str, sheet_id: str, access_token: str,
 def write_case_ids_cell_by_cell(spreadsheet_token: str, sheet_id: str,
                                   case_id_mapping: dict[int, int],
                                   app_id: str = "cli_a83faf50a228900e",
-                                  app_secret: str = "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH") -> dict[str, int | bool]:
+                                  app_secret: str = "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH") -> dict[str, str | int | bool]:
     """
     逐个单元格写入Case ID
 
@@ -117,12 +117,13 @@ def write_case_ids_cell_by_cell(spreadsheet_token: str, sheet_id: str,
         app_secret: 飞书应用密钥
 
     Returns:
-        dict[str, int | bool]: 写入结果统计
-            success_count: 成功行数 (int)
-            error_count: 失败行数 (int)
-            not_found_count: 未找到行数 (int)
-            total: 总行数 (int)
-            success: 整体是否成功 (bool)
+        dict[str, str | int | bool]: 写入结果统计
+            success: bool
+            success_count: int
+            error_count: int
+            not_found_count: int
+            total: int
+            error: str  # 错误信息（字符串）
     """
     print("=" * 80)
     print("逐个单元格写入Case ID")
