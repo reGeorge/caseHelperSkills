@@ -3,8 +3,8 @@
 secrets:
   LARK_APP_ID: "cli_a83faf50a228900e"
   LARK_APP_SECRET: "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH"
-  SDET_BASE_URL: "https://sdet-api.example.com"
-  SDET_API_TOKEN: "your-sdet-token"
+  SDET_BASE_URL: "https://sdet.ruishan.cc/api/sdet-atp"
+  SDET_API_TOKEN: "NDY7d2VpYmluOzE3NzI1MDc0ODAxNzQ7M2UwMTEzMGZjYWZmZjRkMDE1MTU5ZGNmYmE4OWY5OWJiNGUxNDMyZTY3NzAxNTIxMDJlNjVlOGZkNjIwMGUyMQ=="
 
 execution:
   timeout: 60  # seconds

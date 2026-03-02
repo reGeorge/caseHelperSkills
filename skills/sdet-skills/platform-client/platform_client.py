@@ -837,14 +837,10 @@ class PlatformClient:
         Returns:
             dict: {"success": bool, "data": list, "message": str}
         """
-        url = f"{self.base_url}/flow/list"
-
-        params = {
-            "caseId": case_id
-        }
+        url = f"{self.base_url}/flows/{case_id}"
 
         try:
-            resp = requests.get(url, headers=self.headers, params=params, verify=False)
+            resp = requests.get(url, headers=self.headers, verify=False)
             if resp.status_code == 200:
                 res_json = resp.json()
                 if res_json.get("success"):
