@@ -1,0 +1,16 @@
+# Agent Service Configuration
+
+secrets:
+  LARK_APP_ID: "cli_a83faf50a228900e"
+  LARK_APP_SECRET: "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH"
+  SDET_BASE_URL: "https://sdet-api.example.com"
+  SDET_API_TOKEN: "your-sdet-token"
+
+execution:
+  timeout: 60  # seconds
+  max_memory_mb: 512
+
+paths:
+  skills_dir: "d:/Code/caseHelper/skills"
+  sandbox_dir: "d:/Code/caseHelper/sandbox"
+  workspace_dir: "d:/Code/caseHelper/sandbox/workspace"
