@@ -69,6 +69,16 @@ case_id = client.create_case(
     directory_id=66241
 )
 
+# 创建用例（简化API，支持type参数）
+case_id = client.create_case(
+    name="测试用例名称",
+    directory_id=66241,
+    description="用例描述",
+    note="备注信息",
+    priority=2,
+    type=1  # 用例类型: 1=个人用例, 默认为自动化用例
+)
+
 # 更新用例
 client.update_case(
     case_id=66242,
@@ -188,3 +198,26 @@ variables = client.list_variables(case_id=66242)
 3. 创建者和修改者信息会自动注入
 4. caseType: 0=目录, 2=自动化用例
 5. protocol: 0=HTTP, 1=HTTPS
+6. type参数: 1=个人用例, 不传默认为自动化用例
+
+## 环境变量配置
+
+推荐使用环境变量管理配置：
+
+```bash
+export SDET_BASE_URL="https://your-platform.com/api/sdet-atp"
+export SDET_API_TOKEN="your_token"
+export CREATOR_NAME="your_name"
+export CREATOR_ID="12345"
+```
+
+```python
+# 从环境变量读取配置
+import os
+
+client = PlatformClient(
+    base_url=os.getenv('SDET_BASE_URL'),
+    token=os.getenv('SDET_API_TOKEN'),
+    creator_name=os.getenv('CREATOR_NAME'),
+    creator_id=os.getenv('CREATOR_ID')
+)

@@ -32,7 +32,12 @@
 - 基于条件更新记录
 - 批量更新多条记录
 
-### 3. 批量操作
+### 3. 单元格级写入（推荐用于Case ID回写）
+- 写入单个单元格
+- 基于Range格式写入
+- 支持批量单元格写入
+
+### 4. 批量操作
 - 从JSON文件批量导入数据
 - 批量更新符合条件的记录
 - 批量删除记录
@@ -115,7 +120,66 @@ result = writer.import_from_json(
 print(f"导入结果: {result}")
 ```
 
-### 3. 命令行使用
+### 3. 单元格级写入（推荐用于Case ID回写）
+
+```python
+import requests
+import os
+
+# 获取access_token
+token_url = 'https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal/'
+token_resp = requests.post(token_url, json={
+    'app_id': os.getenv('LARK_APP_ID'),
+    'app_secret': os.getenv('LARK_APP_SECRET')
+})
+access_token = token_resp.json()['app_access_token']
+
+# 写入单个单元格
+spreadsheet_token = "Mw7escaVhh92SSts8incmbbUnkc"
+sheet_id = "dfa872"
+
+# Range格式: sheet_id!列字母行号:列字母行号
+range_str = f'{sheet_id}!R6:R6'  # 写入R列第6行
+
+write_url = f'https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values'
+headers = {'Authorization': f'Bearer {access_token}', 'Content-Type': 'application/json'}
+
+data = {
+    'valueRange': {
+        'range': range_str,
+        'values': [['66330']]  # 二维数组格式
+    }
+}
+
+resp = requests.put(write_url, headers=headers, json=data)
+if resp.json().get('code') == 0:
+    print('写入成功')
+else:
+    print(f'写入失败: {resp.json()}')
+```
+
+**关键点**:
+- Range格式必须是 `sheet_id!列字母行号:列字母行号`，例如 `dfa872!R6:R6`
+- values必须是二维数组 `[[值]]`，不能是单值
+- 行号从1开始，第1行通常是表头
+- Excel行号 = 数据索引 + 2（表头行）
+
+**批量写入示例**:
+```python
+case_id_mapping = {
+    6: 66330,
+    8: 66331,
+    15: 66332
+}
+
+for excel_row, case_id in case_id_mapping.items():
+    range_str = f'{sheet_id}!R{excel_row}:R{excel_row}'
+    data = {'valueRange': {'range': range_str, 'values': [[str(case_id)]]}}
+    resp = requests.put(write_url, headers=headers, json=data)
+    # 处理响应...
+```
+
+### 4. 命令行使用
 
 ```bash
 # 写入单条记录
@@ -374,6 +438,15 @@ result = writer.write_range(
 5. **网络连接问题**
    - 检查网络连接
    - 实现重试机制
+
+6. **单元格写入失败（90215 sheetId not found）**
+   - 检查sheet_id是否与URL中的参数一致
+   - 确认表格URL格式正确: `https://ruijie.feishu.cn/sheets/{token}?sheet={sheet_id}`
+
+7. **单元格写入失败（91403 Forbidden）**
+   - 检查飞书应用是否有表格编辑权限
+   - 在飞书开放平台开通 `sheets:spreadsheet` 权限
+   - 确保应用服务账号是表格的协作者
 
 ## 注意事项
 

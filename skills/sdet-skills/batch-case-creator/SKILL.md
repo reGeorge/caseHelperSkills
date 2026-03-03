@@ -2,52 +2,68 @@
 
 ## Overview
 
-从飞书表格批量创建自动化测试用例到SDET平台的自动化工具。该技能自动读取飞书表格数据，筛选符合条件（是否支持自动化=是且脚本序号为空）的测试用例，并在指定目录下创建自动化用例，同时引用公共步骤。
+从飞书表格批量创建测试用例到SDET平台的自动化工具。该技能支持：
+- 从JSON文件或飞书表格读取测试用例数据
+- 按关键词筛选符合条件的用例
+- 在指定目录下创建用例（支持个人用例和自动化用例）
+- 将创建的Case ID回写到飞书表格
 
 ## Core Capabilities
 
-### 1. 飞书表格数据读取
-- 自动连接飞书API读取指定表格
+### 1. 数据源读取
+- **飞书表格读取**: 自动连接飞书API读取指定表格
+- **JSON文件读取**: 从本地JSON文件读取用例数据
 - 支持指定sheet_id或使用第一个sheet
-- 自动解析表格数据为结构化字典列表
-- 处理飞书特有的mention等复杂类型
+- 自动解析为结构化字典列表
 
 ### 2. 智能数据筛选
-- 筛选条件：`是否支持自动化 == "是"` 且 `脚本序号为空或null`
+- **关键词筛选**: 按用例名称/描述中的关键词筛选
+- **条件筛选**: 支持自定义筛选条件
 - 自动过滤不符合条件的记录
 - 输出筛选统计信息
 
 ### 3. 批量用例创建
-- 在指定目录下创建自动化用例
-- 自动复制公共步骤（从caseid=51401）
+- **用例类型支持**: 支持个人用例(type=1)和自动化用例(默认)
+- 在指定目录下批量创建用例
 - 支持重名检测和错误处理
 - 只新增不删除，确保安全
 
+### 4. 飞书回写
+- 将创建的Case ID写入飞书表格指定列
+- 支持指定sheet_id和列名
+- 基于行号映射关系准确回写
+
 ## Workflow
 
-### Phase 1: 读取飞书表格
+### Phase 1: 读取数据源
 
-使用飞书API读取表格数据：
-
+**方案A: 从飞书表格读取**
 ```python
 # 使用scripts/read_lark_sheet.py脚本
 python scripts/read_lark_sheet.py --url "https://ruijie.feishu.cn/sheets/..." --output "data.json"
 ```
 
-**关键参数：**
-- `url`: 飞书表格URL（包含spreadsheet_token和sheet_id）
-- `app_id`: 飞书应用ID
-- `app_secret`: 飞书应用密钥
-- `output`: 输出JSON文件路径（可选）
+**方案B: 从JSON文件读取**
+```python
+import json
+with open('test_cases.json', 'r', encoding='utf-8') as f:
+    cases = json.load(f)
+```
 
 ### Phase 2: 筛选符合条件的记录
 
-筛选逻辑：
-1. 检查 `是否支持自动化` 字段是否为 "是"
-2. 检查 `脚本序号` 字段是否为空或null
-3. 只保留同时满足两个条件的记录
+**关键词筛选**（按用例名称/描述）：
+```python
+keywords = ["用户进行有线认证", "有线portal认证", "有线1x认证"]
 
-**示例：**
+def match_keywords(case):
+    text = case.get("用例名称", "") + " " + case.get("用例描述", "")
+    return any(kw in text for kw in keywords)
+
+filtered_cases = [case for case in cases if match_keywords(case)]
+```
+
+**条件筛选**：
 ```python
 filtered_cases = [
     case for case in cases
@@ -55,70 +71,110 @@ filtered_cases = [
 ]
 ```
 
-### Phase 3: 创建自动化用例
+### Phase 3: 创建测试用例
 
 使用PlatformClient批量创建用例：
 
 1. **初始化客户端**
 ```python
 from platform_client import PlatformClient
+import os
 
 client = PlatformClient(
-    base_url="https://sdet.ruishan.cc/api/sdet-atp",
-    token="YOUR_TOKEN",
+    base_url=os.getenv('SDET_BASE_URL'),
+    token=os.getenv('SDET_API_TOKEN'),
     creator_name="自动化脚本",
     creator_id="9999"
 )
 ```
 
-2. **查询公共步骤**
+2. **批量创建用例**
 ```python
-# 查询caseid=51401的步骤列表
-public_steps = client.list_steps(case_id=51401)
-```
-
-3. **批量创建用例**
-```python
-for case_data in filtered_cases:
-    # 创建用例
+results = []
+for idx, case_data in enumerate(filtered_cases):
     result = client.create_case(
         name=case_data["用例名称"],
-        directory_id=66241,  # 目标目录
-        description=case_data.get("用例描述", "")
+        directory_id=66346,  # 目标目录
+        description=case_data.get("用例描述", ""),
+        priority=2,
+        type=1  # 个人用例
     )
-    
+
     if result['success']:
         case_id = result['data']
-        
-        # 复制公共步骤
-        for step in public_steps['data']:
-            client.create_step(
-                case_id=case_id,
-                name=step['name'],
-                order=step['order'],
-                # 复制其他必要字段...
-            )
+        results.append({
+            "row_number": idx + 1,
+            "case_name": case_data["用例名称"],
+            "case_id": case_id,
+            "success": True
+        })
+    else:
+        results.append({
+            "row_number": idx + 1,
+            "case_name": case_data["用例名称"],
+            "success": False,
+            "message": result.get('message', '创建失败')
+        })
 ```
 
-### Phase 4: 执行与验证
+3. **保存创建结果**
+```python
+import json
 
-执行批量创建脚本：
+summary = {
+    "total": len(filtered_cases),
+    "success_count": sum(1 for r in results if r["success"]),
+    "failed_count": sum(1 for r in results if not r["success"]),
+    "results": results
+}
 
-```bash
-# 使用主脚本
-python scripts/batch_create_cases.py \
-    --sheet-url "https://ruijie.feishu.cn/sheets/..." \
-    --directory-id 66241 \
-    --public-case-id 51401 \
-    --dry-run  # 先预览，不实际创建
+with open('create_result.json', 'w', encoding='utf-8') as f:
+    json.dump(summary, f, ensure_ascii=False, indent=2)
 ```
 
-**参数说明：**
-- `--sheet-url`: 飞书表格URL
-- `--directory-id`: 目标目录ID（默认66241）
-- `--public-case-id`: 公共步骤用例ID（默认51401）
-- `--dry-run`: 预览模式，只显示将要创建的用例，不实际创建
-- `--limit`: 限制创建数量（用于测试）
+### Phase 4: 回写飞书表格
+
+将创建的Case ID写入飞书表格：
+
+```python
+import requests
+
+# 获取飞书access_token
+token_url = 'https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal/'
+token_resp = requests.post(token_url, json={
+    'app_id': os.getenv('LARK_APP_ID'),
+    'app_secret': os.getenv('LARK_APP_SECRET')
+})
+access_token = token_resp.json()['app_access_token']
+
+# 写入Case ID
+spreadsheet_token = "Mw7escaVhh92SSts8incmbbUnkc"
+sheet_id = "dfa872"
+column_letter = "R"  # 脚本序号列
+
+for result in results:
+    if result['success']:
+        excel_row = result['row_number'] + 2  # 加表头行数
+        case_id = result['case_id']
+
+        range_str = f'{sheet_id}!{column_letter}{excel_row}:{column_letter}{excel_row}'
+        data = {
+            'valueRange': {
+                'range': range_str,
+                'values': [[str(case_id)]]
+            }
+        }
+
+        write_url = f'https://open.feishu.cn/open-apis/sheets/v2/spreadsheets/{spreadsheet_token}/values'
+        resp = requests.put(write_url, headers={'Authorization': f'Bearer {access_token}'}, json=data)
+
+        if resp.json().get('code') == 0:
+            print(f'行{excel_row}: Case ID {case_id} 写入成功')
+        else:
+            print(f'行{excel_row}: 写入失败 - {resp.json()}')
+```
+
+### Phase 5: 执行与验证
 
 ## Safety Constraints
 
@@ -147,29 +203,46 @@ python scripts/batch_create_cases.py \
 
 ## Common Use Cases
 
-### 用例1: 从飞书表格创建自动化用例
-```bash
-# 用户请求: "帮我从飞书表格创建自动化用例，放在66241目录下"
-python scripts/batch_create_cases.py \
-    --sheet-url "https://ruijie.feishu.cn/sheets/K8V2sTKLyhE54Ot75EycbnKLnvb?sheet=FYZ5JP" \
-    --directory-id 66241
+### 用例1: 按关键词筛选并创建个人用例
+```python
+# 筛选"用户进行有线认证"相关用例，创建为个人用例(type=1)
+keywords = ["用户进行有线认证", "有线portal认证", "有线1x认证"]
+filtered_cases = [
+    case for case in cases
+    if any(kw in case.get("用例名称", "") for kw in keywords)
+]
+
+# 创建到66346目录
+for case in filtered_cases:
+    client.create_case(
+        name=case["用例名称"],
+        directory_id=66346,
+        type=1  # 个人用例
+    )
 ```
 
-### 用例2: 预览将要创建的用例
+### 用例2: 从飞书表格读取并创建
 ```bash
-# 用户请求: "先预览一下飞书表格中有哪些用例需要创建"
+# 读取飞书表格
+python scripts/read_lark_sheet.py \
+    --url "https://ruijie.feishu.cn/sheets/...?sheet=xxx" \
+    --output "data.json"
+
+# 创建用例
 python scripts/batch_create_cases.py \
-    --sheet-url "https://ruijie.feishu.cn/sheets/..." \
-    --dry-run
+    --input "data.json" \
+    --directory-id 66346 \
+    --type 1
 ```
 
-### 用例3: 测试模式（只创建1条）
+### 用例3: 回写Case ID到飞书
 ```bash
-# 用户请求: "先创建1条试试效果"
-python scripts/batch_create_cases.py \
-    --sheet-url "https://ruijie.feishu.cn/sheets/..." \
-    --directory-id 66241 \
-    --limit 1
+# 使用创建结果回写
+python scripts/write_case_ids.py \
+    --create-result "create_result.json" \
+    --spreadsheet-token "Mw7escaVhh92SSts8incmbbUnkc" \
+    --sheet-id "dfa872" \
+    --column "R"
 ```
 
 ## Troubleshooting
@@ -186,14 +259,26 @@ python scripts/batch_create_cases.py \
 - 网络连接问题
 
 **排查步骤**:
-1. 使用`--dry-run`验证筛选结果
-2. 检查SDET平台Token是否有效
-3. 确认目标目录ID正确
-4. 查看详细日志输出
+1. 检查SDET平台Token是否有效
+2. 确认目标目录ID正确
+3. 查看详细日志输出
+4. 检查`create_result.json`中的失败原因
 
-### 问题3: 公共步骤复制失败
-**原因**: caseid=51401不存在或无访问权限
-**解决**: 确认公共步骤用例存在且有读取权限
+### 问题3: 飞书回写失败（91403 Forbidden）
+**可能原因**:
+- 飞书应用无表格编辑权限
+- spreadsheet_token或sheet_id错误
+
+**解决方案**:
+1. 在飞书开放平台开通`sheets:spreadsheet`权限
+2. 将应用服务账号添加为表格协作者
+3. 确认spreadsheet_token从完整URL中正确提取
+4. 确认sheet_id与URL中的参数一致
+
+**正确URL格式**:
+```
+https://ruijie.feishu.cn/sheets/{spreadsheet_token}?sheet={sheet_id}
+```
 
 ## Dependencies
 
