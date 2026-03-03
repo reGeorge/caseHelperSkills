@@ -1,0 +1,125 @@
+{
+  "total": 7,
+  "success": 7,
+  "results": [
+    {
+      "row": 3,
+      "case_id": 66348,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 29,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R3:R3",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    },
+    {
+      "row": 4,
+      "case_id": 66349,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 30,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R4:R4",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    },
+    {
+      "row": 5,
+      "case_id": 66350,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 31,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R5:R5",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    },
+    {
+      "row": 7,
+      "case_id": 66351,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 32,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R7:R7",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    },
+    {
+      "row": 10,
+      "case_id": 66352,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 33,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R10:R10",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    },
+    {
+      "row": 11,
+      "case_id": 66353,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 34,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R11:R11",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    },
+    {
+      "row": 24,
+      "case_id": 66354,
+      "success": true,
+      "response": {
+        "code": 0,
+        "data": {
+          "revision": 35,
+          "spreadsheetToken": "Mw7escaVhh92SSts8incmbbUnkc",
+          "updatedCells": 1,
+          "updatedColumns": 1,
+          "updatedRange": "dfa872!R24:R24",
+          "updatedRows": 1
+        },
+        "msg": "success"
+      }
+    }
+  ]
+}
