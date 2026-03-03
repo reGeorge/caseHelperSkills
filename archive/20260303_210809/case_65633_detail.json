@@ -1,0 +1,60 @@
+{
+  "data": {
+    "parent": 65566,
+    "note": "",
+    "componentId": 3,
+    "modifier": "zqq",
+    "creatorId": 9,
+    "modifierId": 9,
+    "createType": 1,
+    "caseCount": 0,
+    "maintainer": "zqq",
+    "caseType": 2,
+    "lastExecStatus": 0,
+    "path": "-Foh-Foi-H3W-H4b-",
+    "modifyTime": "2026-02-10 17:41:46",
+    "originId": "60880",
+    "isPublic": 0,
+    "id": 65633,
+    "order": 1.0,
+    "archiveTime": "2026-03-03 14:07:40",
+    "product": "SAM+",
+    "creator": "zqq",
+    "productId": 1,
+    "priority": 2,
+    "pathTree": [
+      {
+        "children": [
+          {
+            "children": [
+              {
+                "children": [
+                  {
+                    "title": "仅有线-autotestyx001认证成功注册无感",
+                    "key": 65633
+                  }
+                ],
+                "title": "注册无感控制",
+                "key": 65566
+              }
+            ],
+            "title": "业务自动化-认证校验",
+            "key": 60804
+          }
+        ],
+        "title": "UNC认证业务",
+        "key": 60803
+      }
+    ],
+    "component": "SAM+v5",
+    "isResp": true,
+    "maintainerId": 9,
+    "deleted": 0,
+    "createTime": "2026-02-10 17:31:56",
+    "name": "仅有线-autotestyx001认证成功注册无感",
+    "status": 0
+  },
+  "resCode": "0000",
+  "resMessage": "success",
+  "success": true
+}

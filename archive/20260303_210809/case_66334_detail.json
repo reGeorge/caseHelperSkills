@@ -1,0 +1,55 @@
+{
+    "data": {
+        "parent": 65566,
+        "note": "\u9422\u3124\u7de5\u7f02\u6827\u5f7f: RG-UNC-\u93c3\u72b3\u5285\u7481\u3088\u7609\u7481\u5267\u7586-TP-021\n\u5a34\u5b2d\u762f\u7edb\u590c\u9a87: p1\n\u6fb6\u56e8\u655e: None",
+        "modifier": "\u6984\u5fd4\u678c",
+        "creatorId": 46,
+        "modifierId": 46,
+        "createType": 0,
+        "caseCount": 0,
+        "maintainer": "\u6984\u5fd4\u678c",
+        "caseType": 1,
+        "path": "-Foh-Foi-H3W-HFu-",
+        "modifyTime": "2026-03-03 11:43:12",
+        "isPublic": 0,
+        "id": 66334,
+        "order": 3.984375,
+        "product": "SAM+",
+        "creator": "\u6984\u5fd4\u678c",
+        "productId": 1,
+        "priority": 2,
+        "pathTree": [
+            {
+                "children": [
+                    {
+                        "children": [
+                            {
+                                "children": [
+                                    {
+                                        "title": "\u93ba\u30e5\u53c6\u93c2\u7470\u7d21\u93c8\udcaa\u9355\u9e43\udc80\u584eAC\u8e47\udcab\u95ab\u71b8\u5e34\u934f\u30ef\u7d1d\u93c3\u72b3\u5285\u93ba\u30e5\u53c6\u7eeb\u8bf2\u7037\u6d93\u8f70\u7c8e\u93c8\u590c\u568e\u951b\u5c80\u6564\u93b4\u75af\u7e58\u741b\u5c7e\u6e41\u7efe\u80ef\udcae\u3088\u7609",
+                                        "key": 66334
+                                    }
+                                ],
+                                "title": "\u5a09\u3125\u553d\u93c3\u72b3\u5285\u93ba\u0443\u57d7",
+                                "key": 65566
+                            }
+                        ],
+                        "title": "\u6d93\u6c2c\u59df\u9477\udcaa\u9354\u3125\u5bf2-\u7481\u3088\u7609\u93cd\uffe0\u7359",
+                        "key": 60804
+                    }
+                ],
+                "title": "UNC\u7481\u3088\u7609\u6d93\u6c2c\u59df",
+                "key": 60803
+            }
+        ],
+        "isResp": false,
+        "maintainerId": 46,
+        "deleted": 0,
+        "createTime": "2026-03-03 11:43:12",
+        "name": "\u93ba\u30e5\u53c6\u93c2\u7470\u7d21\u93c8\udcaa\u9355\u9e43\udc80\u584eAC\u8e47\udcab\u95ab\u71b8\u5e34\u934f\u30ef\u7d1d\u93c3\u72b3\u5285\u93ba\u30e5\u53c6\u7eeb\u8bf2\u7037\u6d93\u8f70\u7c8e\u93c8\u590c\u568e\u951b\u5c80\u6564\u93b4\u75af\u7e58\u741b\u5c7e\u6e41\u7efe\u80ef\udcae\u3088\u7609",
+        "status": 0
+    },
+    "resCode": "0000",
+    "resMessage": "success",
+    "success": true
+}
