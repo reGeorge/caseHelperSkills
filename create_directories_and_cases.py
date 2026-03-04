@@ -72,11 +72,12 @@ def create_case(case_data, directory_id):
     
     payload = {
         "productId": 1,
-        "componentId": "",
+        "componentId": "1",
         "name": case_data["name"],
         "priority": case_data.get("priority", 2),
         "note": case_data.get("description", ""),
-        "caseType": 2,  # 2=自动化用例
+        "caseType": 1,  # 1=自动化用例
+        "type": 1,  # 1=自动化用例
         "parent": directory_id,
         "creator": CREATOR_NAME,
         "creatorId": CREATOR_ID,
