@@ -25,7 +25,7 @@ caseHelper/
 │   └── case-skills/      # 用例管理能力
 │       └── test-case-analyzer/
 │
-├── sandbox/              # 临时工作区（不提交git）
+├── sandbox/              # 临时工作区（默认不提交新产物）
 │   └── workspace/
 │       ├── lark_latest_data.json
 │       ├── test_case_analysis.json
@@ -36,7 +36,7 @@ caseHelper/
 │
 ├── agent_service/        # Agent服务模块
 ├── utils/                # 项目通用工具
-├── archive/              # 归档目录
+├── archive/              # 历史归档目录（当前无快照）
 │
 ├── config.py             # 配置文件
 ├── PROJECT_STRUCTURE.md  # 本文档
@@ -99,7 +99,7 @@ from skills.lark-skills.lark-sheet-writer.lark_sheet_writer import LarkSheetWrit
 - `directory_structure_by_config.md` - 目录结构文档
 
 **注意**：
-- ❌ 不提交到git
+- ❌ 默认不提交新产物（由 `.gitignore` 控制）
 - ✅ 定期清理临时文件
 
 ---
@@ -159,5 +159,5 @@ from skills.lark-skills.lark-sheet-writer.lark_sheet_writer import LarkSheetWrit
 
 ---
 
-**最后更新**: 2026-03-04  
+**最后更新**: 2026-03-05  
 **维护者**: 魏斌
