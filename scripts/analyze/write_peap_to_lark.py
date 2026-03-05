@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 批量回写 PEAP 分析结果到飞书表格（使用 PUT 更新已有单元格）
-列映射: A=用例编号, G=是否可自动化, I=脚本名称
+列映射: A=用例编号, G=是否可自动化, I=脚本名称, J=不可自动化原因
 """
 import sys, os, json, requests
 
@@ -59,6 +59,15 @@ def main():
     col_i = [[r['脚本名称']] for r in results]
     ok, msg = put_range(access_token, f"{SHEET_ID}!I2:I{end_row}", col_i)
     print(f"脚本名称(I): {'✅' if ok else '❌ ' + msg}")
+
+    # 写 不可自动化原因 表头 (J1)
+    ok, msg = put_range(access_token, f"{SHEET_ID}!J1:J1", [["不可自动化原因"]])
+    print(f"不可自动化原因表头(J1): {'✅' if ok else '❌ ' + msg}")
+
+    # 批量写 不可自动化原因 (J列)
+    col_j = [[r.get('不可自动化原因', '')] for r in results]
+    ok, msg = put_range(access_token, f"{SHEET_ID}!J2:J{end_row}", col_j)
+    print(f"不可自动化原因(J): {'✅' if ok else '❌ ' + msg}")
 
     print("✅ 回写完成")
 

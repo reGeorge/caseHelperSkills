@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-PEAP用例自动化分析脚本
-读取飞书表格 → 分析自动化可行性 → 生成编号/关键步骤/脚本名称 → 回写飞书 → 输出报告
+PEAP用例自动化分析脚本 v2
+评审修订：
+- 是否可自动化仅填 是/否，新增不可自动化原因列
+- PEAP-060 纯页面检查→否
+- 自动化关键步骤面向API拆解（接口调用+断言响应，合并"保存"到接口调用）
+- 脚本名称从关键步骤中提炼，格式：场景-接口动作-断言结果
 """
 
 import sys
@@ -16,7 +20,6 @@ sys.path.insert(0, os.path.join(project_root, 'skills', 'lark-skills', 'lark-she
 sys.path.insert(0, os.path.join(project_root, 'skills', 'lark-skills', 'lark-sheet-writer'))
 
 from lark_sheet_reader import LarkSheetReader
-from lark_sheet_writer import LarkSheetWriter
 
 # ── 常量 ──────────────────────────────────────────────
 LARK_APP_ID = "cli_a83faf50a228900e"
@@ -25,198 +28,329 @@ SHEET_URL = "https://ruijie.feishu.cn/sheets/Mw7escaVhh92SSts8incmbbUnkc?sheet=g
 SPREADSHEET_TOKEN = "Mw7escaVhh92SSts8incmbbUnkc"
 SHEET_ID = "gBtCcn"
 
-# 公共步骤引用
-REF_LOGIN_ADMIN = "引用51401"  # 登录管理端
-
+REF_LOGIN_ADMIN = "引用51401"
 WORKSPACE = os.path.join(project_root, 'sandbox', 'workspace')
 
-# ── 分析规则 ──────────────────────────────────────────
+# ══════════════════════════════════════════════════════
+# 分类：只返回 是/否 + 不可自动化原因
+# ══════════════════════════════════════════════════════
 
-def classify_case(name, steps, expect):
-    """根据用例名称/步骤/预期判断自动化可行性，返回 (是否可自动化, 原因)"""
+def classify_case(idx, name, steps, expect):
+    """返回 (是否可自动化: '是'|'否', 不可自动化原因: str)"""
     name_lower = name.lower()
 
-    # ── 需要物理设备的场景 → 否 ──
-    device_keywords = [
-        'win11', 'macos', '小米手机', 'oppo手机', 'ios系统', 'ipad',
-        'android pad', 'android pad', '鸿蒙系统'
-    ]
-    for kw in device_keywords:
+    # ── 需要物理设备 → 否 ──
+    device_keywords = {
+        'win11': 'Win11', 'macos': 'macOS', '小米手机': '小米手机',
+        'oppo手机': 'OPPO手机', 'ios系统': 'iOS', 'ipad': 'iPad',
+        'android pad': 'Android Pad', '鸿蒙系统': '鸿蒙系统'
+    }
+    for kw, label in device_keywords.items():
         if kw in name_lower:
-            return '否', f'需要物理设备({kw})进行真实无线认证，无法通过API模拟'
+            return '否', f'需要{label}物理设备进行真实802.1X无线认证，无法通过API模拟'
 
-    # ── 自助端操作 → 部分 ──
-    if '自助端' in name:
-        return '部分', '自助端下线操作需要自助端UI/API，管理端查询可通过API验证'
+    # ── PEAP-060 纯页面检查 → 否 ──
+    if idx == 60:
+        return '否', '纯页面帮助说明文本检查，属于UI视觉验证，不适合API自动化'
 
-    # ── 证书相关 → 部分 ──
-    if '证书' in name:
-        return '部分', '证书上传/查看可通过管理端API，但证书实际生效需要真实认证流程验证'
+    # ── 证书拖拽上传 → 否 ──
+    if '证书上传方式' in name:
+        return '否', '涉及拖拽上传等浏览器交互行为，需要UI自动化而非API自动化'
 
-    # ── 1x协议说明/选择 → 是 ──
-    if '1x' in name_lower and ('说明' in name or '选择' in name):
-        return '是', '协议配置项的查询和设置可通过管理端API完成'
-
-    # ── 主要认证流程用例（PEAP/EAP-TTLS + 本地/LDAP） → 部分 ──
-    auth_keywords = ['认证', 'ldap', 'peap', '校验', '加密', '密码错误', '账号不存在', '账号冲突']
-    for kw in auth_keywords:
-        if kw in name_lower or kw.upper() in name:
-            return '部分', '管理端配置/查询/断言可通过API自动化；无线认证触发需物理终端或仿真工具'
-
-    # 默认
-    return '部分', '需进一步评估具体步骤'
+    # ── 其余均可通过API自动化 → 是 ──
+    return '是', ''
 
 
-def generate_automation_steps(name, precondition, steps, expect):
-    """生成自动化关键步骤描述"""
+# ══════════════════════════════════════════════════════
+# 自动化关键步骤：面向API接口拆解
+# ══════════════════════════════════════════════════════
+
+def generate_automation_steps(idx, name, precondition, steps, expect):
+    """生成面向API的自动化关键步骤"""
     lines = []
-    step_num = 1
+    n = 1
 
-    # ── 前置: 登录管理端 ──
-    lines.append(f"{step_num}. 登录管理端 - {REF_LOGIN_ADMIN}")
-    step_num += 1
+    # 1. 登录管理端
+    lines.append(f"{n}. 登录管理端 - {REF_LOGIN_ADMIN}")
+    n += 1
 
-    # ── 前置: 根据预置条件生成配置步骤 ──
+    # --- 证书文件限制 ---
+    if '证书文件限制' in name:
+        lines.append(f"{n}. 调用证书上传接口，传入非pfx/pem格式文件，断言接口返回文件格式错误")
+        n += 1
+        lines.append(f"{n}. 调用证书上传接口，传入>10MB文件，断言接口返回文件大小超出限制")
+        n += 1
+        lines.append(f"{n}. 调用证书上传接口，传入合法证书文件(<10MB)，断言上传成功")
+        n += 1
+        lines.append(f"{n}. 调用证书保存接口(含密码)，断言返回成功且包含重启提示信息")
+        n += 1
+        lines.append(f"{n}. 清理测试数据 - 恢复原始证书配置")
+        return "\n".join(lines)
+
+    # --- 证书详情 ---
+    if '证书详情' in name:
+        lines.append(f"{n}. 调用证书上传接口，传入合法证书文件，断言上传成功")
+        n += 1
+        lines.append(f"{n}. 调用证书保存接口(含密码)，断言保存成功")
+        n += 1
+        lines.append(f"{n}. 调用证书详情查询接口，断言返回包含生效时间和到期时间字段")
+        n += 1
+        lines.append(f"{n}. 清理测试数据 - 恢复原始证书配置")
+        return "\n".join(lines)
+
+    # --- 证书上传方式(拖拽) ---
+    if '证书上传方式' in name:
+        lines.append(f"{n}. 无法通过API自动化，需UI自动化覆盖拖拽上传交互")
+        return "\n".join(lines)
+
+    # --- 1x默认协议说明(纯UI) ---
+    if '1x默认协议说明' in name:
+        lines.append(f"{n}. 纯页面UI检查，不适合API自动化")
+        return "\n".join(lines)
+
+    # --- 1x认证默认协议选择 ---
+    if '1x认证默认协议选择' in name:
+        lines.append(f"{n}. 调用查询认证证书配置接口，断言默认1x认证协议为PEAP")
+        n += 1
+        lines.append(f"{n}. 调用修改1x认证默认协议接口，将协议设为EAP-TTLS，断言接口返回保存成功")
+        n += 1
+        lines.append(f"{n}. 调用修改1x认证默认协议接口，将协议设为空值，断言接口返回参数校验失败")
+        n += 1
+        lines.append(f"{n}. 清理测试数据 - 调用修改接口恢复协议为PEAP")
+        return "\n".join(lines)
+
+    # --- 多平台兼容性 → 不可自动化 ---
+    for kw in ['win11', 'macos', '小米手机', 'oppo手机', 'ios系统',
+               'ipad', 'android pad', '鸿蒙系统']:
+        if kw in name.lower():
+            lines.append(f"{n}. 需要物理设备进行802.1X真实认证，无法通过API自动化")
+            return "\n".join(lines)
+
+    # ═══════ 核心认证流程用例 ═══════
+
+    # 前置：配置认证源
     if precondition:
-        pre_items = [p.strip() for p in re.split(r'\n', precondition) if p.strip()]
-        for item in pre_items:
-            item_clean = re.sub(r'^\d+[\.\、]', '', item).strip()
-            if not item_clean:
-                continue
-            if 'win10' in item_clean.lower() or 'win11' in item_clean.lower() or '电脑' in item_clean:
-                lines.append(f"{step_num}. 准备测试终端: {item_clean}")
-            elif 'LDAP' in item_clean or 'ldap' in item_clean:
-                lines.append(f"{step_num}. 配置LDAP认证源 - 调用认证源配置API")
-            elif '认证' in item_clean and '配置' in item_clean:
-                lines.append(f"{step_num}. 配置认证参数: {item_clean} - 调用认证配置API")
-            elif '证书' in item_clean:
-                lines.append(f"{step_num}. 配置证书: {item_clean} - 调用证书管理API")
-            else:
-                lines.append(f"{step_num}. 前置配置: {item_clean}")
-            step_num += 1
+        if 'LDAP' in precondition or 'ldap' in precondition:
+            lines.append(f"{n}. 调用认证源配置接口，创建/配置LDAP认证源及关联认证网络")
+            n += 1
+        if '1x认证默认协议' in precondition:
+            protocol = 'PEAP' if 'PEAP' in precondition else 'EAP-TTLS'
+            lines.append(f"{n}. 调用修改1x认证默认协议接口，设置为{protocol}，断言返回成功")
+            n += 1
 
-    # ── 开户生成测试数据 ──
-    if any(kw in name for kw in ['本地用户', '本地账户']):
-        lines.append(f"{step_num}. 开户生成测试数据 - 创建本地认证用户（调用用户管理API）")
-        step_num += 1
+    # 前置：创建测试用户
+    if '本地用户' in name or '本地账户' in name:
+        lines.append(f"{n}. 调用用户管理接口，创建本地认证测试用户")
+        n += 1
+    elif '账号冲突' in name:
+        lines.append(f"{n}. 调用用户管理接口，创建本地用户(与LDAP用户同名不同密码)")
+        n += 1
+        lines.append(f"{n}. 确保LDAP认证源中存在同名用户")
+        n += 1
     elif 'LDAP' in name:
-        lines.append(f"{step_num}. 开户生成测试数据 - 确保LDAP用户存在（调用LDAP用户查询API）")
-        step_num += 1
+        lines.append(f"{n}. 确保LDAP认证源中存在测试用户")
+        n += 1
 
-    # ── 核心测试步骤 ──
+    # 前置：LDAP密码存储/校验相关配置
+    if '不加密' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置密码存储方式为明文(不加密)")
+        n += 1
+    elif 'MD4' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置密码加密方式为MD4")
+        n += 1
+    elif 'MD5 16' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置密码加密方式为MD5-16进制")
+        n += 1
+    elif 'MD5 Base64' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置密码加密方式为MD5-Base64")
+        n += 1
+    elif '加密存储' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置密码存储方式为加密存储")
+        n += 1
+    elif '不启用' in name and '校验' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置身份校验为不启用")
+        n += 1
+    elif '每次认证' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置身份校验频率为每次认证时")
+        n += 1
+    elif '定期' in name:
+        lines.append(f"{n}. 调用LDAP认证源配置接口，设置身份校验频率为定期校验")
+        n += 1
+
+    # 核心步骤：解析测试步骤文本，转为API视角
     if steps:
-        step_items = [s.strip() for s in re.split(r'\n', steps) if s.strip()]
-        for item in step_items:
-            item_clean = re.sub(r'^\d+[\.\、]', '', item).strip()
-            if not item_clean:
-                continue
-            if '连接1x信号' in item_clean or '连接' in item_clean and '信号' in item_clean:
-                lines.append(f"{step_num}. 触发802.1X认证（物理终端连接或仿真工具触发）")
-            elif '认证' in item_clean and ('用户' in item_clean or '进行' in item_clean):
-                lines.append(f"{step_num}. 执行用户认证: {item_clean}")
-            elif '查看' in item_clean and '在线' in item_clean:
-                lines.append(f"{step_num}. 查询在线用户列表 - 调用在线用户查询API并断言用户状态")
-            elif '断开' in item_clean or '下线' in item_clean:
-                if '自助' in item_clean:
-                    lines.append(f"{step_num}. 自助端下线操作 - 调用自助端下线API")
-                elif '管理端' in item_clean:
-                    lines.append(f"{step_num}. 管理端强制下线 - 调用管理端下线API")
+        step_items = [re.sub(r'^\d+[\.\、]\s*', '', s.strip()) for s in steps.split('\n') if s.strip()]
+        i = 0
+        while i < len(step_items):
+            item = step_items[i]
+
+            # 「连接1x信号」→ 跳过（隐含在后续认证接口调用中）
+            if '连接1x信号' in item or ('连接' in item and '信号' in item):
+                # 看下一步是否是直接的认证动作（非认证源配置），合并
+                if i + 1 < len(step_items) and '认证' in step_items[i + 1] and '认证源' not in step_items[i + 1]:
+                    next_item = step_items[i + 1]
+                    auth_desc = _parse_auth_action(next_item)
+                    lines.append(f"{n}. 调用模拟认证接口，{auth_desc}")
+                    n += 1
+                    i += 2
+                    continue
                 else:
-                    lines.append(f"{step_num}. 终端断开连接（物理断开或仿真断开）")
-            elif '自助' in item_clean:
-                lines.append(f"{step_num}. 自助端操作: {item_clean} - 调用自助端API")
-            elif '查看' in item_clean or '验证' in item_clean:
-                lines.append(f"{step_num}. 查询并断言: {item_clean} - 调用管理端查询API")
-            else:
-                lines.append(f"{step_num}. {item_clean}")
-            step_num += 1
+                    # 没有紧跟认证步骤，跳过连接步骤（后面的认证步骤会单独处理）
+                    i += 1
+                    continue
 
-    # ── 断言 ──
-    if expect:
-        expect_items = [e.strip() for e in re.split(r'\n', expect) if e.strip()]
-        assertions = []
-        for item in expect_items:
-            item_clean = re.sub(r'^\d+[\.\、]', '', item).strip()
-            if item_clean:
-                assertions.append(item_clean)
-        if assertions:
-            lines.append(f"{step_num}. 断言预期结果: " + "; ".join(assertions))
-            step_num += 1
+            # 「认证源使用默认配置」→ 配置步骤
+            if '认证源' in item and '默认' in item:
+                lines.append(f"{n}. 调用认证源配置接口，确保认证源为默认配置")
+                n += 1
+                i += 1
+                continue
 
-    # ── 清理 ──
-    lines.append(f"{step_num}. 清理测试数据 - 删除测试用户/恢复认证配置")
+            # 「使用xx认证」单独出现
+            if ('认证' in item and ('用户' in item or '进行' in item)) and '连接' not in item:
+                auth_desc = _parse_auth_action(item)
+                lines.append(f"{n}. 调用模拟认证接口，{auth_desc}")
+                n += 1
+                i += 1
+                continue
 
+            # 「查看管理端在线用户」→ 调用查询接口断言
+            if '查看' in item and '在线' in item:
+                step_num_str = str(i + 1)
+                expect_text = _find_expect_for_step(step_num_str, expect)
+                if '离线' in expect_text or '不在' in expect_text:
+                    lines.append(f"{n}. 调用在线用户查询接口，断言用户和终端为离线状态")
+                elif '在线' in expect_text:
+                    lines.append(f"{n}. 调用在线用户查询接口，断言用户和终端为在线状态且信息正确")
+                else:
+                    lines.append(f"{n}. 调用在线用户查询接口，断言用户状态符合预期")
+                n += 1
+                i += 1
+                continue
+
+            # 「终端断开信号」
+            if '断开' in item and '信号' in item:
+                lines.append(f"{n}. 调用模拟断开接口（或仿真工具断开认证连接）")
+                n += 1
+                i += 1
+                continue
+
+            # 「管理端下线」
+            if '管理端' in item and '下线' in item:
+                lines.append(f"{n}. 调用管理端强制下线接口，下线目标终端")
+                n += 1
+                i += 1
+                continue
+
+            # 「自助端下线」
+            if '自助' in item and '下线' in item:
+                lines.append(f"{n}. 调用自助端下线接口，下线目标终端")
+                n += 1
+                i += 1
+                continue
+
+            # 「查看终端/用户信息」
+            if '查看' in item and ('终端' in item or '用户信息' in item):
+                lines.append(f"{n}. 调用终端/用户信息查询接口，断言终端信息和用户信息正确")
+                n += 1
+                i += 1
+                continue
+
+            # 「修改密码」
+            if '修改' in item and '密码' in item:
+                lines.append(f"{n}. 调用自助端修改密码接口，修改用户密码")
+                n += 1
+                i += 1
+                continue
+
+            # 「上传证书」
+            if '上传' in item and '证书' in item:
+                lines.append(f"{n}. 调用证书上传接口，传入证书文件")
+                n += 1
+                i += 1
+                continue
+
+            # 「点击保存」→ 跳过（合并到前面的接口调用）
+            if '保存' in item and ('点击' in item or '确认' in item):
+                i += 1
+                continue
+
+            # 「查看证书详情」
+            if '证书详情' in item:
+                lines.append(f"{n}. 调用证书详情查询接口，断言返回生效时间和到期时间")
+                n += 1
+                i += 1
+                continue
+
+            # 默认：保留原文
+            lines.append(f"{n}. {item}")
+            n += 1
+            i += 1
+
+    # 补充未覆盖的断言
+    if expect and '认证失败' in expect and not any('失败' in l for l in lines[1:]):
+        lines.append(f"{n}. 断言认证接口返回认证失败")
+        n += 1
+
+    # 清理
+    lines.append(f"{n}. 清理测试数据 - 调用接口删除测试用户/恢复认证配置")
     return "\n".join(lines)
 
 
-def generate_script_name(name, steps, expect):
-    """生成脚本标题：简要覆盖 前置-测试-预期 的关键点"""
-    # 提取关键场景标识
-    parts = []
+def _parse_auth_action(text):
+    """从认证描述中提取API动作"""
+    if '错误密码' in text or '错误' in text:
+        return '使用错误密码，断言认证接口返回认证失败'
+    if '不存在' in text:
+        return '使用不存在的账号，断言认证接口返回用户不存在'
+    if 'LDAP账户的密码' in text:
+        return '使用LDAP用户(LDAP密码)认证'
+    if '本地账户的密码' in text:
+        return '使用LDAP用户(本地密码)认证'
+    if 'LDAP' in text:
+        return '使用LDAP用户认证'
+    if '新密码' in text:
+        return '使用修改后的新密码认证'
+    if '本地' in text:
+        return '使用本地用户认证'
+    return '触发用户认证'
 
-    # 前置关键词
-    if 'PEAP' in name:
-        parts.append('PEAP')
-    elif 'EAP-TTLS' in name or 'TTLS' in name:
-        parts.append('EAP-TTLS')
 
-    if 'LDAP' in name:
-        if '登录' in name and '身份校验' in name:
-            parts.append('LDAP登录校验')
-        elif '查询' in name and '身份校验' in name:
-            parts.append('LDAP查询校验')
-        else:
-            parts.append('LDAP用户')
-    elif '本地' in name:
-        parts.append('本地用户')
+def _find_expect_for_step(step_num, expect):
+    """从预期结果中找到对应步骤编号的期望"""
+    if not expect:
+        return ''
+    for line in expect.split('\n'):
+        line = line.strip()
+        if line.startswith(f"{step_num}.") or line.startswith(f"{step_num}、"):
+            return line
+    return ''
 
-    # 测试动作
-    if '主动下线' in name:
-        parts.append('主动下线')
-    elif '自助端下线' in name:
-        parts.append('自助端下线')
-    elif '管理端下线' in name:
-        parts.append('管理端下线')
-    elif '自助功能' in name:
-        parts.append('自助功能验证')
-    elif '密码错误' in name:
-        parts.append('密码错误')
-    elif '账号不存在' in name:
-        parts.append('账号不存在')
-    elif '账号冲突' in name:
-        parts.append('账号冲突')
-    elif '不加密' in name:
-        parts.append('明文存储')
-    elif '加密存储' in name:
-        parts.append('加密存储')
-    elif 'MD4' in name:
-        parts.append('MD4加密')
-    elif 'MD5 16' in name:
-        parts.append('MD5-Hex')
-    elif 'MD5 Base64' in name:
-        parts.append('MD5-Base64')
-    elif '不启用' in name:
-        parts.append('不校验密码')
-    elif '每次认证' in name:
-        parts.append('每次LDAP校验')
-    elif '定期' in name:
-        parts.append('定期LDAP校验')
-    elif '不对接LDAP' in name and '本地' in name:
-        parts.append('无LDAP本地认证')
-    elif '不对接LDAP' in name and 'LDAP' in name:
-        parts.append('无LDAP源LDAP认证失败')
-    elif '证书文件限制' in name:
-        parts.append('证书文件格式校验')
-    elif '证书上传' in name:
-        parts.append('证书上传功能')
-    elif '证书详情' in name:
-        parts.append('证书详情查看')
-    elif '1x' in name.lower() and '说明' in name:
-        parts.append('协议说明展示')
-    elif '1x' in name.lower() and '选择' in name:
-        parts.append('协议切换')
 
-    # 多平台
+# ══════════════════════════════════════════════════════
+# 脚本名称：从关键步骤中提炼，拼接 场景-接口动作-断言结果
+# ══════════════════════════════════════════════════════
+
+def generate_script_name(idx, name, auto_steps, expect):
+    """从自动化关键步骤中提炼脚本名称"""
+
+    # --- 特殊用例直接指定 ---
+    if '1x认证默认协议选择' in name:
+        return '协议切换-调用修改1x认证默认协议接口切换EAP-TTLS并校验空值-断言保存成功和参数校验失败'
+
+    if '1x默认协议说明' in name:
+        return '不可自动化-纯页面帮助说明文本检查'
+
+    if '证书文件限制' in name:
+        return '证书上传-调用上传接口校验格式和大小限制-断言非法文件报错合法文件成功'
+
+    if '证书上传方式' in name:
+        return '不可自动化-证书拖拽上传需UI自动化'
+
+    if '证书详情' in name:
+        return '证书详情-调用上传保存接口后查询详情-断言返回生效时间和到期时间'
+
+    # --- 多平台兼容性 ---
     platform_map = {
         'win11': 'Win11', 'macos': 'macOS', '小米手机': '小米',
         'oppo手机': 'OPPO', 'ios系统': 'iOS', 'ipad': 'iPad',
@@ -224,42 +358,103 @@ def generate_script_name(name, steps, expect):
     }
     for kw, label in platform_map.items():
         if kw in name.lower():
-            parts.append(f'{label}兼容性')
-            break
+            protocol = 'PEAP' if 'PEAP' in name else 'EAP-TTLS'
+            return f'不可自动化-{label}使用{protocol}认证需物理设备'
 
-    # 预期关键点
+    # --- 认证流程用例：场景-动作-断言 ---
+    parts = []
+
+    # 协议
+    if 'PEAP' in name:
+        parts.append('PEAP')
+    elif 'EAP-TTLS' in name:
+        parts.append('EAP-TTLS')
+
+    # 用户类型 + 特殊场景
+    if '不对接LDAP' in name and '本地账户' in name:
+        parts.append('无LDAP源本地用户')
+    elif '不对接LDAP' in name and 'LDAP' in name:
+        parts.append('无LDAP源LDAP用户')
+    elif '账号冲突' in name:
+        parts.append('本地LDAP同名用户冲突')
+    elif '密码错误' in name:
+        parts.append('LDAP用户错误密码')
+    elif '账号不存在' in name:
+        parts.append('不存在账号')
+    elif '自助功能' in name:
+        parts.append('LDAP用户自助功能')
+    elif '本地用户' in name or '本地账户' in name:
+        parts.append('本地用户')
+    elif '登录LDAP服务器' in name and '身份校验' in name:
+        parts.append('LDAP登录校验方式')
+    elif '查询LDAP用户信息' in name and '身份校验' in name:
+        parts.append('LDAP查询校验方式')
+    elif '认证校验密码' in name:
+        parts.append('LDAP认证校验密码')
+    elif 'LDAP' in name:
+        parts.append('LDAP用户')
+
+    # 接口动作
+    if '主动下线' in name:
+        parts.append('触发认证后模拟终端断开')
+    elif '自助端下线' in name:
+        parts.append('触发认证后调用自助端下线接口')
+    elif '管理端下线' in name:
+        parts.append('触发认证后调用管理端强制下线接口')
+    elif '自助功能' in name:
+        parts.append('触发认证-查询信息-修改密码-自助下线-新密码重认证')
+    elif '不加密' in name:
+        parts.append('配置明文存储后触发认证')
+    elif 'MD4' in name:
+        parts.append('配置MD4加密后触发认证')
+    elif 'MD5 16' in name:
+        parts.append('配置MD5-Hex加密后触发认证')
+    elif 'MD5 Base64' in name:
+        parts.append('配置MD5-Base64加密后触发认证')
+    elif '加密存储' in name:
+        parts.append('配置加密存储后触发认证')
+    elif '不启用' in name:
+        parts.append('配置不校验密码后触发认证')
+    elif '每次认证' in name:
+        parts.append('配置每次到LDAP校验后触发认证')
+    elif '定期' in name:
+        parts.append('配置定期到LDAP校验后触发认证')
+    elif '密码错误' in name:
+        parts.append('触发认证使用错误密码')
+    elif '账号不存在' in name:
+        parts.append('触发认证使用不存在账号')
+    elif '账号冲突' in name:
+        parts.append('分别用LDAP密码和本地密码认证')
+    elif '不对接LDAP' in name:
+        parts.append('触发认证')
+    else:
+        parts.append('触发认证')
+
+    # 断言结果
     if expect:
-        if '认证成功' in expect:
-            parts.append('验证认证成功')
+        if '认证失败' in expect and '认证成功' in expect:
+            parts.append('断言LDAP密码失败本地密码成功')
         elif '认证失败' in expect:
-            parts.append('验证认证失败')
+            parts.append('断言认证失败')
         elif '在线' in expect and '离线' in expect:
-            parts.append('验证上下线状态')
-        elif '在线' in expect:
-            parts.append('验证在线状态')
+            parts.append('断言查询接口返回在线后离线')
+        elif '认证成功' in expect:
+            parts.append('断言认证成功且查询在线正确')
 
-    if not parts:
-        parts.append(name[:20])
-
-    return '_'.join(parts)
+    return '-'.join(parts)
 
 
 def determine_directory(name):
     """根据用例名称确定所属目录分类"""
-    if any(kw in name for kw in ['win11', 'macOS', 'macos', '小米手机', 'oppo手机',
-                                   'IOS系统', 'iOS', 'iPad', 'ipad', 'android',
-                                   'Android', '鸿蒙']):
+    if any(kw in name.lower() for kw in ['win11', 'macos', '小米手机', 'oppo手机',
+                                          'ios系统', 'ipad', 'android pad', '鸿蒙系统']):
         return 'PEAP认证/多平台兼容性'
     if '证书' in name:
         return 'PEAP认证/证书管理'
     if '1x' in name.lower():
         return 'PEAP认证/协议配置'
 
-    prefix = ''
-    if 'PEAP' in name:
-        prefix = 'PEAP认证/PEAP协议'
-    else:
-        prefix = 'PEAP认证/EAP-TTLS协议'
+    prefix = 'PEAP认证/PEAP协议' if 'PEAP' in name else 'PEAP认证/EAP-TTLS协议'
 
     if '本地用户' in name or '本地账户' in name:
         return f'{prefix}/本地用户认证'
@@ -277,20 +472,19 @@ def determine_directory(name):
         return f'{prefix}/异常场景'
     if '不对接LDAP' in name:
         return f'{prefix}/无LDAP对接'
-
     return prefix
 
 
-# ── 主流程 ──────────────────────────────────────────
+# ══════════════════════════════════════════════════════
+# 主流程
+# ══════════════════════════════════════════════════════
 
 def main():
-    # 1. 读取飞书表格
     print("📖 读取飞书表格...")
     reader = LarkSheetReader(LARK_APP_ID, LARK_APP_SECRET)
     cases = reader.read_from_url(SHEET_URL)
     print(f"   读取到 {len(cases)} 条用例")
 
-    # 2. 分析每条用例
     print("🔍 分析用例...")
     analysis_results = []
     for i, case in enumerate(cases, start=1):
@@ -301,9 +495,9 @@ def main():
         steps = case.get('测试步骤', '') or ''
         expect = case.get('期望结果', '') or ''
 
-        automatable, reason = classify_case(name, steps, expect)
-        auto_steps = generate_automation_steps(name, precondition, steps, expect)
-        script_name = generate_script_name(name, steps, expect)
+        automatable, no_auto_reason = classify_case(i, name, steps, expect)
+        auto_steps = generate_automation_steps(i, name, precondition, steps, expect)
+        script_name = generate_script_name(i, name, auto_steps, expect)
         directory = determine_directory(name)
 
         analysis_results.append({
@@ -314,100 +508,38 @@ def main():
             '测试步骤': steps,
             '期望结果': expect,
             '是否可自动化': automatable,
-            '自动化分析原因': reason,
+            '不可自动化原因': no_auto_reason,
             '自动化关键步骤': auto_steps,
             '脚本名称': script_name,
             '目录分类': directory,
         })
 
-    # 3. 保存分析结果到本地 JSON
+    # 保存 JSON
     result_file = os.path.join(WORKSPACE, 'peap_analysis_result.json')
     with open(result_file, 'w', encoding='utf-8') as f:
         json.dump(analysis_results, f, ensure_ascii=False, indent=2)
     print(f"   分析结果已保存: {result_file}")
 
-    # 4. 生成 Markdown 报告
+    # 生成报告
     report = generate_report(analysis_results)
     report_file = os.path.join(WORKSPACE, 'peap_automation_analysis_report.md')
     with open(report_file, 'w', encoding='utf-8') as f:
         f.write(report)
     print(f"📝 分析报告已生成: {report_file}")
 
-    # 5. 回写飞书表格
-    print("✍️  回写飞书表格...")
-    write_to_lark(analysis_results)
-    print("✅ 全部完成！")
-
-
-def write_to_lark(results):
-    """回写分析结果到飞书表格"""
-    writer = LarkSheetWriter(LARK_APP_ID, LARK_APP_SECRET)
-    writer.get_access_token()
-
-    # 获取表头确定列位置
-    headers = writer.get_sheet_headers(SPREADSHEET_TOKEN, SHEET_ID)
-    print(f"   表头: {headers}")
-
-    # 找到各列的索引（0-based）
-    col_map = {}
-    for i, h in enumerate(headers):
-        col_map[h] = i
-
-    col_case_id = col_map.get('用例编号', 0)
-    col_automatable = col_map.get('是否可自动化', 6)
-    col_script_name = col_map.get('脚本名称', 8)
-
-    # 检查是否有"自动化关键步骤"列，如果没有需要提示
-    col_auto_steps = col_map.get('自动化关键步骤')
-
-    # 逐行写入：用例编号、是否可自动化、脚本名称
-    for i, result in enumerate(results):
-        row_num = i + 2  # 表格从第2行开始（第1行是表头）
-
-        # 写用例编号  (A列 = col 1)
-        col_letter_id = writer._col_number_to_letter(col_case_id + 1)
-        range_id = f"{SHEET_ID}!{col_letter_id}{row_num}:{col_letter_id}{row_num}"
-        r = writer._write_range(SPREADSHEET_TOKEN, range_id, [[result['用例编号']]])
-        if not r['success']:
-            print(f"   ⚠️ 写入用例编号失败 行{row_num}: {r.get('error')}")
-
-        # 写是否可自动化
-        col_letter_auto = writer._col_number_to_letter(col_automatable + 1)
-        range_auto = f"{SHEET_ID}!{col_letter_auto}{row_num}:{col_letter_auto}{row_num}"
-        r = writer._write_range(SPREADSHEET_TOKEN, range_auto, [[result['是否可自动化']]])
-        if not r['success']:
-            print(f"   ⚠️ 写入是否可自动化失败 行{row_num}: {r.get('error')}")
-
-        # 写脚本名称
-        col_letter_script = writer._col_number_to_letter(col_map.get('脚本名称', 8) + 1)
-        range_script = f"{SHEET_ID}!{col_letter_script}{row_num}:{col_letter_script}{row_num}"
-        r = writer._write_range(SPREADSHEET_TOKEN, range_script, [[result['脚本名称']]])
-        if not r['success']:
-            print(f"   ⚠️ 写入脚本名称失败 行{row_num}: {r.get('error')}")
-
-        # 如果有自动化关键步骤列就写入
-        if col_auto_steps is not None:
-            col_letter_steps = writer._col_number_to_letter(col_auto_steps + 1)
-            range_steps = f"{SHEET_ID}!{col_letter_steps}{row_num}:{col_letter_steps}{row_num}"
-            r = writer._write_range(SPREADSHEET_TOKEN, range_steps, [[result['自动化关键步骤']]])
-            if not r['success']:
-                print(f"   ⚠️ 写入自动化关键步骤失败 行{row_num}: {r.get('error')}")
-
-    print(f"   已回写 {len(results)} 行")
+    print("✅ 分析完成（回写请运行 write_peap_to_lark.py）")
 
 
 def generate_report(results):
     """生成 Markdown 分析报告"""
     lines = []
     lines.append("# PEAP认证用例自动化分析报告\n")
-    lines.append(f"**分析日期**: 2026-03-05  ")
+    lines.append("**分析日期**: 2026-03-05  ")
     lines.append(f"**用例总数**: {len(results)}  ")
 
-    # 统计
     auto_yes = sum(1 for r in results if r['是否可自动化'] == '是')
-    auto_partial = sum(1 for r in results if r['是否可自动化'] == '部分')
     auto_no = sum(1 for r in results if r['是否可自动化'] == '否')
-    lines.append(f"**可自动化**: {auto_yes} | **部分可自动化**: {auto_partial} | **不可自动化**: {auto_no}\n")
+    lines.append(f"**可自动化**: {auto_yes} | **不可自动化**: {auto_no}\n")
 
     # ── 目录结构 ──
     lines.append("---\n")
@@ -416,13 +548,8 @@ def generate_report(results):
     dirs = {}
     for r in results:
         d = r['目录分类']
-        if d not in dirs:
-            dirs[d] = []
-        dirs[d].append(f"{r['用例编号']} {r['用例名称']}")
-
-    # 按目录排序输出树形结构
-    sorted_dirs = sorted(dirs.keys())
-    for d in sorted_dirs:
+        dirs.setdefault(d, []).append(f"{r['用例编号']} {r['用例名称']}")
+    for d in sorted(dirs.keys()):
         lines.append(f"{d}/")
         for case in dirs[d]:
             lines.append(f"    ├── {case}")
@@ -431,10 +558,11 @@ def generate_report(results):
     # ── 汇总表格 ──
     lines.append("---\n")
     lines.append("## 📊 用例分析汇总\n")
-    lines.append("| 编号 | 用例名称 | 是否可自动化 | 脚本名称 | 目录分类 |")
-    lines.append("|------|---------|------------|---------|---------|")
+    lines.append("| 编号 | 用例名称 | 可自动化 | 不可自动化原因 | 脚本名称 |")
+    lines.append("|------|---------|---------|--------------|---------|")
     for r in results:
-        lines.append(f"| {r['用例编号']} | {r['用例名称']} | {r['是否可自动化']} | {r['脚本名称']} | {r['目录分类']} |")
+        reason = r['不可自动化原因'] if r['是否可自动化'] == '否' else ''
+        lines.append(f"| {r['用例编号']} | {r['用例名称']} | {r['是否可自动化']} | {reason} | {r['脚本名称']} |")
     lines.append("")
 
     # ── 详细分析 ──
@@ -443,56 +571,42 @@ def generate_report(results):
     for r in results:
         lines.append(f"### {r['用例编号']} {r['用例名称']}\n")
         lines.append(f"**是否可自动化**: {r['是否可自动化']}  ")
-        lines.append(f"**原因**: {r['自动化分析原因']}  ")
+        if r['不可自动化原因']:
+            lines.append(f"**不可自动化原因**: {r['不可自动化原因']}  ")
         lines.append(f"**脚本名称**: `{r['脚本名称']}`  ")
         lines.append(f"**目录**: `{r['目录分类']}`\n")
 
-        if r['预置条件']:
-            lines.append(f"**预置条件**:")
-            lines.append(f"```")
-            lines.append(r['预置条件'])
-            lines.append(f"```\n")
-
-        lines.append(f"**自动化关键步骤**:")
-        lines.append(f"```")
+        lines.append("**自动化关键步骤**:")
+        lines.append("```")
         lines.append(r['自动化关键步骤'])
-        lines.append(f"```\n")
+        lines.append("```\n")
 
         if r['期望结果']:
-            lines.append(f"**期望结果**:")
-            lines.append(f"```")
+            lines.append("**期望结果**:")
+            lines.append("```")
             lines.append(r['期望结果'])
-            lines.append(f"```\n")
+            lines.append("```\n")
 
         lines.append("---\n")
 
-    # ── 自动化建议 ──
+    # ── 分类建议 ──
     lines.append("## 💡 自动化建议\n")
-    lines.append("### 可完全自动化的用例")
-    lines.append("以下用例可直接通过管理端API完成端到端自动化：\n")
+    lines.append("### 可自动化的用例")
+    lines.append("以下用例可通过管理端API + 模拟认证接口完成自动化：\n")
     for r in results:
         if r['是否可自动化'] == '是':
             lines.append(f"- **{r['用例编号']}** {r['用例名称']}")
     lines.append("")
 
-    lines.append("### 部分可自动化的用例")
-    lines.append("以下用例的管理端配置/查询/断言部分可以自动化，核心认证触发需物理终端或仿真工具：\n")
-    for r in results:
-        if r['是否可自动化'] == '部分':
-            lines.append(f"- **{r['用例编号']}** {r['用例名称']} — {r['自动化分析原因']}")
-    lines.append("")
-
-    lines.append("### 不可自动化的用例")
-    lines.append("以下用例需要特定物理设备，建议保持手工测试：\n")
+    lines.append("### 不可自动化的用例\n")
     for r in results:
         if r['是否可自动化'] == '否':
-            lines.append(f"- **{r['用例编号']}** {r['用例名称']} — {r['自动化分析原因']}")
+            lines.append(f"- **{r['用例编号']}** {r['用例名称']} — {r['不可自动化原因']}")
     lines.append("")
 
     lines.append("---\n")
     lines.append("**维护者**: 魏斌  ")
     lines.append("**生成时间**: 2026-03-05")
-
     return "\n".join(lines)
 
 
