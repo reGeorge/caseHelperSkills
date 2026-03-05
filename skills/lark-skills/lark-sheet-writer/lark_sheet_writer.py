@@ -418,6 +418,55 @@ class LarkSheetWriter:
                 "error": str(e)
             }
     
+    def update_range(self, spreadsheet_token: str, range_str: str, values: List[List[str]]) -> Dict[str, Any]:
+        """
+        更新已有单元格数据（使用 PUT 方法）
+        Update existing cell data using PUT method
+
+        Args:
+            spreadsheet_token: 表格token | Spreadsheet token
+            range_str: 范围字符串，如 sheetId!A2:A62 | Range string
+            values: 数据值（二维数组） | Data values (2D array)
+
+        Returns:
+            Dict[str, Any]: 操作结果 | Operation result
+        """
+        url = f"{self.base_url}/sheets/v2/spreadsheets/{spreadsheet_token}/values"
+
+        data = {
+            "valueRange": {
+                "range": range_str,
+                "values": values
+            }
+        }
+
+        try:
+            response = requests.put(url, headers=self.get_headers(), json=data)
+            response.raise_for_status()
+            result = response.json()
+
+            if result.get("code") == 0:
+                return {
+                    "success": True,
+                    "message": "更新成功",
+                    "data": {
+                        "updated_rows": len(values)
+                    }
+                }
+            else:
+                return {
+                    "success": False,
+                    "message": f"更新失败: {result.get('msg')}",
+                    "error": result.get('msg')
+                }
+
+        except requests.exceptions.RequestException as e:
+            return {
+                "success": False,
+                "message": "请求异常",
+                "error": str(e)
+            }
+
     def _col_number_to_letter(self, col: int) -> str:
         """
         将列号转换为字母
