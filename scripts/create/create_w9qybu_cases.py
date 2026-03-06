@@ -56,6 +56,7 @@ def api_post(endpoint, payload):
 
 def create_directory(name, parent_id):
     payload = {
+        "productId": 1,
         "name": name,
         "caseType": 0,
         "parent": parent_id,
@@ -179,7 +180,7 @@ def main():
         print(f"\n  📁 {sub_name} (目录ID: {parent_id})")
         for r in cases:
             cid = r['用例编号']
-            case_name = f"{cid}-{r['用例名称']}"
+            case_name = f"【{cid}】{r['用例名称']}"
             desc = (
                 f"手工用例编号: {cid}\n\n"
                 f"用例描述: {r['用例描述']}\n\n"
