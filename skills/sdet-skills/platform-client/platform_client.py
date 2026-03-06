@@ -111,22 +111,27 @@ class PlatformClient:
         Returns:
             dict: {"success": bool, "data": dict, "message": str}
         """
-        url = f"{self.base_url}/case/{dir_id}"
-
-        payload = {
-            "modifier": self.creator_name,
-            "modifierId": self.creator_id,
-        }
-
-        if name is not None:
-            payload["name"] = name
-        if note is not None:
-            payload["note"] = note
-        if priority is not None:
-            payload["priority"] = priority
+        # 平台不支持 PUT /case/{id}，需先 GET 获取完整数据再 POST /case（带 id 字段）
+        get_url = f"{self.base_url}/case/{dir_id}"
+        post_url = f"{self.base_url}/case"
 
         try:
-            resp = requests.put(url, headers=self.headers, json=payload, verify=False)
+            get_resp = requests.get(get_url, headers=self.headers, verify=False)
+            if get_resp.status_code != 200 or not get_resp.json().get("success"):
+                return {"success": False, "data": None, "message": "获取目录详情失败"}
+
+            detail = get_resp.json()["data"]
+            detail["modifier"] = self.creator_name
+            detail["modifierId"] = self.creator_id
+
+            if name is not None:
+                detail["name"] = name
+            if note is not None:
+                detail["note"] = note
+            if priority is not None:
+                detail["priority"] = priority
+
+            resp = requests.post(post_url, headers=self.headers, json=detail, verify=False)
             if resp.status_code == 200:
                 res_json = resp.json()
                 if res_json.get("success"):
@@ -373,24 +378,29 @@ class PlatformClient:
         Returns:
             dict: {"success": bool, "data": dict, "message": str}
         """
-        url = f"{self.base_url}/case/{case_id}"
-
-        payload = {
-            "modifier": self.creator_name,
-            "modifierId": self.creator_id,
-        }
-
-        if name is not None:
-            payload["name"] = name
-        if description is not None:
-            payload["description"] = description
-        if note is not None:
-            payload["note"] = note
-        if priority is not None:
-            payload["priority"] = priority
+        # 平台不支持 PUT /case/{id}，需先 GET 获取完整数据再 POST /case（带 id 字段）
+        get_url = f"{self.base_url}/case/{case_id}"
+        post_url = f"{self.base_url}/case"
 
         try:
-            resp = requests.put(url, headers=self.headers, json=payload, verify=False)
+            get_resp = requests.get(get_url, headers=self.headers, verify=False)
+            if get_resp.status_code != 200 or not get_resp.json().get("success"):
+                return {"success": False, "data": None, "message": "获取用例详情失败"}
+
+            detail = get_resp.json()["data"]
+            detail["modifier"] = self.creator_name
+            detail["modifierId"] = self.creator_id
+
+            if name is not None:
+                detail["name"] = name
+            if description is not None:
+                detail["description"] = description
+            if note is not None:
+                detail["note"] = note
+            if priority is not None:
+                detail["priority"] = priority
+
+            resp = requests.post(post_url, headers=self.headers, json=detail, verify=False)
             if resp.status_code == 200:
                 res_json = resp.json()
                 if res_json.get("success"):
