@@ -1,0 +1,23 @@
+{
+  "alias": "【公共】删除终端认证策略",
+  "case_id": 65763,
+  "name": "【公共】删除终端认证策略",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除终端认证策略' 操作。\n依赖入参：teminalCheckName\n抛出变量：terminalCheckIds2del, terminalCheckId2del",
+  "inputs": [
+    {
+      "name": "teminalCheckName",
+      "value": "有线mab",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "terminalCheckIds2del",
+      "expression": "$.data.results.id"
+    },
+    {
+      "name": "terminalCheckId2del",
+      "expression": "$.data.results[0].id"
+    }
+  ]
+}

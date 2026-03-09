@@ -1,0 +1,32 @@
+{
+  "alias": "【公共】删除RADIUS认证源",
+  "case_id": 62479,
+  "name": "【公共】删除RADIUS认证源",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除RADIUS认证源' 操作。\n依赖入参：userPackageUuid, userTemplateUuid\n抛出变量：radiusSourceId2del, radiusSourceId2delNull, radiusSourceId2del169",
+  "inputs": [
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "radiusSourceId2del",
+      "expression": "$.data.radius[?(@.identitySourceName=~ /.*autotest_.*/)].id[0]"
+    },
+    {
+      "name": "radiusSourceId2delNull",
+      "expression": "$.data.radius[?(@.identitySourceName =~ /^\\s*$/)].id[0]"
+    },
+    {
+      "name": "radiusSourceId2del169",
+      "expression": "$.data.radius[?(@.identitySourceName=~ /.*8.169.*/)].id[0]"
+    }
+  ]
+}

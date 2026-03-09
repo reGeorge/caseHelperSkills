@@ -1,0 +1,122 @@
+{
+  "alias": "【公共】 加入黑名单 - userId+userMac",
+  "case_id": 65733,
+  "name": "【公共】 加入黑名单 - userId+userMac",
+  "description": "功能说明：该公共步骤主要用于 '【公共】 加入黑名单 - userId+userMac' 操作。\n依赖入参：userId2test, userMac, userPackageUuid, userTemplateUuid\n抛出变量：nasIpv6Test, userIpv4Test, userIpv4ExtTest, userIpv6Test, userIpv6ExtTest, userMacTest, nasIpv4Test, apMacTest, ssidTest, wpNasIpTest, wpNasPortTest, nasPortTest, ceVlanTest, domainNameTest, isValidTest, peVlanTest, validTimeTypeTest, validyearTest, validmonthTest, validdayTest, validhourTest, memoTest, inhibitUuidTest",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "autotest user 41111",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "001A2B3C4D5E",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "nasIpv6Test",
+      "expression": "$.nasIpv6"
+    },
+    {
+      "name": "userIpv4Test",
+      "expression": "$.userIpv4"
+    },
+    {
+      "name": "userIpv4ExtTest",
+      "expression": "$.userIpv4Ext"
+    },
+    {
+      "name": "userIpv6Test",
+      "expression": "$.userIpv6"
+    },
+    {
+      "name": "userIpv6ExtTest",
+      "expression": "$.userIpv6Ext"
+    },
+    {
+      "name": "userMacTest",
+      "expression": "$.userMac"
+    },
+    {
+      "name": "nasIpv4Test",
+      "expression": "$.nasIpv4"
+    },
+    {
+      "name": "apMacTest",
+      "expression": "$.apmac"
+    },
+    {
+      "name": "ssidTest",
+      "expression": "$.ssid"
+    },
+    {
+      "name": "wpNasIpTest",
+      "expression": "$.wpNasIp"
+    },
+    {
+      "name": "wpNasPortTest",
+      "expression": "$.wpnasport"
+    },
+    {
+      "name": "nasPortTest",
+      "expression": "$.nasPort"
+    },
+    {
+      "name": "ceVlanTest",
+      "expression": "$.ceVlan"
+    },
+    {
+      "name": "domainNameTest",
+      "expression": "$.domainName"
+    },
+    {
+      "name": "isValidTest",
+      "expression": "$.isValid"
+    },
+    {
+      "name": "peVlanTest",
+      "expression": "$.peVlan"
+    },
+    {
+      "name": "validTimeTypeTest",
+      "expression": "$.validTimeType"
+    },
+    {
+      "name": "validyearTest",
+      "expression": "$.validyear"
+    },
+    {
+      "name": "validmonthTest",
+      "expression": "$.validmonth"
+    },
+    {
+      "name": "validdayTest",
+      "expression": "$.validday"
+    },
+    {
+      "name": "validhourTest",
+      "expression": "$.validhour"
+    },
+    {
+      "name": "memoTest",
+      "expression": "$.memo"
+    },
+    {
+      "name": "inhibitUuidTest",
+      "expression": "$.data.results[0].inhibitUuid"
+    }
+  ]
+}

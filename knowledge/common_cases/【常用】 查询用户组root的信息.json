@@ -1,0 +1,38 @@
+{
+  "alias": "【常用】 查询用户组root的信息",
+  "case_id": 51425,
+  "name": "【常用】 查询用户组root的信息",
+  "description": "功能说明：该公共步骤主要用于 '【常用】 查询用户组root的信息' 操作。\n依赖入参：userId2test, password2test, userPackageUuid, userTemplateUuid\n抛出变量：groupInfoUuid_root, groupInfoUuid2test2",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "binweinet",
+      "note": ""
+    },
+    {
+      "name": "password2test",
+      "value": "12345aA!",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "groupInfoUuid_root",
+      "expression": "$.data.results[0].groupInfoUuid"
+    },
+    {
+      "name": "groupInfoUuid2test2",
+      "expression": "$.data.results[1].groupInfoUuid"
+    }
+  ]
+}

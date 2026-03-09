@@ -1,0 +1,34 @@
+{
+  "alias": "【公共】【数据清理】将指定IP的认证设备信息删除",
+  "case_id": 55898,
+  "name": "【公共】【数据清理】将指定IP的认证设备信息删除",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【数据清理】将指定IP的认证设备信息删除' 操作。\n依赖入参：password2test, userId2test, userPackageUuid, userTemplateUuid\n抛出变量：deviceUuidsByIp2del",
+  "inputs": [
+    {
+      "name": "password2test",
+      "value": "12345aA!",
+      "note": ""
+    },
+    {
+      "name": "userId2test",
+      "value": "autotest user 51403",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "deviceUuidsByIp2del",
+      "expression": "$.data.results.deviceUuid"
+    }
+  ]
+}

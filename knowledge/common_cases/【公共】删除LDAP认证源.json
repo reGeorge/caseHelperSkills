@@ -1,0 +1,37 @@
+{
+  "alias": "【公共】删除LDAP认证源",
+  "case_id": 62168,
+  "name": "【公共】删除LDAP认证源",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除LDAP认证源' 操作。\n依赖入参：ldapIdentifySourceName2test, userPackageUuid, userTemplateUuid\n抛出变量：ldapSourceId2del, ldapSourceId2del2, ldapSourceId2delNull",
+  "inputs": [
+    {
+      "name": "ldapIdentifySourceName2test",
+      "value": "autotest_ldap",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ldapSourceId2del",
+      "expression": "$.data.ldap[?(@.identitySourceName=~ /.*autotest_ldap.*/)].id[0]"
+    },
+    {
+      "name": "ldapSourceId2del2",
+      "expression": "$.data.ldap[?(@.identitySourceName=~ /.*9.38.*/)].id[0]"
+    },
+    {
+      "name": "ldapSourceId2delNull",
+      "expression": "$.data.ldap[?(@.identitySourceName=='')].id[0]"
+    }
+  ]
+}

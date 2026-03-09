@@ -1,0 +1,19 @@
+{
+  "alias": "【公共】删除指定mac的哑终端记录",
+  "case_id": 65947,
+  "name": "【公共】删除指定mac的哑终端记录",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除指定mac的哑终端记录' 操作。\n依赖入参：userMac2del\n抛出变量：macAuthenClientIndex2del",
+  "inputs": [
+    {
+      "name": "userMac2del",
+      "value": "48:4d:7e:e2:68:c9",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "macAuthenClientIndex2del",
+      "expression": "$.data.resultList[0].macAuthenClientIndex"
+    }
+  ]
+}

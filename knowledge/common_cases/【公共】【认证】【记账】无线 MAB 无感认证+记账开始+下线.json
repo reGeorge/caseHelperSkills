@@ -1,0 +1,34 @@
+{
+  "alias": "【公共】【认证】【记账】无线 MAB 无感认证+记账开始+下线",
+  "case_id": 65627,
+  "name": "【公共】【认证】【记账】无线 MAB 无感认证+记账开始+下线",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【认证】【记账】无线 MAB 无感认证+记账开始+下线' 操作。\n依赖入参：nasIP, userIP, userMac, ssid\n抛出变量：Acct-Session-Id",
+  "inputs": [
+    {
+      "name": "nasIP",
+      "value": "172.17.9.80",
+      "note": ""
+    },
+    {
+      "name": "userIP",
+      "value": "200.22.1.0",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "222222222377",
+      "note": ""
+    },
+    {
+      "name": "ssid",
+      "value": "ty",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Acct-Session-Id",
+      "expression": "44"
+    }
+  ]
+}

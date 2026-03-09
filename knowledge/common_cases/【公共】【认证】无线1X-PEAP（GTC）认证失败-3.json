@@ -1,0 +1,49 @@
+{
+  "alias": "【公共】【认证】无线1X-PEAP（GTC）认证失败-3",
+  "case_id": 65240,
+  "name": "【公共】【认证】无线1X-PEAP（GTC）认证失败-3",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【认证】无线1X-PEAP（GTC）认证失败-3' 操作。\n依赖入参：peap_username, peap_password, nasIP, userIP, userMac, AD_username, ssid\n抛出变量：Acct-Session-Id",
+  "inputs": [
+    {
+      "name": "peap_username",
+      "value": "ADYY1",
+      "note": ""
+    },
+    {
+      "name": "peap_password",
+      "value": "shyfzx@163",
+      "note": ""
+    },
+    {
+      "name": "nasIP",
+      "value": "192.168.54.236",
+      "note": ""
+    },
+    {
+      "name": "userIP",
+      "value": "10.4.11.19",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "7699b7ca1299",
+      "note": ""
+    },
+    {
+      "name": "AD_username",
+      "value": "adyy1",
+      "note": ""
+    },
+    {
+      "name": "ssid",
+      "value": "localtest",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Acct-Session-Id",
+      "expression": "44"
+    }
+  ]
+}

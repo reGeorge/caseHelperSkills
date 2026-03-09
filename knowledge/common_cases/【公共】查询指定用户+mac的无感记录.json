@@ -1,0 +1,24 @@
+{
+  "alias": "【公共】查询指定用户+mac的无感记录",
+  "case_id": 65842,
+  "name": "【公共】查询指定用户+mac的无感记录",
+  "description": "功能说明：该公共步骤主要用于 '【公共】查询指定用户+mac的无感记录' 操作。\n依赖入参：userId2test, userMac2test\n抛出变量：userMacReturn",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "binweinet",
+      "note": ""
+    },
+    {
+      "name": "userMac2test",
+      "value": "48:4d:7e:e2:68:c9",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "userMacReturn",
+      "expression": "$.data.results[0].userMac"
+    }
+  ]
+}

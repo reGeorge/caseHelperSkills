@@ -1,0 +1,47 @@
+{
+  "alias": "【常用】创建指定名称的用户模板、套餐、并更新套餐规则的接入控制",
+  "case_id": 65298,
+  "name": "【常用】创建指定名称的用户模板、套餐、并更新套餐规则的接入控制",
+  "description": "功能说明：该公共步骤主要用于 '【常用】创建指定名称的用户模板、套餐、并更新套餐规则的接入控制' 操作。\n依赖入参：userTemplateName2test, packageName2test, serviceId, userPackageUuid, userTemplateUuid\n抛出变量：userTemplateUUID2test, userPackageUuid2test, packageRuleUuid2test",
+  "inputs": [
+    {
+      "name": "userTemplateName2test",
+      "value": "autotest_用户模板",
+      "note": ""
+    },
+    {
+      "name": "packageName2test",
+      "value": "autotest_套餐",
+      "note": ""
+    },
+    {
+      "name": "serviceId",
+      "value": "autotest_接入控制",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "userTemplateUUID2test",
+      "expression": "$.data[?(@.userTemplateName =~ /.*autotest_用户模板.*/)].userTemplateUuid[0]"
+    },
+    {
+      "name": "userPackageUuid2test",
+      "expression": "$.data[?(@.userPackageName =~ /.*autotest_套餐.*/)].userPackageUuid[0]"
+    },
+    {
+      "name": "packageRuleUuid2test",
+      "expression": "$.data[?(@.userPackageName =~ /.*autotest_套餐.*/)].userPackageAreaDTOS[0].userPackageAreaRuleDTOS[0].packageRuleUuid[0]"
+    }
+  ]
+}

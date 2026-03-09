@@ -1,0 +1,34 @@
+{
+  "alias": "【公共】【认证】添加无感后触发无线 MAB 无感认证",
+  "case_id": 65626,
+  "name": "【公共】【认证】添加无感后触发无线 MAB 无感认证",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【认证】添加无感后触发无线 MAB 无感认证' 操作。\n依赖入参：userIP, nasIP, userMac, userId2test, ssid\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "userIP",
+      "value": "200.22.2.1",
+      "note": ""
+    },
+    {
+      "name": "nasIP",
+      "value": "172.17.9.80",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "7699A7C55917",
+      "note": ""
+    },
+    {
+      "name": "userId2test",
+      "value": "autotestldap001",
+      "note": ""
+    },
+    {
+      "name": "ssid",
+      "value": "ty",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

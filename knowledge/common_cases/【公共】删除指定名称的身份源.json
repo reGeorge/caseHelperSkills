@@ -1,0 +1,13 @@
+{
+  "alias": "【公共】删除指定名称的身份源",
+  "case_id": 66559,
+  "name": "【公共】删除指定名称的身份源",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除指定名称的身份源' 操作。\n依赖入参：无依赖\n抛出变量：taskid2del",
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "taskid2del",
+      "expression": "$.data.results[?(@.name=~ /.*autotest.*/)].id"
+    }
+  ]
+}

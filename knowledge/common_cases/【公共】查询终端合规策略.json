@@ -1,0 +1,24 @@
+{
+  "alias": "【公共】查询终端合规策略",
+  "case_id": 62897,
+  "name": "【公共】查询终端合规策略",
+  "description": "功能说明：该公共步骤主要用于 '【公共】查询终端合规策略' 操作。\n依赖入参：adIdentifySourceName2test, userPackageUuid, userTemplateUuid\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "adIdentifySourceName2test",
+      "value": "172.17.9.133",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

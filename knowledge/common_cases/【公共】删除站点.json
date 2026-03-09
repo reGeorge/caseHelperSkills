@@ -1,0 +1,19 @@
+{
+  "alias": "【公共】删除站点",
+  "case_id": 66657,
+  "name": "【公共】删除站点",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除站点' 操作。\n依赖入参：zoneName\n抛出变量：zoneIds2del",
+  "inputs": [
+    {
+      "name": "zoneName",
+      "value": "autotest_大型站点",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "zoneIds2del",
+      "expression": "$.items.id"
+    }
+  ]
+}

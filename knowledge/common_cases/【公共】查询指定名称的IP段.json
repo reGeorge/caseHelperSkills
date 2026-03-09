@@ -1,0 +1,19 @@
+{
+  "alias": "【公共】查询指定名称的IP段",
+  "case_id": 60351,
+  "name": "【公共】查询指定名称的IP段",
+  "description": "功能说明：该公共步骤主要用于 '【公共】查询指定名称的IP段' 操作。\n依赖入参：ipsegmentName\n抛出变量：ipsegmentUuid2test",
+  "inputs": [
+    {
+      "name": "ipsegmentName",
+      "value": "自动化IP段",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ipsegmentUuid2test",
+      "expression": "$.data.results[0].ipsegmentUuid"
+    }
+  ]
+}

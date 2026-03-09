@@ -1,0 +1,13 @@
+{
+  "alias": "【公共】】新增_更新证书源-关闭证书认证",
+  "case_id": 66156,
+  "name": "【公共】】新增/更新证书源-关闭证书认证",
+  "description": "功能说明：该公共步骤主要用于 '【公共】】新增/更新证书源-关闭证书认证' 操作。\n依赖入参：无依赖\n抛出变量：configId2add",
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "configId2add",
+      "expression": "$.data.configId"
+    }
+  ]
+}

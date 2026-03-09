@@ -1,0 +1,24 @@
+{
+  "alias": "【常用】 查询自动化创建的运营商信息，返回第一条运营商记录的uuid",
+  "case_id": 60758,
+  "name": "【常用】 查询自动化创建的运营商信息，返回第一条运营商记录的uuid",
+  "description": "功能说明：该公共步骤主要用于 '【常用】 查询自动化创建的运营商信息，返回第一条运营商记录的uuid' 操作。\n依赖入参：userPackageUuid, userTemplateUuid\n抛出变量：operatorsConfigUuid2test",
+  "inputs": [
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "operatorsConfigUuid2test",
+      "expression": "$.data[0].operatorsConfigUuid"
+    }
+  ]
+}

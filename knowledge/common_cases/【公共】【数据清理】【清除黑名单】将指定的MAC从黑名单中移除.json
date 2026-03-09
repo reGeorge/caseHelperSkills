@@ -1,0 +1,29 @@
+{
+  "alias": "【公共】【数据清理】【清除黑名单】将指定的MAC从黑名单中移除",
+  "case_id": 55832,
+  "name": "【公共】【数据清理】【清除黑名单】将指定的MAC从黑名单中移除",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【数据清理】【清除黑名单】将指定的MAC从黑名单中移除' 操作。\n依赖入参：userMac2test, userPackageUuid, userTemplateUuid\n抛出变量：inhibitUuids2del",
+  "inputs": [
+    {
+      "name": "userMac2test",
+      "value": "02D25BC42EBB",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "inhibitUuids2del",
+      "expression": "$.data.results.inhibitUuid"
+    }
+  ]
+}

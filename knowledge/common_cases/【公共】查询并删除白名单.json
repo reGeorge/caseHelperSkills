@@ -1,0 +1,38 @@
+{
+  "alias": "【公共】查询并删除白名单",
+  "case_id": 59986,
+  "name": "【公共】查询并删除白名单",
+  "description": "功能说明：该公共步骤主要用于 '【公共】查询并删除白名单' 操作。\n依赖入参：userId2test, mac, userPackageUuid, userTemplateUuid\n抛出变量：whiteListId2del, whiteListId2del2",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "fxy_auto_user1",
+      "note": ""
+    },
+    {
+      "name": "mac",
+      "value": "26-6D-2B-4E-9C-28",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "whiteListId2del",
+      "expression": "$.data.results[0].id"
+    },
+    {
+      "name": "whiteListId2del2",
+      "expression": "$.data.results[0].id"
+    }
+  ]
+}

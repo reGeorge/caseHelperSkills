@@ -1,0 +1,44 @@
+{
+  "alias": "【公共】添加无感后触发有线 MAB 无感认证",
+  "case_id": 65377,
+  "name": "【公共】添加无感后触发有线 MAB 无感认证",
+  "description": "功能说明：该公共步骤主要用于 '【公共】添加无感后触发有线 MAB 无感认证' 操作。\n依赖入参：userIP, nasIP, userMac, userId2test, ssid, cepevlan, nas_port_id\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "userIP",
+      "value": "200.22.2.1",
+      "note": ""
+    },
+    {
+      "name": "nasIP",
+      "value": "172.17.9.80",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "7699A7C55917",
+      "note": ""
+    },
+    {
+      "name": "userId2test",
+      "value": "autotestldap001",
+      "note": ""
+    },
+    {
+      "name": "ssid",
+      "value": "ldaptest",
+      "note": ""
+    },
+    {
+      "name": "cepevlan",
+      "value": "CAPWAP-Tunnel 32:1-1",
+      "note": ""
+    },
+    {
+      "name": "nas_port_id",
+      "value": "GigabitEthernet 0/10",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

@@ -1,0 +1,40 @@
+{
+  "alias": "【公共】有线 1x 认证+记账+下线",
+  "case_id": 51416,
+  "name": "【公共】有线 1x 认证+记账+下线",
+  "description": "功能说明：该公共步骤主要用于 '【公共】有线 1x 认证+记账+下线' 操作。\n依赖入参：userId2test, password2test\n抛出变量：username, Acct-Session-Id, nasIP, userMac, userIP",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "autotest user 20251114",
+      "note": ""
+    },
+    {
+      "name": "password2test",
+      "value": "12345aA!",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "username",
+      "expression": "1"
+    },
+    {
+      "name": "Acct-Session-Id",
+      "expression": "44"
+    },
+    {
+      "name": "nasIP",
+      "expression": "4"
+    },
+    {
+      "name": "userMac",
+      "expression": "31"
+    },
+    {
+      "name": "userIP",
+      "expression": "8"
+    }
+  ]
+}

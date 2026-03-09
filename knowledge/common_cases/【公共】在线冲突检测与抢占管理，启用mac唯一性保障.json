@@ -1,0 +1,14 @@
+{
+  "alias": "【公共】在线冲突检测与抢占管理，启用mac唯一性保障",
+  "case_id": 65753,
+  "name": "【公共】在线冲突检测与抢占管理，启用mac唯一性保障",
+  "description": "功能说明：该公共步骤主要用于 '【公共】在线冲突检测与抢占管理，启用mac唯一性保障' 操作。\n依赖入参：isEnableUniqueMac\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "isEnableUniqueMac",
+      "value": "1",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

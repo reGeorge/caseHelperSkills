@@ -1,0 +1,29 @@
+{
+  "alias": "【公共】删除资产校验白名单",
+  "case_id": 65415,
+  "name": "【公共】删除资产校验白名单",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除资产校验白名单' 操作。\n依赖入参：whiteMac, userPackageUuid, userTemplateUuid\n抛出变量：ids2del",
+  "inputs": [
+    {
+      "name": "whiteMac",
+      "value": "c9",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ids2del",
+      "expression": "$.data.dtoList.id"
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "alias": "【公共】】新增_更新证书源-开启证书认证-证书吊销校验方式（不校验_CRL）",
+  "case_id": 66136,
+  "name": "【公共】】新增/更新证书源-开启证书认证-证书吊销校验方式（不校验/CRL）",
+  "description": "功能说明：该公共步骤主要用于 '【公共】】新增/更新证书源-开启证书认证-证书吊销校验方式（不校验/CRL）' 操作。\n依赖入参：autoLearnUsers, enableCertAuth, verifyServerCert, certStatusCheckMode, certSubjectField, allowAuthIfCrlFailed\n抛出变量：configId2add",
+  "inputs": [
+    {
+      "name": "autoLearnUsers",
+      "value": "true",
+      "note": ""
+    },
+    {
+      "name": "enableCertAuth",
+      "value": "true",
+      "note": ""
+    },
+    {
+      "name": "verifyServerCert",
+      "value": "false",
+      "note": ""
+    },
+    {
+      "name": "certStatusCheckMode",
+      "value": "NONE",
+      "note": ""
+    },
+    {
+      "name": "certSubjectField",
+      "value": "CN",
+      "note": ""
+    },
+    {
+      "name": "allowAuthIfCrlFailed",
+      "value": "true",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "configId2add",
+      "expression": "$.data.configId"
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "alias": "【公共】【开户】指定用户名和密码开户",
+  "case_id": 51403,
+  "name": "【公共】【开户】指定用户名和密码开户",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【开户】指定用户名和密码开户' 操作。\n依赖入参：password2test, userName2test, email2test, userId2test, userPackageUuid, userTemplateUuid\n抛出变量：uuid2del, accountid2del, onlineUserUuid2test, selfPermitUuid, userinfoUuid2test, accountInfoUuid2test, accountState2test, nickName2test, userGroupUuid2test, userPackageUuid2test, policyInfoUuid2test, oldCampusCode2test, operatorsUserId2test, uuid2test, accountid2test, policyId2test, groupinfoId2test",
+  "inputs": [
+    {
+      "name": "password2test",
+      "value": "12345aA!",
+      "note": ""
+    },
+    {
+      "name": "userName2test",
+      "value": "autotest12",
+      "note": ""
+    },
+    {
+      "name": "email2test",
+      "value": "cui@qq.com",
+      "note": ""
+    },
+    {
+      "name": "userId2test",
+      "value": "autotest user 51403",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "uuid2del",
+      "expression": "$.data.results[0].userinfoUuid"
+    },
+    {
+      "name": "accountid2del",
+      "expression": "$.data.results[0].accountInfoUuid"
+    },
+    {
+      "name": "onlineUserUuid2test",
+      "expression": "$.data.results.onlineUserUuid"
+    },
+    {
+      "name": "selfPermitUuid",
+      "expression": "$.data.results[0].id"
+    },
+    {
+      "name": "userinfoUuid2test",
+      "expression": "$.data.results[0].userinfoUuid"
+    },
+    {
+      "name": "accountInfoUuid2test",
+      "expression": "$.data.results[0].accountInfoUuid"
+    },
+    {
+      "name": "accountState2test",
+      "expression": "$.data.results[0].accountState"
+    },
+    {
+      "name": "nickName2test",
+      "expression": "$.data.results[0].nickName"
+    },
+    {
+      "name": "userGroupUuid2test",
+      "expression": "$.data.results[0].userGroupUuid"
+    },
+    {
+      "name": "userPackageUuid2test",
+      "expression": "$.data.results[0].userPackageUuid"
+    },
+    {
+      "name": "policyInfoUuid2test",
+      "expression": "$.data.results[0].policyInfoUuid"
+    },
+    {
+      "name": "oldCampusCode2test",
+      "expression": "$.data.results[0].oldCampusCode"
+    },
+    {
+      "name": "operatorsUserId2test",
+      "expression": "$.data.results[0].operatorsUserId"
+    },
+    {
+      "name": "uuid2test",
+      "expression": "$.data.results[0].userinfoUuid"
+    },
+    {
+      "name": "accountid2test",
+      "expression": "$.data.results[0].accountInfoUuid"
+    },
+    {
+      "name": "policyId2test",
+      "expression": "$.data.results[0].policyId"
+    },
+    {
+      "name": "groupinfoId2test",
+      "expression": "$.data.results[0].groupinfoId"
+    }
+  ]
+}

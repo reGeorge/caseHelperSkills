@@ -1,0 +1,46 @@
+{
+  "alias": "【公共】新增vlan授权配置",
+  "case_id": 66670,
+  "name": "【公共】新增vlan授权配置",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增vlan授权配置' 操作。\n依赖入参：vlanCofigValue, vlanId, vlanConfigType, zoneName\n抛出变量：vlanConfigIds2del, vlanConfigIds2del_root, stationId2test, zoneId2test",
+  "inputs": [
+    {
+      "name": "vlanCofigValue",
+      "value": "vlan授权优化-001",
+      "note": ""
+    },
+    {
+      "name": "vlanId",
+      "value": "66",
+      "note": ""
+    },
+    {
+      "name": "vlanConfigType",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "zoneName",
+      "value": "autotest_大型站点",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "vlanConfigIds2del",
+      "expression": "$.data.results.id"
+    },
+    {
+      "name": "vlanConfigIds2del_root",
+      "expression": "$.data.results.id"
+    },
+    {
+      "name": "stationId2test",
+      "expression": "$.items.id[0]"
+    },
+    {
+      "name": "zoneId2test",
+      "expression": "$.data.children.value"
+    }
+  ]
+}

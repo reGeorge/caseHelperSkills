@@ -1,0 +1,39 @@
+{
+  "alias": "【公共】【认证】无线1X PEAP认证(MSCHAPV2)",
+  "case_id": 51547,
+  "name": "【公共】【认证】无线1X PEAP认证(MSCHAPV2)",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【认证】无线1X PEAP认证(MSCHAPV2)' 操作。\n依赖入参：peap_username, peap_password, nasIP, userIP, userMac\n抛出变量：Acct-Session-Id",
+  "inputs": [
+    {
+      "name": "peap_username",
+      "value": "mizone",
+      "note": ""
+    },
+    {
+      "name": "peap_password",
+      "value": "12345aA!",
+      "note": ""
+    },
+    {
+      "name": "nasIP",
+      "value": "172.17.9.80",
+      "note": ""
+    },
+    {
+      "name": "userIP",
+      "value": "200.22.1.0",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "525400541921",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "Acct-Session-Id",
+      "expression": "44"
+    }
+  ]
+}

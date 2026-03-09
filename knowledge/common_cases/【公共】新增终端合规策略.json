@@ -1,0 +1,33 @@
+{
+  "alias": "【公共】新增终端合规策略",
+  "case_id": 62894,
+  "name": "【公共】新增终端合规策略",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增终端合规策略' 操作。\n依赖入参：compliancePolicyName2test, userPackageUuid, userTemplateUuid\n抛出变量：compliancePolicyIds2del, compliancePolicyId2test",
+  "inputs": [
+    {
+      "name": "compliancePolicyName2test",
+      "value": "compliancePolicy62894",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "compliancePolicyIds2del",
+      "expression": "$.data.results.id"
+    },
+    {
+      "name": "compliancePolicyId2test",
+      "expression": "$.data.id"
+    }
+  ]
+}

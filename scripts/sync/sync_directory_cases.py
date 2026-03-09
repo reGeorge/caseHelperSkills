@@ -55,32 +55,18 @@ class DirectoryCaseSync:
             
     def generate_alias(self, name, case_id):
         """
-        根据中文名称生成一个用于大模型理解的合法别名。
-        由于我们可能没有现成的汉字转拼音库，简单采用关键词提取或直接给全拼、id组合。
-        在这里利用一个纯净的映射规则：过滤特殊符号。
+        直接使用中文名称作为别名（清理掉可能影响文件系统的特殊字符），方便由AI直接根据语义调用
         """
-        # 移除符号
-        clean_name = re.sub(r'[^\w\s]', '_', name)
-        clean_name = clean_name.replace(' ', '')
+        # 移除非法文件名字符
+        clean_name = re.sub(r'[\\/:*?"<>|\n\t\r]', '_', name)
+        # 去除首尾空格
+        clean_name = clean_name.strip()
         
-        # 如果已经有了相同 case_id 的别名，优先继承
-        for k, v in self.manifest.items():
-            if v == case_id:
-                return k
-                
-        # 否则生成名为 common_xxx_ID 的英文别名备选，或者直接用清理后的名称
-        # 为防止全中文别名引发兼容性问题，我们将用例id作为兜底后缀
-        alias = f"case_{case_id}"
-        
-        # 尝试匹配已知动作以改善别名
-        if "登录" in name:
-            alias = f"login_{case_id}"
-        elif "开户" in name:
-            alias = f"register_{case_id}"
-        elif "清理" in name or "删除" in name:
-            alias = f"cleanup_{case_id}"
+        # 兜底：如果清理后全空了，用id
+        if not clean_name:
+            clean_name = f"case_{case_id}"
             
-        return alias
+        return clean_name
         
     def traverse_directory(self, dir_id):
         """递归遍历目录获取所有的测试用例"""
@@ -139,6 +125,9 @@ class DirectoryCaseSync:
         if not os.path.exists(self.cases_dir):
             os.makedirs(self.cases_dir)
             
+        # 强制清空旧的英文别名记录，准备全盘使用新中文名重写
+        self.manifest = {}
+
         logging.info(f"🚀 开始全量同步目录 {self.root_dir_id} 下的用例，转化为函数签名...")
         cases = self.traverse_directory(self.root_dir_id)
         logging.info(f"✅ 共发现 {len(cases)} 个子用例，开始分析提取...")

@@ -1,0 +1,29 @@
+{
+  "alias": "【公共】证书认证 EAP-TLS-预期失败",
+  "case_id": 66184,
+  "name": "【公共】证书认证 EAP-TLS-预期失败",
+  "description": "功能说明：该公共步骤主要用于 '【公共】证书认证 EAP-TLS-预期失败' 操作。\n依赖入参：nasIP, userIP, userMac, Acct-Session-Id\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "nasIP",
+      "value": "172.17.9.80",
+      "note": ""
+    },
+    {
+      "name": "userIP",
+      "value": "129.6.5.1",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "5a498f2ab567",
+      "note": ""
+    },
+    {
+      "name": "Acct-Session-Id",
+      "value": "123456789-cert-auth-987654321",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

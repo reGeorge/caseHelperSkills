@@ -1,0 +1,19 @@
+{
+  "alias": "删除指定关键字的资产终端记录",
+  "case_id": 65965,
+  "name": "删除指定关键字的资产终端记录",
+  "description": "功能说明：该公共步骤主要用于 '删除指定关键字的资产终端记录' 操作。\n依赖入参：keyword2del\n抛出变量：assetIds2del",
+  "inputs": [
+    {
+      "name": "keyword2del",
+      "value": "666",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "assetIds2del",
+      "expression": "$.content.id"
+    }
+  ]
+}

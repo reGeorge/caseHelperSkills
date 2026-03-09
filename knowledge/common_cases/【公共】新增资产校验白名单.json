@@ -1,0 +1,33 @@
+{
+  "alias": "【公共】新增资产校验白名单",
+  "case_id": 65417,
+  "name": "【公共】新增资产校验白名单",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增资产校验白名单' 操作。\n依赖入参：whiteMac, skipLocationVerify, skipCurrentUserVerify\n抛出变量：ids2del, whiteIdAdded",
+  "inputs": [
+    {
+      "name": "whiteMac",
+      "value": "fe:7c:6a:ab:9c:76",
+      "note": ""
+    },
+    {
+      "name": "skipLocationVerify",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "skipCurrentUserVerify",
+      "value": "1",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ids2del",
+      "expression": "$.data.dtoList.id"
+    },
+    {
+      "name": "whiteIdAdded",
+      "expression": "$.data.index"
+    }
+  ]
+}

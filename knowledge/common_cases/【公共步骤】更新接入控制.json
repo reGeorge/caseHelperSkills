@@ -1,0 +1,47 @@
+{
+  "alias": "【公共步骤】更新接入控制",
+  "case_id": 65862,
+  "name": "【公共步骤】更新接入控制",
+  "description": "功能说明：该公共步骤主要用于 '【公共步骤】更新接入控制' 操作。\n依赖入参：serviceId, concurrent, isAutoBandMacInfo, noSenseAccessType, isPermitMab\n抛出变量：serviceUuid2update, userTemplateName, serviceUuid2add",
+  "inputs": [
+    {
+      "name": "serviceId",
+      "value": "autotest_接入控制",
+      "note": ""
+    },
+    {
+      "name": "concurrent",
+      "value": "10",
+      "note": ""
+    },
+    {
+      "name": "isAutoBandMacInfo",
+      "value": "false",
+      "note": ""
+    },
+    {
+      "name": "noSenseAccessType",
+      "value": "0",
+      "note": ""
+    },
+    {
+      "name": "isPermitMab",
+      "value": "true",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "serviceUuid2update",
+      "expression": "$.data.results.serviceUuid[0]"
+    },
+    {
+      "name": "userTemplateName",
+      "expression": "userTemplateName"
+    },
+    {
+      "name": "serviceUuid2add",
+      "expression": "$.data.results[0].serviceUuid"
+    }
+  ]
+}

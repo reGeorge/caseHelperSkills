@@ -1,0 +1,29 @@
+{
+  "alias": "【常用】创建指定名称的模板",
+  "case_id": 65295,
+  "name": "【常用】创建指定名称的模板",
+  "description": "功能说明：该公共步骤主要用于 '【常用】创建指定名称的模板' 操作。\n依赖入参：userTemplateName2test, userPackageUuid, userTemplateUuid\n抛出变量：userTemplateUUID2add",
+  "inputs": [
+    {
+      "name": "userTemplateName2test",
+      "value": "autotest_用户模板",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "userTemplateUUID2add",
+      "expression": "$.data[?(@.userTemplateName =~ /.*autotest.*/)].userTemplateUuid[0]"
+    }
+  ]
+}

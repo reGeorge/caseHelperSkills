@@ -1,0 +1,19 @@
+{
+  "alias": "【公共】新增指定mac的资产终端记录",
+  "case_id": 65964,
+  "name": "【公共】新增指定mac的资产终端记录",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增指定mac的资产终端记录' 操作。\n依赖入参：userMac, keyword2del\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "userMac",
+      "value": "222222223333",
+      "note": ""
+    },
+    {
+      "name": "keyword2del",
+      "value": "222222223333",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

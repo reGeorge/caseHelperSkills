@@ -1,0 +1,23 @@
+{
+  "alias": "【公共】新增指定名称的身份源",
+  "case_id": 66560,
+  "name": "【公共】新增指定名称的身份源",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增指定名称的身份源' 操作。\n依赖入参：pickUserName\n抛出变量：taskid2del, taskid2add",
+  "inputs": [
+    {
+      "name": "pickUserName",
+      "value": "ad000005",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "taskid2del",
+      "expression": "$.data.results[?(@.name=~ /.*autotest.*/)].id"
+    },
+    {
+      "name": "taskid2add",
+      "expression": "$.data"
+    }
+  ]
+}

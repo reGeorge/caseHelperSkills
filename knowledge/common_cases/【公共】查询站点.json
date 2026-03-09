@@ -1,0 +1,14 @@
+{
+  "alias": "【公共】查询站点",
+  "case_id": 66658,
+  "name": "【公共】查询站点",
+  "description": "功能说明：该公共步骤主要用于 '【公共】查询站点' 操作。\n依赖入参：zoneName\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "zoneName",
+      "value": "autotest_大型站点",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

@@ -1,0 +1,33 @@
+{
+  "alias": "【公共】新增无感记录",
+  "case_id": 65834,
+  "name": "【公共】新增无感记录",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增无感记录' 操作。\n依赖入参：userId2test, userMac2del, userMac2test\n抛出变量：macExpireTime2test, remark2test",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "binweinet",
+      "note": ""
+    },
+    {
+      "name": "userMac2del",
+      "value": "48:4d:7e:e2:68:c9",
+      "note": ""
+    },
+    {
+      "name": "userMac2test",
+      "value": "48:4d:7e:e2:68:c9",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "macExpireTime2test",
+      "expression": "$.userMabItems[0].macExpireTime"
+    },
+    {
+      "name": "remark2test",
+      "expression": "$.userMabItems[0].remark"
+    }
+  ]
+}

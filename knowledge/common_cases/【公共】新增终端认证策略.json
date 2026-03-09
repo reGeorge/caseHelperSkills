@@ -1,0 +1,64 @@
+{
+  "alias": "【公共】新增终端认证策略",
+  "case_id": 65762,
+  "name": "【公共】新增终端认证策略",
+  "description": "功能说明：该公共步骤主要用于 '【公共】新增终端认证策略' 操作。\n依赖入参：teminalCheckName, accessType, accessMethod, terminalCheckStatus, assetValidationAttributeStatus, validationMacStatus, validationCurrentUserStatus, validationAccessLocationStatus, terminalCheckSsid, teminalCheckPriorityLevel, ssid\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "teminalCheckName",
+      "value": "无线mab",
+      "note": ""
+    },
+    {
+      "name": "accessType",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "accessMethod",
+      "value": "0",
+      "note": ""
+    },
+    {
+      "name": "terminalCheckStatus",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "assetValidationAttributeStatus",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "validationMacStatus",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "validationCurrentUserStatus",
+      "value": "0",
+      "note": ""
+    },
+    {
+      "name": "validationAccessLocationStatus",
+      "value": "0",
+      "note": ""
+    },
+    {
+      "name": "terminalCheckSsid",
+      "value": "",
+      "note": ""
+    },
+    {
+      "name": "teminalCheckPriorityLevel",
+      "value": "",
+      "note": ""
+    },
+    {
+      "name": "ssid",
+      "value": "xxy",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

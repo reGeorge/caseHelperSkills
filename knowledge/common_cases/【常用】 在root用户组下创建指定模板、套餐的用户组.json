@@ -1,0 +1,57 @@
+{
+  "alias": "【常用】 在root用户组下创建指定模板、套餐的用户组",
+  "case_id": 65291,
+  "name": "【常用】 在root用户组下创建指定模板、套餐的用户组",
+  "description": "功能说明：该公共步骤主要用于 '【常用】 在root用户组下创建指定模板、套餐的用户组' 操作。\n依赖入参：groupInfoId2test, userPackageUuid, userTemplateUuid\n抛出变量：groupInfoUuid_root, userTemplateUUID2test, userPackageUuid2test, packageRuleUuid2test, groupInfoUuid2update, defaultUserTemplateName2test, fartherGroupId2test, groupInfoUuid2test",
+  "inputs": [
+    {
+      "name": "groupInfoId2test",
+      "value": "groupInfoId_autotest_65291",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "groupInfoUuid_root",
+      "expression": "$.data.results[0].groupInfoUuid"
+    },
+    {
+      "name": "userTemplateUUID2test",
+      "expression": "$.data[?(@.userTemplateName =~ /.*autotest_用户模板.*/)].userTemplateUuid[0]"
+    },
+    {
+      "name": "userPackageUuid2test",
+      "expression": "$.data[?(@.userPackageName =~ /.*autotest_套餐.*/)].userPackageUuid[0]"
+    },
+    {
+      "name": "packageRuleUuid2test",
+      "expression": "$.data[?(@.userPackageName =~ /.*autotest_套餐.*/)].userPackageAreaDTOS[0].userPackageAreaRuleDTOS[0].packageRuleUuid[0]"
+    },
+    {
+      "name": "groupInfoUuid2update",
+      "expression": "$.data.results[0].groupInfoUuid"
+    },
+    {
+      "name": "defaultUserTemplateName2test",
+      "expression": "$.data.results[0].defaultUserTemplateName"
+    },
+    {
+      "name": "fartherGroupId2test",
+      "expression": "$.data.results[0].fartherGroupId"
+    },
+    {
+      "name": "groupInfoUuid2test",
+      "expression": "$.data.results[0].groupInfoUuid"
+    }
+  ]
+}

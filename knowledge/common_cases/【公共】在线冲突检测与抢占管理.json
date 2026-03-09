@@ -1,0 +1,39 @@
+{
+  "alias": "【公共】在线冲突检测与抢占管理",
+  "case_id": 65751,
+  "name": "【公共】在线冲突检测与抢占管理",
+  "description": "功能说明：该公共步骤主要用于 '【公共】在线冲突检测与抢占管理' 操作。\n依赖入参：uniqueIpType, isEnableUniqueMac, userMabInfoCount, isEnableUniqueIp, isEnableKickuserByUserId, isEnableMABDefaultServiceChoice\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "uniqueIpType",
+      "value": "2",
+      "note": ""
+    },
+    {
+      "name": "isEnableUniqueMac",
+      "value": "2",
+      "note": ""
+    },
+    {
+      "name": "userMabInfoCount",
+      "value": "10",
+      "note": ""
+    },
+    {
+      "name": "isEnableUniqueIp",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "isEnableKickuserByUserId",
+      "value": "true",
+      "note": ""
+    },
+    {
+      "name": "isEnableMABDefaultServiceChoice",
+      "value": "0",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

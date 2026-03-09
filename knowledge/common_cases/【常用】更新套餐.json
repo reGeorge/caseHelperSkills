@@ -1,0 +1,53 @@
+{
+  "alias": "【常用】更新套餐",
+  "case_id": 65867,
+  "name": "【常用】更新套餐",
+  "description": "功能说明：该公共步骤主要用于 '【常用】更新套餐' 操作。\n依赖入参：userTemplateName2test, packageName2test, usermabMaxNumber, concurrent, enableRepeat, enableKickUsermab, enableUsermabNumberLimit\n抛出变量：userTemplateUuid, userPackageUuid",
+  "inputs": [
+    {
+      "name": "userTemplateName2test",
+      "value": "autotest_计费备份用户模板",
+      "note": ""
+    },
+    {
+      "name": "packageName2test",
+      "value": "autotest_计费备份套餐",
+      "note": ""
+    },
+    {
+      "name": "usermabMaxNumber",
+      "value": "10",
+      "note": ""
+    },
+    {
+      "name": "concurrent",
+      "value": "10",
+      "note": ""
+    },
+    {
+      "name": "enableRepeat",
+      "value": "true",
+      "note": ""
+    },
+    {
+      "name": "enableKickUsermab",
+      "value": "false",
+      "note": ""
+    },
+    {
+      "name": "enableUsermabNumberLimit",
+      "value": "true",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "userTemplateUuid",
+      "expression": "$.data[?(@.userTemplateName =~ /.*autotest_计费备份用户模板.*/)].userTemplateUuid[0]"
+    },
+    {
+      "name": "userPackageUuid",
+      "expression": "$.data[?(@.userPackageName =~ /.*autotest_计费备份套餐.*/)].userPackageUuid[0]"
+    }
+  ]
+}

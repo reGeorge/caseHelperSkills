@@ -1,0 +1,69 @@
+{
+  "alias": "【公共】删除并新增IP段",
+  "case_id": 60353,
+  "name": "【公共】删除并新增IP段",
+  "description": "功能说明：该公共步骤主要用于 '【公共】删除并新增IP段' 操作。\n依赖入参：ipsegmentName, areaName, startIpv4, netMask, mainDns, areaUuid, description, defaultGateway, ipType, endIpv4, bakDns\n抛出变量：ipsegmentUuid2test",
+  "inputs": [
+    {
+      "name": "ipsegmentName",
+      "value": "自动化IP段",
+      "note": ""
+    },
+    {
+      "name": "areaName",
+      "value": "",
+      "note": ""
+    },
+    {
+      "name": "startIpv4",
+      "value": "192.168.0.2",
+      "note": ""
+    },
+    {
+      "name": "netMask",
+      "value": "1.0.0.1",
+      "note": ""
+    },
+    {
+      "name": "mainDns",
+      "value": "1.0.0.1",
+      "note": ""
+    },
+    {
+      "name": "areaUuid",
+      "value": "",
+      "note": ""
+    },
+    {
+      "name": "description",
+      "value": "自动化IP段勿删1",
+      "note": ""
+    },
+    {
+      "name": "defaultGateway",
+      "value": "1.0.0.3",
+      "note": ""
+    },
+    {
+      "name": "ipType",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "endIpv4",
+      "value": "192.168.0.3",
+      "note": ""
+    },
+    {
+      "name": "bakDns",
+      "value": "1.0.0.2",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ipsegmentUuid2test",
+      "expression": "$.data"
+    }
+  ]
+}

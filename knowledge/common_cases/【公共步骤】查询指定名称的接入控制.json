@@ -1,0 +1,19 @@
+{
+  "alias": "【公共步骤】查询指定名称的接入控制",
+  "case_id": 65301,
+  "name": "【公共步骤】查询指定名称的接入控制",
+  "description": "功能说明：该公共步骤主要用于 '【公共步骤】查询指定名称的接入控制' 操作。\n依赖入参：serviceId\n抛出变量：serviceUuid2test",
+  "inputs": [
+    {
+      "name": "serviceId",
+      "value": "autotest接入控制",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "serviceUuid2test",
+      "expression": "$.data.results[0].serviceUuid"
+    }
+  ]
+}

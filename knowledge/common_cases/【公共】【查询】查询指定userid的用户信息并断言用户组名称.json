@@ -1,0 +1,29 @@
+{
+  "alias": "【公共】【查询】查询指定userid的用户信息并断言用户组名称",
+  "case_id": 65181,
+  "name": "【公共】【查询】查询指定userid的用户信息并断言用户组名称",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【查询】查询指定userid的用户信息并断言用户组名称' 操作。\n依赖入参：userId2test, groupNameExpect, userPackageUuid, userTemplateUuid\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "autotest12",
+      "note": ""
+    },
+    {
+      "name": "groupNameExpect",
+      "value": "test",
+      "note": ""
+    },
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}
