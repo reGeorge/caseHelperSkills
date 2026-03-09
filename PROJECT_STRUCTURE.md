@@ -11,9 +11,17 @@ caseHelper/
 │   │   └── update_case_names.py
 │   ├── sync/             # 同步类脚本
 │   │   ├── write_case_ids_to_lark.py
-│   │   └── write_new_cases_to_lark.py
+│   │   ├── write_new_cases_to_lark.py
+│   │   └── sync_knowledge_from_platform.py # 知识库同步脚本
 │   ├── utils/            # 工具函数
 │   └── README.md         # 脚本使用指南
+│
+├── knowledge/            # ⭐ 轻量级知识库 (标准数据仓库)
+│   ├── README.md         # 知识库说明与规范
+│   ├── common_cases_manifest.json  # 核心ID映射
+│   └── common_cases/     # 公共用例存放目录
+│       ├── login_steps.json
+│       └── open_account_steps.json
 │
 ├── skills/               # 可复用能力模块
 │   ├── lark-skills/      # 飞书能力

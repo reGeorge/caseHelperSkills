@@ -465,6 +465,49 @@ class PlatformClient:
                 "message": f"请求异常: {str(e)}"
             }
 
+    def get_cases_children(self, case_id):
+        """
+        按照父目录遍历子节点（用例）
+        对应接口: GET /cases/children/{caseId}
+        
+        Args:
+            case_id: 父目录ID (如 51399)
+            
+        Returns:
+            dict: {"success": bool, "data": list, "message": str}
+        """
+        # 注意：用户提供的接口路径可能不带 /api/sdet-atp，根据基础URL自适应
+        url = f"{self.base_url}/cases/children/{case_id}"
+        
+        try:
+            resp = requests.get(url, headers=self.headers, verify=False)
+            if resp.status_code == 200:
+                res_json = resp.json()
+                if res_json.get("success"):
+                    return {
+                        "success": True,
+                        "data": res_json.get("data", []),
+                        "message": "查询子节点成功"
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "data": [],
+                        "message": res_json.get('resMessage', '查询子节点失败')
+                    }
+            else:
+                return {
+                    "success": False,
+                    "data": [],
+                    "message": f"HTTP错误: {resp.status_code}"
+                }
+        except Exception as e:
+            return {
+                "success": False,
+                "data": [],
+                "message": f"请求异常: {str(e)}"
+            }
+
     def get_case(self, case_id):
         """
         查询用例详情
@@ -625,7 +668,7 @@ class PlatformClient:
             }
 
     def create_step(self, case_id, name, order, host="${G_host}", protocol=0, path="", method="POST",
-                    headers=None, body=None, params=None, variables=None, check=None):
+                    headers=None, body=None, params=None, variables=None, check=None, type=0, quote_id=None):
         """
         创建用例步骤
 
@@ -642,6 +685,8 @@ class PlatformClient:
             params: 请求参数
             variables: 步骤变量
             check: 校验列表
+            type: 步骤类型(0=普通步骤, 1=引用用例)
+            quote_id: 引用的公共用例ID (当type=1时必填)
 
         Returns:
             dict: {"success": bool, "data": step_id, "message": str}
@@ -656,14 +701,15 @@ class PlatformClient:
             "protocol": protocol,
             "path": path,
             "method": method,
-            "headers": headers or {},
-            "body": json.dumps(body or {}),
+            "headers": headers if headers is not None else [],
+            "body": json.dumps(body) if body is not None else "{}",
             "params": params or [],
             "variables": variables or [],
             "check": check or [],
             "status": 0,
             "deleted": 0,
             "exception": 1,
+            "type": type,
             "responseTime": 0,
             "note": "",
             "creator": self.creator_name,
@@ -671,6 +717,9 @@ class PlatformClient:
             "modifier": self.creator_name,
             "modifierId": self.creator_id
         }
+        
+        if quote_id is not None:
+            payload["quoteId"] = quote_id
 
         try:
             resp = requests.post(url, headers=self.headers, json=payload, verify=False)

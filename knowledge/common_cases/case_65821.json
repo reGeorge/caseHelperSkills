@@ -1,0 +1,39 @@
+{
+  "alias": "case_65821",
+  "case_id": 65821,
+  "name": "【公共】【记账】有线MAB记账开始+结束",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【记账】有线MAB记账开始+结束' 操作。\n依赖入参：username, nasIP, userIP, userMac, ssid, expTotal\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "username",
+      "value": "binweinet",
+      "note": ""
+    },
+    {
+      "name": "nasIP",
+      "value": "192.168.54.236",
+      "note": ""
+    },
+    {
+      "name": "userIP",
+      "value": "10.4.11.19",
+      "note": ""
+    },
+    {
+      "name": "userMac",
+      "value": "484d7ee268c9",
+      "note": ""
+    },
+    {
+      "name": "ssid",
+      "value": "ty",
+      "note": ""
+    },
+    {
+      "name": "expTotal",
+      "value": "1",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

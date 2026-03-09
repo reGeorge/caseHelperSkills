@@ -1,0 +1,40 @@
+{
+  "alias": "login_56037",
+  "case_id": 56037,
+  "name": "【公共】【鉴权】管理端登录（指定账号：username+password）",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【鉴权】管理端登录（指定账号：username+password）' 操作。\n依赖入参：username, password\n抛出变量：flowkey, ssoHost, access_token, refresh_token, token_type",
+  "inputs": [
+    {
+      "name": "username",
+      "value": "admin",
+      "note": ""
+    },
+    {
+      "name": "password",
+      "value": "Ruijie@2020",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "flowkey",
+      "expression": "id=\"login-page-flowkey\"[^>]*>([^<]+)<"
+    },
+    {
+      "name": "ssoHost",
+      "expression": "https?://[a-zA-Z0-9.-]+(?:/[a-zA-Z0-9._~!$&'()*+,;=:@%-]+)*"
+    },
+    {
+      "name": "access_token",
+      "expression": "$.access_token"
+    },
+    {
+      "name": "refresh_token",
+      "expression": "$.refresh_token"
+    },
+    {
+      "name": "token_type",
+      "expression": "$.token_type"
+    }
+  ]
+}

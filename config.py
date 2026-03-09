@@ -4,8 +4,16 @@
 SDET平台配置文件
 """
 
+import os
+
 class Config:
     """平台配置"""
+    
+    # 本地路径配置
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    KNOWLEDGE_BASE_DIR = os.path.join(BASE_DIR, "knowledge")
+    COMMON_CASES_DIR = os.path.join(KNOWLEDGE_BASE_DIR, "common_cases")
+    MANIFEST_PATH = os.path.join(KNOWLEDGE_BASE_DIR, "common_cases_manifest.json")
     
     # SDET平台基础URL
     TEST_PLATFORM_URL = "https://sdet.ruishan.cc/api/sdet-atp"

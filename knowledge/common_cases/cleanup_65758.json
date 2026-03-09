@@ -1,0 +1,23 @@
+{
+  "alias": "cleanup_65758",
+  "case_id": 65758,
+  "name": "【公共】 删除无感认证-指定用户名",
+  "description": "功能说明：该公共步骤主要用于 '【公共】 删除无感认证-指定用户名' 操作。\n依赖入参：userId2test\n抛出变量：mac2test, createTime2test",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "autotest user 40303",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "mac2test",
+      "expression": "$.data.results[0].userMac"
+    },
+    {
+      "name": "createTime2test",
+      "expression": "$.data.results[0].createTime"
+    }
+  ]
+}

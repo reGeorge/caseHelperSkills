@@ -1,0 +1,28 @@
+{
+  "alias": "cleanup_60350",
+  "case_id": 60350,
+  "name": "【公共】查询并删除IP段",
+  "description": "功能说明：该公共步骤主要用于 '【公共】查询并删除IP段' 操作。\n依赖入参：ipsegmentName, startIpv4\n抛出变量：ipsegmentUuid2del, ipsegmentUuid2del2",
+  "inputs": [
+    {
+      "name": "ipsegmentName",
+      "value": "自动化IP段",
+      "note": ""
+    },
+    {
+      "name": "startIpv4",
+      "value": "192.168.55.23",
+      "note": ""
+    }
+  ],
+  "outputs": [
+    {
+      "name": "ipsegmentUuid2del",
+      "expression": "$.data.results[0].ipsegmentUuid"
+    },
+    {
+      "name": "ipsegmentUuid2del2",
+      "expression": "$.data.results[0].ipsegmentUuid"
+    }
+  ]
+}

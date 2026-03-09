@@ -1,0 +1,19 @@
+{
+  "alias": "case_62728",
+  "case_id": 62728,
+  "name": "【公共】在Radius服务器指定IP创建认证设备",
+  "description": "功能说明：该公共步骤主要用于 '【公共】在Radius服务器指定IP创建认证设备' 操作。\n依赖入参：userPackageUuid, userTemplateUuid\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "userPackageUuid",
+      "value": "DEFAULT_PACKAGE_FREE",
+      "note": ""
+    },
+    {
+      "name": "userTemplateUuid",
+      "value": "take_usegroup_default_value",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

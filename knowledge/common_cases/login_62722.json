@@ -1,0 +1,29 @@
+{
+  "alias": "login_62722",
+  "case_id": 62722,
+  "name": "【公共】【鉴权】Radius服务器管理端登录（admin账号）",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【鉴权】Radius服务器管理端登录（admin账号）' 操作。\n依赖入参：无依赖\n抛出变量：flowkey, ssoHost, access_token, refresh_token, token_type",
+  "inputs": [],
+  "outputs": [
+    {
+      "name": "flowkey",
+      "expression": "id=\"login-page-flowkey\"[^>]*>([^<]+)<"
+    },
+    {
+      "name": "ssoHost",
+      "expression": "https?://[a-zA-Z0-9.-]+(?:/[a-zA-Z0-9._~!$&'()*+,;=:@%-]+)*"
+    },
+    {
+      "name": "access_token",
+      "expression": "$.access_token"
+    },
+    {
+      "name": "refresh_token",
+      "expression": "$.refresh_token"
+    },
+    {
+      "name": "token_type",
+      "expression": "$.token_type"
+    }
+  ]
+}
