@@ -6,6 +6,7 @@ __pycache__/
 
 # IDE / Agent rules
 .codebuddy/
+.env
 
 # Archive temp scripts
 archive/temp_root_scripts/

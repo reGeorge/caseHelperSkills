@@ -1,12 +1,21 @@
 import requests
 import json
+import os
+from dotenv import load_dotenv
+
+# 加载 .env 环境变量
+load_dotenv()
 
 # 飞书API获取access_token的接口
 url = "https://open.feishu.cn/open-apis/auth/v3/app_access_token/internal/"
 
-# 应用凭证
-app_id = "cli_a83faf50a228900e"
-app_secret = "VN9qcmCuJhMgG39Hs5nT1fcDUPsywWoH"
+# 从环境变量获取应用凭证
+app_id = os.getenv("LARK_APP_ID")
+app_secret = os.getenv("LARK_APP_SECRET")
+
+if not app_id or not app_secret:
+    print("错误: 未在环境变量或 .env 文件中找到 LARK_APP_ID 或 LARK_APP_SECRET")
+    exit(1)
 
 headers = {
     "Content-Type": "application/json"

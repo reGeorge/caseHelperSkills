@@ -16,10 +16,10 @@ class Config:
     MANIFEST_PATH = os.path.join(KNOWLEDGE_BASE_DIR, "common_cases_manifest.json")
     
     # SDET平台基础URL
-    TEST_PLATFORM_URL = "https://sdet.ruishan.cc/api/sdet-atp"
+    TEST_PLATFORM_URL = os.getenv("TEST_PLATFORM_URL", "https://sdet.ruishan.cc/api/sdet-atp")
     
-    # 认证Token（从schema.md中提取）
-    TEST_PLATFORM_TOKEN = "NDY7d2VpYmluOzE3NzQyMzUwMDczOTY7MTcyZTFiNDQyYWVlZjkwM2FkNTU2ZDdhZTMwODhiYzJkNmEzYjAyNmUyMmZiMTJjNjExNmIwNWQwZGIxOWM3MA=="
+    # 认证Token（从环境变量获取）
+    TEST_PLATFORM_TOKEN = os.getenv("TEST_PLATFORM_TOKEN", "")
     
     # 创建者信息
     CREATOR_NAME = "魏斌"
