@@ -154,6 +154,22 @@ client.delete_variable(var_id=var_id)
 variables = client.list_variables(case_id=66242)
 ```
 
+## SDET E2E Case Creation Gotchas & Architecture
+
+在组装端到端 (E2E) 自动化用例时，应严格遵循以下平台架构规范及避免常见错误：
+
+### 1. 必须使用 `caseType: 1` 和 `componentId: 3`
+- **错误**：测试用例不可见或不可执行。如果是 `caseType: 0` 会被平台解析为“目录/业务用例”。缺少 `componentId` 会导致平台前端列表里无法展示此用例（例如 SAM+v5 的分类需要 componentId: 3）。
+- **正确**：当调用 `/case` 端点创建最终自动化测试用例时，必须传递 `caseType: 1` (或 2 视具体平台配置，当前要求为自动化用例1/2具体按接口) 且必须带有 `componentId: 3`。
+
+### 2. 严格的“搭积木”架构 (Quote Model)
+- **错误**：在用例下通过原始 API 配置去生成裸 HTTP 请求步骤。这会破坏平台公用模块的维护性。若调用 `/flow` 时不传 `type` 参数，平台默认会被识别为 `HTTP` (0)。
+- **正确**：E2E用例必须由纯**引用步骤 (Quote Steps)** 构成。仅通过向 `/flow` 提交 `quoteId: [public_case_id]` 来拉取已有公共用例，且**必须携带 `"type": 1` 参数**，以此告知平台该步骤属于用例引用而非原生请求。绝不可在自动化用例中直接注入原生的 RADIUS / HTTP 动作。
+
+### 3. 上层变量注入以匹配下层引用 (Variable Overrides)
+- **底层强依赖**：引用类似 `66904` (有线1x失败) 等公共用例时，由于它们内部要求 `eap_username`, `eap_password`, `userIP`, `nasIP` 等变量。因此，如果没有给它们传参，在执行时就会报 null 的错误。
+- **对应方案**：父级测试用例建立好之后，必须调用 `/case/variable` 接口，显式注入底层引用需要的全部同名变量。这些注入在全局作用域的变量，会自动下沉到各个 quoteId 的步骤中去。
+
 ## API 接口说明
 
 ### 目录相关接口

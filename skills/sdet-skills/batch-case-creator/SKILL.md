@@ -1,5 +1,9 @@
 # Batch Case Creator
 
+> **⚠️ 使用前必读**：调用本模块进行批量创建前，必须先完成 Phase 0 状态矩阵分析并获得用户 `Approve`。
+> 详见 `.github/copilot-instructions.md` 和 `SYSTEM_PROMPT.md` 中的「强制前置执行规则」。
+> 未经 Phase 0 审批直接批量调用 `create_case` / `create_step` 是被禁止的。
+
 ## Overview
 
 从飞书表格批量创建测试用例到SDET平台的自动化工具。该技能支持：

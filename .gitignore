@@ -1,6 +1,11 @@
-sandbox
+sandbox/
 
 # Python cache artifacts
 __pycache__/
 *.py[cod]
-.codebuddy
+
+# IDE / Agent rules
+.codebuddy/
+
+# Archive temp scripts
+archive/temp_root_scripts/

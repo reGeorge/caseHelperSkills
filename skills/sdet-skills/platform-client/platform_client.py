@@ -285,6 +285,49 @@ class PlatformClient:
                 "message": f"请求异常: {str(e)}"
             }
 
+    def update_variable(self, variable_id, case_id, name, value):
+        """
+        更新用例变量 (基于用户抓包分析的正确传参方式)
+
+        Args:
+            variable_id: 变量ID
+            case_id: 用例ID
+            name: 变量名称
+            value: 变量值
+
+        Returns:
+            dict: {"success": bool, "message": str}
+        """
+        url = f"{self.base_url}/case/variable"
+        payload = {
+            "caseId": case_id,
+            "name": name,
+            "id": variable_id,
+            "value": value
+        }
+
+        try:
+            # 经测试，ATP 平台更新变量需使用 POST 且 payload 包含 id
+            resp = requests.post(url, headers=self.headers, json=payload, verify=False)
+            res_json = resp.json()
+            if res_json.get("success"):
+                return {"success": True, "message": "变量更新成功"}
+            else:
+                return {"success": False, "message": res_json.get('resMessage', '更新失败')}
+        except Exception as e:
+            return {"success": False, "message": f"请求异常: {str(e)}"}
+
+    def get_case_variables_v2(self, case_id):
+        """
+        获取用例变量列表 (使用验证成功的 /case/variables/{id} 接口)
+        """
+        url = f"{self.base_url}/case/variables/{case_id}"
+        try:
+            resp = requests.get(url, headers=self.headers, verify=False)
+            return resp.json()
+        except Exception as e:
+            return {"success": False, "message": str(e)}
+
     # ==================== 用例相关操作 ====================
 
     def create_case(self, name, directory_id, description="", note="", priority=2, variables=None, request=None, check=None):
@@ -667,7 +710,7 @@ class PlatformClient:
                 "message": f"请求异常: {str(e)}"
             }
 
-    def create_step(self, case_id, name, order, host="${G_host}", protocol=0, path="", method="POST",
+    def create_step(self, case_id, name, order, host="${G_host}", protocol=0, path="", method=1,
                     headers=None, body=None, params=None, variables=None, check=None, type=0, quote_id=None):
         """
         创建用例步骤
@@ -679,7 +722,7 @@ class PlatformClient:
             host: 主机地址
             protocol: 协议 0=HTTP, 1=HTTPS
             path: 请求路径
-            method: 请求方法
+            method: 请求方法(整数: 0=GET, 1=POST, 2=PUT, 3=DELETE)
             headers: 请求头
             body: 请求体
             params: 请求参数
@@ -761,26 +804,29 @@ class PlatformClient:
         Returns:
             dict: {"success": bool, "data": dict, "message": str}
         """
-        url = f"{self.base_url}/flow/{step_id}"
-
-        payload = {
-            "modifier": self.creator_name,
-            "modifierId": self.creator_id,
-        }
-
-        # 添加可更新字段
-        updatable_fields = ['name', 'order', 'host', 'protocol', 'path', 'method',
-                          'headers', 'body', 'params', 'variables', 'check', 'note']
-
-        for field in updatable_fields:
-            if field in kwargs:
-                if field == 'body' and kwargs[field]:
-                    payload[field] = json.dumps(kwargs[field])
-                else:
-                    payload[field] = kwargs[field]
+        # 平台不支持 PUT/POST /flow/{id}，需先 GET 获取完整数据再 POST /flow（带 id 字段）
+        get_url = f"{self.base_url}/flow/{step_id}"
+        post_url = f"{self.base_url}/flow"
 
         try:
-            resp = requests.put(url, headers=self.headers, json=payload, verify=False)
+            get_resp = requests.get(get_url, headers=self.headers, verify=False)
+            if get_resp.status_code != 200 or not get_resp.json().get("success"):
+                return {"success": False, "data": None, "message": "获取步骤详情失败"}
+
+            detail = get_resp.json()["data"]
+            detail["modifier"] = self.creator_name
+            detail["modifierId"] = self.creator_id
+
+            # 更新指定字段
+            for field in ['name', 'order', 'host', 'protocol', 'path', 'method',
+                          'headers', 'body', 'params', 'variables', 'check', 'note']:
+                if field in kwargs:
+                    if field == 'body' and kwargs[field]:
+                        detail[field] = json.dumps(kwargs[field])
+                    else:
+                        detail[field] = kwargs[field]
+
+            resp = requests.post(post_url, headers=self.headers, json=detail, verify=False)
             if resp.status_code == 200:
                 res_json = resp.json()
                 if res_json.get("success"):

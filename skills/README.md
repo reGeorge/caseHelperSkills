@@ -18,7 +18,10 @@ skills/
 ├── sdet-skills/              # SDET测试平台相关能力
 │   ├── sdet-api-helper/      # API接口帮助
 │   ├── sdet-login/           # 登录认证
-│   └── batch-case-creator/   # 批量创建用例
+│   ├── batch-case-creator/   # 批量创建用例
+│   ├── platform-client/      # 平台API客户端封装
+│   ├── case-id-backfiller/   # 用例ID回写飞书
+│   └── case-debugger/        # 用例调试与偏差修复
 │
 └── case-skills/              # 用例处理能力
     └── ...
@@ -36,6 +39,9 @@ skills/
 | SDET平台接口 | sdet-api-helper | `skills/sdet-skills/sdet-api-helper/` |
 | SDET登录认证 | sdet-login | `skills/sdet-skills/sdet-login/` |
 | 批量创建用例 | batch-case-creator | `skills/sdet-skills/batch-case-creator/` |
+| 用例调试审计 | case-debugger | `skills/sdet-skills/case-debugger/` |
+| 平台API封装 | platform-client | `skills/sdet-skills/platform-client/` |
+| 用例ID回写 | case-id-backfiller | `skills/sdet-skills/case-id-backfiller/` |
 
 ### 方法2: 搜索文件名
 

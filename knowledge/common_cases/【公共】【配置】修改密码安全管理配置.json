@@ -1,0 +1,59 @@
+{
+  "alias": "【公共】【配置】修改密码安全管理配置",
+  "case_id": 66882,
+  "name": "【公共】【配置】修改密码安全管理配置",
+  "description": "功能说明：该公共步骤主要用于 '【公共】【配置】修改密码安全管理配置' 操作。\n依赖入参：enableCheckUserPass, onexEnableFirstLoginModifyPwd, onexFirstLoginModifyPwdEnforceMethod, onexEnableNotPassPwdCheckEnforce, onexNotPassPwdCheckEnforceMethod, onexEnablePwdModifyFrequency, onexPwdModifyFrequency, onexPwdModifyFrequencyEnforceMethod, onexEnableAdvanceSmsNotification, onexAdvanceSmsNotificationTime\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "enableCheckUserPass",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexEnableFirstLoginModifyPwd",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexFirstLoginModifyPwdEnforceMethod",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexEnableNotPassPwdCheckEnforce",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexNotPassPwdCheckEnforceMethod",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexEnablePwdModifyFrequency",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexPwdModifyFrequency",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexPwdModifyFrequencyEnforceMethod",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexEnableAdvanceSmsNotification",
+      "value": "1",
+      "note": ""
+    },
+    {
+      "name": "onexAdvanceSmsNotificationTime",
+      "value": "1",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}

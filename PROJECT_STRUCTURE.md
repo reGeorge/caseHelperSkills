@@ -6,47 +6,56 @@
 caseHelper/
 ├── scripts/               # 可执行脚本
 │   ├── create/           # 创建类脚本
-│   │   └── create_directories_and_cases.py
+│   │   ├── create_directories_and_cases.py
+│   │   └── create_w9qybu_cases.py
 │   ├── update/           # 更新类脚本
 │   │   └── update_case_names.py
 │   ├── sync/             # 同步类脚本
+│   │   ├── sync_directory_cases.py
+│   │   ├── sync_knowledge_from_platform.py
 │   │   ├── write_case_ids_to_lark.py
-│   │   ├── write_new_cases_to_lark.py
-│   │   └── sync_knowledge_from_platform.py # 知识库同步脚本
-│   ├── utils/            # 工具函数
+│   │   └── write_new_cases_to_lark.py
+│   ├── analyze/          # 分析类脚本
+│   │   ├── analyze_dot1x_passwd_cases.py
+│   │   ├── analyze_peap_cases.py
+│   │   ├── analyze_w9qybu_cases.py
+│   │   ├── analyze_zwoay7_cases.py
+│   │   ├── write_dot1x_to_lark.py
+│   │   ├── write_peap_to_lark.py
+│   │   ├── write_w9qybu_to_lark.py
+│   │   └── write_zwoay7_to_lark.py
 │   └── README.md         # 脚本使用指南
 │
 ├── knowledge/            # ⭐ 轻量级知识库 (标准数据仓库)
 │   ├── README.md         # 知识库说明与规范
 │   ├── common_cases_manifest.json  # 核心ID映射
-│   └── common_cases/     # 公共用例存放目录
-│       ├── login_steps.json
-│       └── open_account_steps.json
+│   ├── case_design/      # 用例设计知识沉淀
+│   │   └── insight.md    # 复盘教训与标准流程
+│   └── common_cases/     # 公共用例 JSON (100+)
 │
 ├── skills/               # 可复用能力模块
+│   ├── README.md         # 能力总索引
 │   ├── lark-skills/      # 飞书能力
-│   │   ├── lark-sheet-reader/
-│   │   └── lark-sheet-writer/
-│   ├── sdet-skills/      # SDET平台能力
-│   │   ├── sdet-api-helper/
-│   │   └── batch-case-creator/
-│   └── case-skills/      # 用例管理能力
-│       └── test-case-analyzer/
+│   │   ├── lark-access-token/    # 获取飞书 Token
+│   │   ├── lark-api-helper/      # 飞书 API 综合助手
+│   │   ├── lark-sheets/          # 表格结构查询
+│   │   ├── lark-sheet-reader/    # 表格内容读取
+│   │   └── lark-sheet-writer/    # 表格内容写入
+│   ├── sdet-skills/      # SDET 平台能力
+│   │   ├── platform-client/      # 平台 API 封装 (核心)
+│   │   ├── batch-case-creator/   # 批量创建用例
+│   │   ├── case-debugger/        # 用例审计与偏差修复
+│   │   ├── case-id-backfiller/   # 用例 ID 回写飞书
+│   │   └── sdet-login/           # 平台登录认证
+│   └── case-skills/      # 用例分析能力
+│       └── case-ai-overview/     # AI 用例概述生成
 │
-├── sandbox/              # 临时工作区（默认不提交新产物）
-│   └── workspace/
-│       ├── lark_latest_data.json
-│       ├── test_case_analysis.json
-│       ├── case_id_mapping.json
-│       ├── creation_result_*.json
-│       ├── directory_structure_by_config.md
-│       └── test_case_analysis_report.md
-│
-├── agent_service/        # Agent服务模块
+├── agent_service/        # Agent 代码沙箱服务 (FastAPI)
+├── sandbox/              # 临时工作区（.gitignore 排除）
 ├── utils/                # 项目通用工具
-├── archive/              # 历史归档目录（当前无快照）
+├── archive/              # 历史归档
 │
-├── config.py             # 配置文件
+├── config.py             # 全局配置（Token、URL、知识库路径）
 ├── PROJECT_STRUCTURE.md  # 本文档
 ├── SYSTEM_PROMPT.md      # 系统提示
 └── .codebuddy/

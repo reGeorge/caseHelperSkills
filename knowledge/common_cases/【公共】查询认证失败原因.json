@@ -1,0 +1,19 @@
+{
+  "alias": "【公共】查询认证失败原因",
+  "case_id": 66887,
+  "name": "【公共】查询认证失败原因",
+  "description": "功能说明：主要用于 '【公共】查询认证失败原因' 操作。\n依赖入参：userId2test, loginFailMsg\n抛出变量：无抛出",
+  "inputs": [
+    {
+      "name": "userId2test",
+      "value": "qaqa",
+      "note": ""
+    },
+    {
+      "name": "loginFailMsg",
+      "value": "用户不存在!",
+      "note": ""
+    }
+  ],
+  "outputs": []
+}
