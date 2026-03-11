@@ -7,53 +7,66 @@
     {
       "name": "enableCheckUserPass",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexEnableFirstLoginModifyPwd",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexFirstLoginModifyPwdEnforceMethod",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexEnableNotPassPwdCheckEnforce",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexNotPassPwdCheckEnforceMethod",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexEnablePwdModifyFrequency",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexPwdModifyFrequency",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexPwdModifyFrequencyEnforceMethod",
       "value": "1",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "onexEnableAdvanceSmsNotification",
       "value": "1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "onexAdvanceSmsNotificationTime",
       "value": "1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 8
+  }
 }

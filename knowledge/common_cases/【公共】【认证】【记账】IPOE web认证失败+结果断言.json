@@ -7,47 +7,56 @@
     {
       "name": "userIP",
       "value": "200.22.2.2",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "nasIP",
       "value": "172.17.9.80",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "7699a7ca22c9",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "Portal_username",
       "value": "ty1",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "Portal_password",
       "value": "111",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "userssid",
       "value": "rcc",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     },
     {
       "name": "cepevlan",
       "value": "CAPWAP-Tunnel 32:1-1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "domain",
       "value": "rjmu",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "authfail",
       "value": "暂停",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -63,5 +72,8 @@
       "name": "Acct-Session-Id",
       "expression": "44"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 6
+  }
 }

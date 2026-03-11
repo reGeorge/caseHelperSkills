@@ -10,6 +10,7 @@ import os
 import sys
 import json
 import logging
+import requests
 
 # 确保脚本能在任意层级执行并引用到依赖
 base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
@@ -22,6 +23,73 @@ from platform_client import PlatformClient
 from config import config
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+
+
+def infer_variable_note(var_name):
+    """基于变量名做稳定、可复现的备注兜底初始化。"""
+    if not var_name:
+        return ""
+
+    normalized = str(var_name).strip().lower()
+    note_rules = [
+        (["username", "user_name", "userid", "user_id", "eap_username", "usernam"], "认证用户名"),
+        (["password", "pwd", "pass", "eap_password"], "认证密码"),
+        (["token", "access_token", "app_access_token"], "访问令牌"),
+        (["session", "sessionid", "sid"], "会话ID"),
+        (["uuid", "guid"], "资源UUID"),
+        (["group", "groupid", "group_uuid"], "用户组标识"),
+        (["mac"], "终端MAC地址"),
+        (["ip", "nasip", "userip"], "IP地址"),
+    ]
+
+    for keys, note in note_rules:
+        if any(k in normalized for k in keys):
+            return note
+
+    return ""
+
+
+def normalize_case_variables(case_variables):
+    """统一变量结构，并对缺失 note 的变量执行初始化。"""
+    formatted = []
+    note_initialized_count = 0
+
+    for var_obj in case_variables:
+        name = var_obj.get("name")
+        value = var_obj.get("value")
+        raw_note = var_obj.get("note")
+        note = raw_note.strip() if isinstance(raw_note, str) else ""
+
+        source = "platform"
+        if not note:
+            note = infer_variable_note(name)
+            source = "inferred" if note else "empty"
+            if source == "inferred":
+                note_initialized_count += 1
+
+        formatted.append({
+            "name": name,
+            "value": value,
+            "note": note,
+            "note_source": source
+        })
+
+    return formatted, note_initialized_count
+
+
+def build_default_description(current_desc, input_vars, output_vars):
+    """当平台 description 为空时，初始化为可供 AI 直接理解的函数签名。"""
+    if isinstance(current_desc, str) and current_desc.strip():
+        return current_desc
+
+    input_names = [v.get("name") for v in input_vars if v.get("name")]
+    output_names = [v for v in output_vars if v]
+
+    return (
+        f"依赖入参：{', '.join(input_names) if input_names else '无依赖'}\n"
+        f"输出变量：{', '.join(output_names) if output_names else '无抛出'}\n"
+        "功能说明：由平台同步脚本自动初始化，请后续在平台补充更精确描述。"
+    )
 
 def sync_knowledge_base():
     if not os.path.exists(config.MANIFEST_PATH):
@@ -118,18 +186,33 @@ def sync_knowledge_base():
                 
             # 获取用例变量
             vars_url = f"{client.base_url}/case/variables/{case_id}"
-            import requests # 确保引入requests
             vars_resp = requests.get(vars_url, headers=client.headers, verify=False).json()
             case_variables = vars_resp.get("data", []) if vars_resp.get("success") else []
-            formatted_case_vars = [{"name": v.get("name"), "value": v.get("value")} for v in case_variables]
+            formatted_case_vars, note_initialized_count = normalize_case_variables(case_variables)
+
+            output_var_names = []
+            for step_obj in formatted_steps:
+                for ext in step_obj.get("extractors", []):
+                    ext_name = ext.get("name")
+                    if ext_name and ext_name not in output_var_names:
+                        output_var_names.append(ext_name)
+
+            final_desc = build_default_description(
+                case_data.get("description", ""),
+                formatted_case_vars,
+                output_var_names
+            )
 
             # 组合成本地标准结构
             case_detail = {
                 "case_id": case_id,
                 "name": case_data.get("name", "未命名公共步骤"),
-                "description": case_data.get("description", "由平台同步而来的公共用例"),
+                "description": final_desc,
                 "tags": ["common", case_alias.replace("_steps", "")],
                 "case_variables": formatted_case_vars, # 注入这部分
+                "sync_metadata": {
+                    "note_initialized_count": note_initialized_count
+                },
                 "steps": formatted_steps
             }
 

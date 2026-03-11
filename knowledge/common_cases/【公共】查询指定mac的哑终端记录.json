@@ -7,7 +7,8 @@
     {
       "name": "userMac2test",
       "value": "48:4d:7e:e2:68:c9",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -15,5 +16,8 @@
       "name": "userMacReturn",
       "expression": "$.data.results[0].userMac"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 1
+  }
 }

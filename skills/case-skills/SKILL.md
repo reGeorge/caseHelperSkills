@@ -6,7 +6,14 @@
 
 本项目包含以下测试用例相关技能：
 
-### 1. **case-ai-overview** - 测试用例AI概述生成器
+### 1. **case-design-analyzer** - 用例设计分析器 ⭐ NEW
+- **功能**：从手工用例深度分析设计模式，生成自动化用例设计指导报告
+- **用途**：识别手工用例的共性维度、前置状态机、参数化变量方案、公共步骤设计
+- **输出**：维度矩阵、变量设计方案、可复用步骤清单、实施路线图
+- **路径**：`case-design-analyzer/`
+- **Phase 0 集成**：输出的维度矩阵可直接用于Phase 0人工审批
+
+### 2. **case-ai-overview** - 测试用例AI概述生成器
 - **功能**：读取飞书表格中的测试用例，分析后为每条用例生成简洁的AI概述
 - **用途**：批量生成用例概述、简化用例描述、自动化用例文档整理
 - **依赖**：lark-sheet-reader（用于读取飞书表格）
@@ -16,6 +23,10 @@
 
 ```
 case-skills (总入口)
+├── case-design-analyzer (用例设计分析) ← Phase 0入口
+│   ├── 输入: workspace/analysis/manual_cases.json
+│   └── 输出: workspace/analysis/case_design_reports/
+│
 └── case-ai-overview (AI概述生成)
     ├── 依赖: lark-sheet-reader (飞书表格读取)
     └── 用途: 生成用例AI概述

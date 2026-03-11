@@ -7,7 +7,8 @@
     {
       "name": "zoneName",
       "value": "autotest_大型站点",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -15,5 +16,8 @@
       "name": "zoneIds2del",
       "expression": "$.items.id"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 0
+  }
 }

@@ -7,22 +7,26 @@
     {
       "name": "userId2test",
       "value": "fxy_auto_user1",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "mac",
       "value": "26-6D-2B-4E-9C-28",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -34,5 +38,8 @@
       "name": "whiteListId2del2",
       "expression": "$.data.results[0].id"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 4
+  }
 }

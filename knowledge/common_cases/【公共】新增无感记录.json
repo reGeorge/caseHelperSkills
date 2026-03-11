@@ -7,17 +7,20 @@
     {
       "name": "userId2test",
       "value": "binweinet",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "userMac2del",
       "value": "48:4d:7e:e2:68:c9",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac2test",
       "value": "48:4d:7e:e2:68:c9",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -29,5 +32,8 @@
       "name": "remark2test",
       "expression": "$.userMabItems[0].remark"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

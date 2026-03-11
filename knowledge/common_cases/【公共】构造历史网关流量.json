@@ -7,12 +7,14 @@
     {
       "name": "userid2test",
       "value": "autobyll028",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "password2test",
       "value": "shyfzx@163",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -48,5 +50,8 @@
       "name": "packageuuid",
       "expression": "$.data[?(@.userPackageName == \"自动化网关流量20元包月限50G\")].userPackageAreaDTOS[0].userPackageAreaRuleDTOS[0].packageRuleUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

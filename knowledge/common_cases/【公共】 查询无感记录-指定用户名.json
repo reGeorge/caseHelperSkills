@@ -7,17 +7,20 @@
     {
       "name": "userId2test",
       "value": "autotest user 40303",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -29,5 +32,8 @@
       "name": "createTime2test",
       "expression": "$.data.results[0].createTime"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

@@ -1,0 +1,187 @@
+[
+  {
+    "case_id": "TC_001",
+    "case_title": "验证开放式WiFi连接成功",
+    "precondition": "设备处于未连接状态，WiFi已配置为开放式网络（SSID: Test_Open），信号强度正常",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "在可用网络列表中选择'Test_Open'"},
+      {"step_id": 3, "description": "点击连接按钮"}
+    ],
+    "expected_result": "设备连接状态显示为已连接，信号强度显示为-50dBm，设备IP地址自动分配"
+  },
+  {
+    "case_id": "TC_002",
+    "case_title": "验证WPA2密码错误时连接失败",
+    "precondition": "设备处于未连接状态，WiFi已配置为WPA2认证（SSID: Test_WPA2），管理员权限",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "在可用网络列表中选择'Test_WPA2'"},
+      {"step_id": 3, "description": "输入错误密码：WrongPassword123"},
+      {"step_id": 4, "description": "点击连接按钮"}
+    ],
+    "expected_result": "显示连接失败提示信息，连接状态显示为未连接，设备不分配IP地址"
+  },
+  {
+    "case_id": "TC_003",
+    "case_title": "验证WPA2正确密码连接成功",
+    "precondition": "设备处于未连接状态，WiFi已配置为WPA2认证（SSID: Test_WPA2，密码: Correct123），管理员权限",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "在可用网络列表中选择'Test_WPA2'"},
+      {"step_id": 3, "description": "输入正确密码：Correct123"},
+      {"step_id": 4, "description": "点击连接按钮"}
+    ],
+    "expected_result": "连接状态显示为已连接，信号强度显示为正常值，设备自动分配IP地址"
+  },
+  {
+    "case_id": "TC_004",
+    "case_title": "验证DOT1X认证成功",
+    "precondition": "设备处于未连接状态，有线网络已配置DOT1X认证，用户身份为admin",
+    "steps": [
+      {"step_id": 1, "description": "进入有线网络设置"},
+      {"step_id": 2, "description": "选择DOT1X认证方式"},
+      {"step_id": 3, "description": "输入用户名：admin"},
+      {"step_id": 4, "description": "输入密码：AdminPass123"},
+      {"step_id": 5, "description": "点击连接"}
+    ],
+    "expected_result": "认证成功，连接状态显示为已认证，能够正常通信"
+  },
+  {
+    "case_id": "TC_005",
+    "case_title": "验证DOT1X认证失败（非admin用户）",
+    "precondition": "设备处于未连接状态，有线网络已配置DOT1X认证，普通用户身份",
+    "steps": [
+      {"step_id": 1, "description": "进入有线网络设置"},
+      {"step_id": 2, "description": "选择DOT1X认证方式"},
+      {"step_id": 3, "description": "输入用户名：guest"},
+      {"step_id": 4, "description": "输入密码：GuestPass123"},
+      {"step_id": 5, "description": "点击连接"}
+    ],
+    "expected_result": "认证失败，显示权限不足提示，连接状态显示为未连接"
+  },
+  {
+    "case_id": "TC_006",
+    "case_title": "验证简单密码连接",
+    "precondition": "设备处于未连接状态，WiFi使用简单密码（SSID: Test_Simple），密码为12345",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "选择'Test_Simple'网络"},
+      {"step_id": 3, "description": "输入密码：12345"},
+      {"step_id": 4, "description": "点击连接"}
+    ],
+    "expected_result": "连接成功，显示已连接状态"
+  },
+  {
+    "case_id": "TC_007",
+    "case_title": "验证复杂密码连接",
+    "precondition": "设备处于未连接状态，WiFi使用复杂密码（SSID: Test_Complex），密码含大小写+数字+特殊字符",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "选择'Test_Complex'网络"},
+      {"step_id": 3, "description": "输入复杂密码：P@ssw0rd!#2025"},
+      {"step_id": 4, "description": "点击连接"}
+    ],
+    "expected_result": "连接成功，显示已连接状态，能够正常通信"
+  },
+  {
+    "case_id": "TC_008",
+    "case_title": "验证已连接状态下的断开连接",
+    "precondition": "设备已连接到WiFi（SSID: Test_Open），处于已连接状态",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "在已连接网络上点击断开按钮"}
+    ],
+    "expected_result": "连接状态切换为断开连接，设备不再分配IP地址"
+  },
+  {
+    "case_id": "TC_009",
+    "case_title": "验证WiFi扫描发现网络",
+    "precondition": "设备处于WiFi关闭状态，附近有多个WiFi网络",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "启用WiFi扫描"}
+    ],
+    "expected_result": "显示可用网络列表，包含附近所有WiFi网络，每个网络显示SSID和信号强度"
+  },
+  {
+    "case_id": "TC_010",
+    "case_title": "验证WiFi信号强度动态更新",
+    "precondition": "设备已连接到WiFi网络，处于连接状态",
+    "steps": [
+      {"step_id": 1, "description": "打开WiFi设置页面"},
+      {"step_id": 2, "description": "查看当前连接的网络信号强度显示"},
+      {"step_id": 3, "description": "移动设备远离WiFi路由器"},
+      {"step_id": 4, "description": "观察信号强度变化"}
+    ],
+    "expected_result": "信号强度值实时更新，远离路由器后信号强度数值降低"
+  },
+  {
+    "case_id": "TC_011",
+    "case_title": "验证密码过期后首次登录强制修改",
+    "precondition": "系统已开启「定时强制修改」策略，用户密码在90天有效期内，当前密码已超过有效期",
+    "steps": [
+      {"step_id": 1, "description": "等待90天使密码超过有效期"},
+      {"step_id": 2, "description": "用户使用旧密码尝试登录"},
+      {"step_id": 3, "description": "系统提示密码已过期，强制跳转修改密码页面"},
+      {"step_id": 4, "description": "用户输入新密码并确认"}
+    ],
+    "expected_result": "页面提示'密码已过期，请修改密码'，修改成功后跳转到系统主页，旧密码不再有效"
+  },
+  {
+    "case_id": "TC_012",
+    "case_title": "验证证书过期后连接被拒绝",
+    "precondition": "设备已配置DOT1X证书认证，证书有效期为30天，当前证书已过期",
+    "steps": [
+      {"step_id": 1, "description": "等待证书自然到期（到期时间为当前时间+30天）"},
+      {"step_id": 2, "description": "进入有线网络设置"},
+      {"step_id": 3, "description": "选择证书认证方式"},
+      {"step_id": 4, "description": "点击连接"}
+    ],
+    "expected_result": "认证失败，在线设备列表中不包含该设备，日志显示证书过期错误"
+  },
+  {
+    "case_id": "TC_013",
+    "case_title": "验证重启设备后WiFi自动重连",
+    "precondition": "设备已配置WiFi自动重连（SSID: Test_Auto），设备处于已连接状态",
+    "steps": [
+      {"step_id": 1, "description": "重启设备"},
+      {"step_id": 2, "description": "等待设备重启完成（约2-3分钟）"},
+      {"step_id": 3, "description": "查看WiFi连接状态"}
+    ],
+    "expected_result": "设备重启后自动连接到Test_Auto，连接状态显示为已连接"
+  },
+  {
+    "case_id": "TC_014",
+    "case_title": "验证弱密码策略开启后不允许设置简单密码",
+    "precondition": "系统已开启「弱密码强制处理」策略，当前用户密码为简单密码（12345）",
+    "steps": [
+      {"step_id": 1, "description": "进入账户安全设置"},
+      {"step_id": 2, "description": "尝试将密码修改为新的简单密码：abc123"},
+      {"step_id": 3, "description": "点击保存"}
+    ],
+    "expected_result": "页面提示'密码强度不足'，保存失败，密码未更新"
+  },
+  {
+    "case_id": "TC_015",
+    "case_title": "验证首次登录强制修改密码关闭后正常登录",
+    "precondition": "系统已关闭「首次登录强制修改」策略，新用户账号刚创建",
+    "steps": [
+      {"step_id": 1, "description": "使用新建账号登录系统"},
+      {"step_id": 2, "description": "观察是否跳转到修改密码页面"}
+    ],
+    "expected_result": "直接登录到系统主页，不出现强制修改密码提示"
+  },
+  {
+    "case_id": "TC_016",
+    "case_title": "验证拔插网线后有线网络恢复",
+    "precondition": "设备通过有线网络连接，处于已连接状态，已配置DOT1X认证",
+    "steps": [
+      {"step_id": 1, "description": "拔出网线"},
+      {"step_id": 2, "description": "等待10秒"},
+      {"step_id": 3, "description": "插入网线"},
+      {"step_id": 4, "description": "查看网络连接状态"}
+    ],
+    "expected_result": "插入网线后自动重新进行DOT1X认证，认证通过后显示为已连接"
+  }
+]

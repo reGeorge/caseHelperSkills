@@ -7,33 +7,42 @@
     {
       "name": "uniqueIpType",
       "value": "2",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "isEnableUniqueMac",
       "value": "2",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMabInfoCount",
       "value": "10",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "isEnableUniqueIp",
       "value": "1",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "isEnableKickuserByUserId",
       "value": "true",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "isEnableMABDefaultServiceChoice",
       "value": "0",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 4
+  }
 }

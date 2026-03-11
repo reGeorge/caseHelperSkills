@@ -7,17 +7,20 @@
     {
       "name": "nasIP",
       "value": "172.17.9.80",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userIP",
       "value": "200.22.1.0",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "b8782ebdce85",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -25,5 +28,8 @@
       "name": "Acct-Session-Id",
       "expression": "44"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

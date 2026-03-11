@@ -7,7 +7,8 @@
     {
       "name": "teminalCheckName",
       "value": "有线mab",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -19,5 +20,8 @@
       "name": "terminalCheckId2del",
       "expression": "$.data.results[0].id"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 0
+  }
 }

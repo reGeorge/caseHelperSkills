@@ -30,6 +30,56 @@ PlatformClient = pc_module.PlatformClient
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+
+def infer_variable_note(var_name):
+    """基于变量名对缺失 note 做初始化。"""
+    if not var_name:
+        return ""
+
+    normalized = str(var_name).strip().lower()
+    note_rules = [
+        (["username", "user_name", "userid", "user_id", "eap_username", "usernam"], "认证用户名"),
+        (["password", "pwd", "pass", "eap_password"], "认证密码"),
+        (["token", "access_token", "app_access_token"], "访问令牌"),
+        (["session", "sessionid", "sid"], "会话ID"),
+        (["uuid", "guid"], "资源UUID"),
+        (["group", "groupid", "group_uuid"], "用户组标识"),
+        (["mac"], "终端MAC地址"),
+        (["ip", "nasip", "userip"], "IP地址"),
+    ]
+
+    for keys, note in note_rules:
+        if any(k in normalized for k in keys):
+            return note
+
+    return ""
+
+
+def normalize_inputs(raw_vars):
+    """统一 inputs 输出结构，并补齐 note。"""
+    normalized = []
+    note_initialized_count = 0
+
+    for item in raw_vars:
+        raw_note = item.get("note")
+        note = raw_note.strip() if isinstance(raw_note, str) else ""
+        source = "platform"
+
+        if not note:
+            note = infer_variable_note(item.get("name"))
+            source = "inferred" if note else "empty"
+            if source == "inferred":
+                note_initialized_count += 1
+
+        normalized.append({
+            "name": item.get("name"),
+            "value": item.get("value"),
+            "note": note,
+            "note_source": source
+        })
+
+    return normalized, note_initialized_count
+
 class DirectoryCaseSync:
     def __init__(self, root_dir_id):
         self.root_dir_id = root_dir_id
@@ -145,7 +195,7 @@ class DirectoryCaseSync:
             
             # 解析 Inputs & Outputs
             raw_vars = self.fetch_case_inputs(case_id)
-            inputs = [{"name": v.get("name"), "value": v.get("value"), "note": v.get("note", "")} for v in raw_vars]
+            inputs, note_initialized_count = normalize_inputs(raw_vars)
             outputs = self.fetch_case_outputs(case_id)
             
             # 智能推断或兜底伪描述
@@ -164,6 +214,9 @@ class DirectoryCaseSync:
                 "name": name,
                 "description": desc,
                 "inputs": inputs,       # 提供给下游修改的变量列表
+                "sync_metadata": {
+                    "note_initialized_count": note_initialized_count
+                },
                 "outputs": outputs      # 完成后暴露给后续用例的提取器变量
             }
             

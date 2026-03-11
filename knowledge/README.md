@@ -18,6 +18,12 @@
 * `case_id`: 对应平台唯一ID（便于回溯）
 * `name`: 用例名称短语
 * `description`: 清晰地描述何时使用以及有何依赖
+	* 若平台描述为空，同步脚本会初始化为“依赖入参/输出变量/功能说明”的签名式文案
+* `case_variables` / `inputs`: 输入变量列表，包含 `name`、`value`、`note`、`note_source`
+	* 平台已维护 `note` 时：`note_source = platform`
+	* 平台 `note` 为空时：脚本会按变量名规则初始化（如 username/password/token），`note_source = inferred`
+	* 无法推断时：`note_source = empty`（建议平台后续补齐备注）
+* `sync_metadata.note_initialized_count`: 本次同步中自动初始化备注的数量
 * `steps`: JSON Array，描述所有核心 API 请求的关键要素（method, url, query, body, variable_extracts 等）。
 
 ## 💡 AI 使用指南

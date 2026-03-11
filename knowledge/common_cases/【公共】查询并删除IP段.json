@@ -7,12 +7,14 @@
     {
       "name": "ipsegmentName",
       "value": "自动化IP段",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "startIpv4",
       "value": "192.168.55.23",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -24,5 +26,8 @@
       "name": "ipsegmentUuid2del2",
       "expression": "$.data.results[0].ipsegmentUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

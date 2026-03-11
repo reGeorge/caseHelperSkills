@@ -7,7 +7,8 @@
     {
       "name": "ipsegmentName",
       "value": "自动化IP段",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -15,5 +16,8 @@
       "name": "ipsegmentUuid2test",
       "expression": "$.data.results[0].ipsegmentUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 1
+  }
 }

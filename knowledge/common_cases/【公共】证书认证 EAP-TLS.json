@@ -7,28 +7,36 @@
     {
       "name": "nasIP",
       "value": "172.17.9.80",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userIP",
       "value": "129.6.5.1",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "5a498f2ab567",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "Acct-Session-Id",
       "value": "123456789-cert-auth-987654321",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     },
     {
       "name": "userId2test",
       "value": "ad000001",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 5
+  }
 }

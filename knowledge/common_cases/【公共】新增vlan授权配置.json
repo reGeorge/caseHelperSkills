@@ -7,22 +7,26 @@
     {
       "name": "vlanCofigValue",
       "value": "vlan授权优化-001",
-      "note": ""
+      "note": "VLAN信息",
+      "note_source": "suggested"
     },
     {
       "name": "vlanId",
       "value": "66",
-      "note": ""
+      "note": "VLAN信息",
+      "note_source": "suggested"
     },
     {
       "name": "vlanConfigType",
       "value": "1",
-      "note": ""
+      "note": "VLAN信息",
+      "note_source": "suggested"
     },
     {
       "name": "zoneName",
       "value": "autotest_大型站点",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -42,5 +46,8 @@
       "name": "zoneId2test",
       "expression": "$.data.children.value"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 0
+  }
 }

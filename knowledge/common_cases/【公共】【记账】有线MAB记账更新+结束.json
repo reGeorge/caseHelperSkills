@@ -7,33 +7,42 @@
     {
       "name": "username",
       "value": "binweinet",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "nasIP",
       "value": "192.168.54.236",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userIP",
       "value": "10.4.11.19",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "484d7ee268c9",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "ssid",
       "value": "ty",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     },
     {
       "name": "expTotal",
       "value": "1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 5
+  }
 }

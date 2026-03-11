@@ -7,27 +7,32 @@
     {
       "name": "autoLearnUsers",
       "value": "true",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "enableCertAuth",
       "value": "true",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "verifyServerCert",
       "value": "false",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "certStatusCheckMode",
       "value": "NONE",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "certSubjectField",
       "value": "CN",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -35,5 +40,8 @@
       "name": "configId2add",
       "expression": "$.data.configId"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 0
+  }
 }

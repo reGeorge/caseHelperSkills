@@ -7,27 +7,32 @@
     {
       "name": "serviceId",
       "value": "autotest_接入控制",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "concurrent",
       "value": "10",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "isAutoBandMacInfo",
       "value": "false",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "noSenseAccessType",
       "value": "0",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "isPermitMab",
       "value": "true",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -43,5 +48,8 @@
       "name": "serviceUuid2add",
       "expression": "$.data.results[0].serviceUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 1
+  }
 }

@@ -7,12 +7,14 @@
     {
       "name": "userId2test",
       "value": "autotest user 40303",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "useMac2del",
       "value": "525400541900",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -24,5 +26,8 @@
       "name": "createTime2test",
       "expression": "$.data.results[0].createTime"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

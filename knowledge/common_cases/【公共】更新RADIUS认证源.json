@@ -7,17 +7,20 @@
     {
       "name": "adIdentifySourceName2test",
       "value": "autotest_radius",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -29,5 +32,8 @@
       "name": "data",
       "expression": "$.data"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

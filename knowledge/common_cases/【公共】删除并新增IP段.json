@@ -7,57 +7,68 @@
     {
       "name": "ipsegmentName",
       "value": "自动化IP段",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "areaName",
       "value": "",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "startIpv4",
       "value": "192.168.0.2",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "netMask",
       "value": "1.0.0.1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "mainDns",
       "value": "1.0.0.1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "areaUuid",
       "value": "",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "description",
       "value": "自动化IP段勿删1",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "defaultGateway",
       "value": "1.0.0.3",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "ipType",
       "value": "1",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "endIpv4",
       "value": "192.168.0.3",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "bakDns",
       "value": "1.0.0.2",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -65,5 +76,8 @@
       "name": "ipsegmentUuid2test",
       "expression": "$.data"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 6
+  }
 }

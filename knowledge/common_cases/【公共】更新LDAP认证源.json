@@ -7,17 +7,20 @@
     {
       "name": "ldapIdentifySourceName2test",
       "value": "autotest_ldap",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -33,5 +36,8 @@
       "name": "ldapSourceId2test",
       "expression": "$.data.ldap[?(@.identitySourceName=~ /.*autotest_ldap.*/)].id[0]"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

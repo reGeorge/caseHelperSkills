@@ -7,8 +7,12 @@
     {
       "name": "isEnableUniqueMac",
       "value": "1",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 1
+  }
 }

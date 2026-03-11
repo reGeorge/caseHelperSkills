@@ -7,58 +7,72 @@
     {
       "name": "teminalCheckName",
       "value": "无线mab",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "accessType",
       "value": "1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "accessMethod",
       "value": "0",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "terminalCheckStatus",
       "value": "1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "assetValidationAttributeStatus",
       "value": "1",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "validationMacStatus",
       "value": "1",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "validationCurrentUserStatus",
       "value": "0",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "validationAccessLocationStatus",
       "value": "0",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "terminalCheckSsid",
       "value": "",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     },
     {
       "name": "teminalCheckPriorityLevel",
       "value": "",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "ssid",
       "value": "xxy",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

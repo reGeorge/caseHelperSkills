@@ -7,37 +7,44 @@
     {
       "name": "userTemplateName2test",
       "value": "autotest_计费备份用户模板",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "packageName2test",
       "value": "autotest_计费备份套餐",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "usermabMaxNumber",
       "value": "10",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "concurrent",
       "value": "10",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "enableRepeat",
       "value": "true",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "enableKickUsermab",
       "value": "false",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "enableUsermabNumberLimit",
       "value": "true",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
   "outputs": [
@@ -49,5 +56,8 @@
       "name": "userPackageUuid",
       "expression": "$.data[?(@.userPackageName =~ /.*autotest_计费备份套餐.*/)].userPackageUuid[0]"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 0
+  }
 }

@@ -7,17 +7,20 @@
     {
       "name": "userMac2test",
       "value": "02D25BC42EBB",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -25,5 +28,8 @@
       "name": "inhibitUuids2del",
       "expression": "$.data.results.inhibitUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

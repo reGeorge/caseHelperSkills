@@ -7,13 +7,18 @@
     {
       "name": "userId2test",
       "value": "qaqa",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "loginFailMsg",
       "value": "用户不存在!",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 1
+  }
 }

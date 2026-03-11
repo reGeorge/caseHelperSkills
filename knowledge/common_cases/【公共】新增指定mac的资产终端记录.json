@@ -7,13 +7,18 @@
     {
       "name": "userMac",
       "value": "222222223333",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "keyword2del",
       "value": "222222223333",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 1
+  }
 }

@@ -7,32 +7,38 @@
     {
       "name": "peap_username",
       "value": "fxyauto555",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "peap_password",
       "value": "12345aA!",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "nasIP",
       "value": "192.168.54.236",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userIP",
       "value": "10.4.11.19",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "7699b7ca1299",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "ssid",
       "value": "ty",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -40,5 +46,8 @@
       "name": "Acct-Session-Id",
       "expression": "44"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 6
+  }
 }

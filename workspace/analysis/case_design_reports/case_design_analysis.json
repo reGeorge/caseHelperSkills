@@ -1,0 +1,646 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "analysis_time": "2026-03-11T17:30:43.355016",
+    "total_cases": 16,
+    "insight_ref": "knowledge/case_design/insight.md"
+  },
+  "business_actions": [
+    {
+      "action_id": "BA_000",
+      "name": "执行带参数操作→T",
+      "intent_pattern": [
+        "NAVIGATE",
+        "SELECT",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "TC_002",
+        "TC_003",
+        "TC_006",
+        "TC_007"
+      ],
+      "data_injections": [
+        "错误密码：WrongPassword123"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行带参数操作→T（{错误密码：WrongPassword123}）"
+    },
+    {
+      "action_id": "BA_001",
+      "name": "执行带参数操作→D",
+      "intent_pattern": [
+        "NAVIGATE",
+        "SELECT",
+        "INPUT",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "TC_004",
+        "TC_005"
+      ],
+      "data_injections": [
+        "用户名：admin",
+        "密码：AdminPass123"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行带参数操作→D（{用户名：admin}, {密码：AdminPass123}）"
+    },
+    {
+      "action_id": "BA_002",
+      "name": "执行操作",
+      "intent_pattern": [
+        "NAVIGATE",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "TC_008",
+        "TC_009"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行操作"
+    },
+    {
+      "action_id": "BA_003",
+      "name": "执行操作→T",
+      "intent_pattern": [
+        "NAVIGATE",
+        "SELECT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "TC_001"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行操作→T"
+    },
+    {
+      "action_id": "BA_004",
+      "name": "物理操作: 打开WiFi设置页面",
+      "intent_pattern": [
+        "NAVIGATE",
+        "PHYSICAL"
+      ],
+      "case_ids": [
+        "TC_010"
+      ],
+      "data_injections": [],
+      "parameterizable": false,
+      "suggested_step_name": "[手工/跳过] 物理操作: 打开WiFi设置页面"
+    },
+    {
+      "action_id": "BA_005",
+      "name": "时间依赖等待: 等待90天使密码超过有效期",
+      "intent_pattern": [
+        "WAIT",
+        "OTHER",
+        "WAIT"
+      ],
+      "case_ids": [
+        "TC_011"
+      ],
+      "data_injections": [],
+      "parameterizable": false,
+      "suggested_step_name": "[手工/跳过] 时间依赖等待: 等待90天使密码超过有效期"
+    },
+    {
+      "action_id": "BA_006",
+      "name": "时间依赖等待: 等待证书自然到期（到期时间为当前时间+30天）",
+      "intent_pattern": [
+        "WAIT",
+        "NAVIGATE",
+        "SELECT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "TC_012"
+      ],
+      "data_injections": [],
+      "parameterizable": false,
+      "suggested_step_name": "[手工/跳过] 时间依赖等待: 等待证书自然到期（到期时间为当前时间+30天）"
+    },
+    {
+      "action_id": "BA_007",
+      "name": "物理操作: 重启设备",
+      "intent_pattern": [
+        "PHYSICAL",
+        "PHYSICAL"
+      ],
+      "case_ids": [
+        "TC_013"
+      ],
+      "data_injections": [],
+      "parameterizable": false,
+      "suggested_step_name": "[手工/跳过] 物理操作: 重启设备"
+    },
+    {
+      "action_id": "BA_008",
+      "name": "执行带参数操作",
+      "intent_pattern": [
+        "NAVIGATE",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "TC_014"
+      ],
+      "data_injections": [
+        "abc123"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行带参数操作（{abc123}）"
+    },
+    {
+      "action_id": "BA_009",
+      "name": "组合操作(OTHER)",
+      "intent_pattern": [
+        "OTHER"
+      ],
+      "case_ids": [
+        "TC_015"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER)"
+    },
+    {
+      "action_id": "BA_010",
+      "name": "物理操作: 拔出网线",
+      "intent_pattern": [
+        "PHYSICAL",
+        "WAIT",
+        "PHYSICAL"
+      ],
+      "case_ids": [
+        "TC_016"
+      ],
+      "data_injections": [],
+      "parameterizable": false,
+      "suggested_step_name": "[手工/跳过] 物理操作: 拔出网线"
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "网络类型",
+      "type": "enum",
+      "values": [
+        "无线",
+        "有线"
+      ]
+    },
+    {
+      "name": "认证方式",
+      "type": "enum",
+      "values": [
+        "DOT1X",
+        "OPEN",
+        "WPA2"
+      ]
+    },
+    {
+      "name": "设备初始状态",
+      "type": "enum",
+      "values": [
+        "关闭",
+        "已连接",
+        "未连接"
+      ]
+    },
+    {
+      "name": "预期结局",
+      "type": "enum",
+      "values": [
+        "关闭",
+        "失败",
+        "开启",
+        "成功",
+        "连接"
+      ]
+    },
+    {
+      "name": "用户身份",
+      "type": "enum",
+      "values": [
+        "admin",
+        "guest"
+      ]
+    },
+    {
+      "name": "密码复杂度",
+      "type": "enum",
+      "values": [
+        "复杂",
+        "简单"
+      ]
+    }
+  ],
+  "cartesian_gaps": {
+    "total": 360,
+    "covered": 360,
+    "missing": []
+  },
+  "api_alignment": [
+    {
+      "dimension": "网络类型",
+      "matched_step": "【常用】指定用户开户+有线1x认证+记账+查询在线设备（不下线账号）",
+      "matched_id": 51418,
+      "required_inputs": [
+        "userId2test",
+        "password2test",
+        "password2test",
+        "userName2test",
+        "email2test",
+        "userMac2test",
+        "userPackageUuid",
+        "userTemplateUuid"
+      ]
+    },
+    {
+      "dimension": "认证方式",
+      "matched_step": "",
+      "matched_id": 0,
+      "required_inputs": []
+    },
+    {
+      "dimension": "设备初始状态",
+      "matched_step": "【公共】】新增_更新证书源-关闭证书认证",
+      "matched_id": 66156,
+      "required_inputs": []
+    },
+    {
+      "dimension": "预期结局",
+      "matched_step": "【公共】】新增_更新证书源-开启证书认证-证书吊销校验方式（不校验_CRL）",
+      "matched_id": 66136,
+      "required_inputs": [
+        "autoLearnUsers",
+        "enableCertAuth",
+        "verifyServerCert",
+        "certStatusCheckMode",
+        "certSubjectField",
+        "allowAuthIfCrlFailed"
+      ]
+    },
+    {
+      "dimension": "用户身份",
+      "matched_step": "",
+      "matched_id": 0,
+      "required_inputs": []
+    },
+    {
+      "dimension": "密码复杂度",
+      "matched_step": "",
+      "matched_id": 0,
+      "required_inputs": []
+    }
+  ],
+  "step_state_coverage": {
+    "rule_dimensions": [
+      "首次登录强制修改",
+      "弱密码强制处理",
+      "定时强制修改",
+      "提前短信通知"
+    ],
+    "total_combos": 16,
+    "covered_combos": 4,
+    "missing_combos": [
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      }
+    ],
+    "existing_step_ids": [
+      "66888",
+      "66889",
+      "66890",
+      "66891"
+    ]
+  },
+  "dual_verification": [
+    {
+      "case_id": "TC_001",
+      "frontend": [
+        "[UI_DISPLAY] 设备连接状态显示为已连接"
+      ],
+      "backend": [
+        "[API_SIGNAL_METRIC] 信号强度显示为-50dBm",
+        "[API_IP_ASSIGN] 设备IP地址自动分配"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_002",
+      "frontend": [
+        "[UI_DISPLAY] 显示连接失败提示信息",
+        "[UI_DISPLAY] 连接状态显示为未连接",
+        "[UI_GENERAL] 设备不分配IP地址"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_003",
+      "frontend": [
+        "[UI_DISPLAY] 连接状态显示为已连接",
+        "[UI_GENERAL] 设备自动分配IP地址"
+      ],
+      "backend": [
+        "[API_SIGNAL_METRIC] 信号强度显示为正常值"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_004",
+      "frontend": [
+        "[UI_DISPLAY] 连接状态显示为已认证"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 认证成功",
+        "[API_CONNECTIVITY] 能够正常通信"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_005",
+      "frontend": [
+        "[UI_DISPLAY] 显示权限不足提示",
+        "[UI_DISPLAY] 连接状态显示为未连接"
+      ],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_006",
+      "frontend": [
+        "[UI_GENERAL] 连接成功",
+        "[UI_DISPLAY] 显示已连接状态"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_007",
+      "frontend": [
+        "[UI_GENERAL] 连接成功",
+        "[UI_DISPLAY] 显示已连接状态"
+      ],
+      "backend": [
+        "[API_CONNECTIVITY] 能够正常通信"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_008",
+      "frontend": [
+        "[UI_STATE_CHANGE] 连接状态切换为断开连接",
+        "[UI_GENERAL] 设备不再分配IP地址"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_009",
+      "frontend": [
+        "[UI_DISPLAY] 显示可用网络列表",
+        "[UI_GENERAL] 包含附近所有WiFi网络",
+        "[UI_DISPLAY] 每个网络显示SSID和信号强度"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_010",
+      "frontend": [],
+      "backend": [
+        "[API_SIGNAL_METRIC] 信号强度值实时更新",
+        "[API_SIGNAL_METRIC] 远离路由器后信号强度数值降低"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_011",
+      "frontend": [
+        "[UI_TOAST] 页面提示'密码已过期",
+        "[UI_GENERAL] 请修改密码'",
+        "[UI_GENERAL] 修改成功后跳转到系统主页",
+        "[UI_GENERAL] 旧密码不再有效"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_012",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败",
+        "[API_ONLINE_DEVICE] 在线设备列表中不包含该设备",
+        "[LOG_CHECK] 日志显示证书过期错误"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "TC_013",
+      "frontend": [
+        "[UI_GENERAL] 设备重启后自动连接到Test_Auto",
+        "[UI_DISPLAY] 连接状态显示为已连接"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_014",
+      "frontend": [
+        "[UI_TOAST] 页面提示'密码强度不足'",
+        "[UI_GENERAL] 保存失败",
+        "[UI_GENERAL] 密码未更新"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_015",
+      "frontend": [
+        "[UI_GENERAL] 直接登录到系统主页",
+        "[UI_TOAST] 不出现强制修改密码提示"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "TC_016",
+      "frontend": [
+        "[UI_GENERAL] 插入网线后自动重新进行DOT1X认证"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 认证通过后显示为已连接"
+      ],
+      "missing_backend": false
+    }
+  ],
+  "risks": [
+    {
+      "case_id": "TC_010",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要物理位移设备，纯软件无法模拟",
+      "suggestion": "替代方案：使用可编程射频衰减器模拟信号强度变化，或 mock API 返回值"
+    },
+    {
+      "case_id": "TC_010",
+      "level": "HIGH",
+      "type": "ENVIRONMENT",
+      "description": "需要持续观察动态 UI 变化",
+      "suggestion": "建议：使用 WebSocket 订阅或轮询 API 获取状态，加断言超时"
+    },
+    {
+      "case_id": "TC_011",
+      "level": "BLOCKER",
+      "type": "TIMING",
+      "description": "需要等待多天，CI/CD 中无法接受",
+      "suggestion": "替代方案：通过 API 直接修改系统时间或数据库时间戳，快进到目标时间点"
+    },
+    {
+      "case_id": "TC_011",
+      "level": "BLOCKER",
+      "type": "TIMING",
+      "description": "依赖密码有效期自然到期（可能需要数天/数月）",
+      "suggestion": "替代方案：通过 API 将密码到期时间改为当前时间+1秒，立即触发过期逻辑"
+    },
+    {
+      "case_id": "TC_012",
+      "level": "BLOCKER",
+      "type": "TIMING",
+      "description": "依赖密码有效期自然到期（可能需要数天/数月）",
+      "suggestion": "替代方案：通过 API 将密码到期时间改为当前时间+1秒，立即触发过期逻辑"
+    },
+    {
+      "case_id": "TC_012",
+      "level": "BLOCKER",
+      "type": "TIMING",
+      "description": "依赖证书/Token 自然过期",
+      "suggestion": "替代方案：通过 API 缩短有效期至最小值，或直接调用吊销/删除接口"
+    },
+    {
+      "case_id": "TC_013",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及设备重启（周期长且不可控）",
+      "suggestion": "替代方案：通过带外管理接口（IPMI/iLO/BMC）或设备管理 API 触发重启"
+    },
+    {
+      "case_id": "TC_016",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及物理网线拔插",
+      "suggestion": "替代方案：可编程交换机执行 switchport shutdown / no shutdown，或 SNMP 控制"
+    },
+    {
+      "case_id": "TC_010",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "业务动作「物理操作: 打开WiFi设置页面」含不可自动化意图，无法参数化为公共步骤",
+      "suggestion": "需额外硬件控制层，或降级为手工测试用例"
+    },
+    {
+      "case_id": "TC_011",
+      "level": "BLOCKER",
+      "type": "TIMING",
+      "description": "业务动作「时间依赖等待: 等待90天使密码超过有效期」含不可自动化意图，无法参数化为公共步骤",
+      "suggestion": "需额外硬件控制层，或降级为手工测试用例"
+    },
+    {
+      "case_id": "TC_012",
+      "level": "BLOCKER",
+      "type": "TIMING",
+      "description": "业务动作「时间依赖等待: 等待证书自然到期（到期时间为当前时间+30天）」含不可自动化意图，无法参数化为公共步骤",
+      "suggestion": "需额外硬件控制层，或降级为手工测试用例"
+    },
+    {
+      "case_id": "TC_013",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "业务动作「物理操作: 重启设备」含不可自动化意图，无法参数化为公共步骤",
+      "suggestion": "需额外硬件控制层，或降级为手工测试用例"
+    },
+    {
+      "case_id": "TC_016",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "业务动作「物理操作: 拔出网线」含不可自动化意图，无法参数化为公共步骤",
+      "suggestion": "需额外硬件控制层，或降级为手工测试用例"
+    }
+  ]
+}

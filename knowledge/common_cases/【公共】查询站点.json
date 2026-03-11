@@ -7,8 +7,12 @@
     {
       "name": "zoneName",
       "value": "autotest_大型站点",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 0
+  }
 }

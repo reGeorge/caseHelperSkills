@@ -7,22 +7,26 @@
     {
       "name": "userId2test",
       "value": "autotest user 41111",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "001A2B3C4D5E",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -118,5 +122,8 @@
       "name": "inhibitUuidTest",
       "expression": "$.data.results[0].inhibitUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 4
+  }
 }

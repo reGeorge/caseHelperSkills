@@ -7,13 +7,18 @@
     {
       "name": "userId2test",
       "value": "autotest user 51424",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "password2test",
       "value": "12345aA!",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

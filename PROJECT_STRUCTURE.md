@@ -1,5 +1,11 @@
 # 项目结构说明
 
+本文档用于说明仓库的目录结构、各目录职责和文件放置边界。
+
+- 如果你想了解“项目是做什么的、怎么使用、SOP 是什么”，请优先看 README.md
+- 如果你想了解“Agent 的运行规则、限制和执行约束”，请看 SYSTEM_PROMPT.md
+- 如果你想判断“某类脚本/模块应该放在哪个目录”，请看本文档
+
 ## 📁 目录结构
 
 ```
@@ -66,54 +72,79 @@ caseHelper/
 ## 🎯 核心目录说明
 
 ### 1. **scripts/** - 可执行脚本
-存放可直接运行的脚本，用于批量操作、自动化任务等
+存放可直接运行的脚本，用于批量操作、自动化任务、验证和同步。
 
 **子目录**：
 - `create/` - 创建类脚本
 - `update/` - 更新类脚本
 - `sync/` - 同步类脚本
-- `utils/` - 工具函数
+- `verify/` - 契约验证与审计脚本
 
-**使用方法**：
+**放置原则**：
+- 入口脚本放在这里
+- 可以依赖 `skills/` 和 `utils/`
+- 不把可复用业务逻辑长期堆在这里，公共逻辑应下沉到 `skills/` 或 `utils/`
+
+**示例**：
 ```bash
-# 创建目录和用例
-python scripts/create/create_directories_and_cases.py
+# 平台契约冒烟验证
+python scripts/verify/contract_smoke.py
 
-# 更新用例名称
-python scripts/update/update_case_names.py
+# 运行规则化审计
+python scripts/verify/run_case_debugger_audit.py
 
-# 同步到飞书
-python scripts/sync/write_case_ids_to_lark.py
+# 同步公共用例知识库
+python scripts/sync/sync_knowledge_from_platform.py
 ```
 
 ---
 
 ### 2. **skills/** - 可复用能力模块
-存放可被其他脚本调用的函数库和类
+存放可复用能力模块，是项目的主要业务能力层。
 
 **能力清单**：
 - **飞书表格读取** (`lark-skills/lark-sheet-reader/`)
 - **飞书表格写入** (`lark-skills/lark-sheet-writer/`)
-- **SDET API辅助** (`sdet-skills/sdet-api-helper/`)
-- **用例分析器** (`case-skills/test-case-analyzer/`)
+- **SDET 平台客户端** (`sdet-skills/platform-client/`)
+- **批量建用例** (`sdet-skills/batch-case-creator/`)
+- **用例审计与偏差修复** (`sdet-skills/case-debugger/`)
+- **AI 用例概述** (`case-skills/case-ai-overview/`)
 
-**使用方法**：
+**放置原则**：
+- 可被多个脚本复用的能力放这里
+- 每个能力目录应尽量包含 `SKILL.md`
+- 不把一次性临时脚本放进 `skills/`
+
+**示例**：
 ```python
-from skills.case-skills.test-case-analyzer.test_case_analyzer import TestCaseAnalyzer
-from skills.lark-skills.lark-sheet-writer.lark_sheet_writer import LarkSheetWriter
+from platform_client import PlatformClient
 ```
 
 ---
 
-### 3. **sandbox/** - 临时工作区
-存放临时数据、测试文件、中间结果等
+### 3. **knowledge/** - 知识库与规则资产
+存放公共步骤、本地同步结果、设计沉淀和审计规则。
 
-**重要文件**：
-- `lark_latest_data.json` - 飞书表格最新数据
-- `test_case_analysis.json` - 用例分析结果
-- `case_id_mapping.json` - 用例ID映射
-- `creation_result_*.json` - 创建结果
-- `directory_structure_by_config.md` - 目录结构文档
+**放置原则**：
+- 需要长期维护、可审阅、可版本化的知识资产放这里
+- 公共步骤 JSON、规则文件、设计复盘放这里
+- 运行期临时产物不要放这里
+
+**典型内容**：
+- `common_cases/` - 公共步骤知识库
+- `common_cases_manifest.json` - 别名到平台 case_id 的映射
+- `case_design/` - 设计复盘与方法论
+- `audit/` - 审计规则配置
+
+---
+
+### 4. **sandbox/** - 临时工作区
+存放临时数据、测试文件、中间结果和报告产物。
+
+**放置原则**：
+- 可丢弃的运行产物放这里
+- 调试中间结果、测试输出、临时报表放这里
+- 不把正式知识资产或长期维护文档放这里
 
 **注意**：
 - ❌ 默认不提交新产物（由 `.gitignore` 控制）
@@ -121,60 +152,42 @@ from skills.lark-skills.lark-sheet-writer.lark_sheet_writer import LarkSheetWrit
 
 ---
 
-### 4. **根路径** - 核心配置和文档
-只存放项目级别的配置文件和文档
+### 5. **根路径** - 核心配置和文档
+只存放项目级别的配置文件和顶层文档。
 
 **文件清单**：
 - `config.py` - 配置文件
-- `PROJECT_STRUCTURE.md` - 项目结构文档
-- `SYSTEM_PROMPT.md` - 系统提示
 - `README.md` - 项目说明
+- `PROJECT_STRUCTURE.md` - 结构边界文档
+- `SYSTEM_PROMPT.md` - Agent 运行规则
 
----
-
-## 📊 项目统计
-
-| 项目 | 数量 |
-|------|------|
-| 脚本 | 4个 |
-| Skills能力 | 4个 |
-| 核心数据文件 | 8个 |
-| Git提交 | 25次 |
+**放置原则**：
+- 根目录避免堆放一次性脚本
+- 根目录避免存放大量业务数据文件
+- 只有“全项目级别”的入口文件才放这里
 
 ---
 
 ## 🔄 目录规范
 
-详细的目录规范请查看：`.codebuddy/rules/项目目录规范.md`
+详细规则可参考：`.codebuddy/rules/项目目录规范.md`
 
 **核心规则**：
-1. **scripts/** - 可执行脚本
-2. **skills/** - 可复用能力模块
-3. **sandbox/** - 临时工作区
-4. **根路径** - 核心配置和文档
+1. `scripts/` 放可执行入口
+2. `skills/` 放可复用能力
+3. `knowledge/` 放长期维护的知识资产与规则
+4. `sandbox/` 放临时产物
+5. 根目录只保留全局配置与顶层文档
 
 ---
 
-## 🔗 快速访问
+## 📌 使用建议
 
-### SDET平台
-- 父目录: https://sdet.ruishan.cc/ap/atp/apiCase?parent=66469
-- 用例列表: https://sdet.ruishan.cc/ap/atp/apiCase?parent=66470
-
-### 飞书表格
-- 手工用例: https://ruijie.feishu.cn/sheets/Mw7escaVhh92SSts8incmbbUnkc?sheet=dfa872
+- 新增一个可直接运行的批处理入口：优先放 `scripts/`
+- 新增一个会被多个脚本复用的能力：优先放 `skills/`
+- 新增一个公共步骤/规则/设计沉淀：优先放 `knowledge/`
+- 新增一个调试结果、运行报告、临时 JSON：优先放 `sandbox/`
 
 ---
 
-## 🎯 项目成果
-
-✅ 28个手工用例100%自动化  
-✅ 12个目录按配置状态分类  
-✅ 飞书表格实时同步  
-✅ 完整的Skills能力库  
-✅ 清晰的项目结构  
-
----
-
-**最后更新**: 2026-03-05  
-**维护者**: 魏斌
+**最后更新**: 2026-03-11

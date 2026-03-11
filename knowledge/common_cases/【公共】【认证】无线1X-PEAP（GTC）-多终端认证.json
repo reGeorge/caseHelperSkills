@@ -7,57 +7,68 @@
     {
       "name": "peap_username",
       "value": "autofxxtest001",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "peap_password",
       "value": "12345aA!",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "nasIP",
       "value": "192.168.54.236",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userIP",
       "value": "10.4.11.19",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "userMac",
       "value": "7699b7ca1299",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "AD_username",
       "value": "autofxxtest001",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "ssid",
       "value": "ty",
-      "note": ""
+      "note": "会话ID",
+      "note_source": "inferred"
     },
     {
       "name": "userMac2",
       "value": "7699b7ca1298",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "userId2test",
       "value": "autofxxtest001",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -69,5 +80,8 @@
       "name": "Acct-Session-Id2",
       "expression": "44"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 11
+  }
 }

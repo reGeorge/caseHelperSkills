@@ -7,18 +7,24 @@
     {
       "name": "userid2test",
       "value": "autobyll028",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "password2test",
       "value": "shyfzx@163",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "userIp2test",
       "value": "10.2.2.21",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

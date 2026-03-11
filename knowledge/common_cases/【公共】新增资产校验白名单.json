@@ -7,17 +7,20 @@
     {
       "name": "whiteMac",
       "value": "fe:7c:6a:ab:9c:76",
-      "note": ""
+      "note": "终端MAC地址",
+      "note_source": "inferred"
     },
     {
       "name": "skipLocationVerify",
       "value": "1",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     },
     {
       "name": "skipCurrentUserVerify",
       "value": "1",
-      "note": ""
+      "note": "IP地址",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -29,5 +32,8 @@
       "name": "whiteIdAdded",
       "expression": "$.data.index"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

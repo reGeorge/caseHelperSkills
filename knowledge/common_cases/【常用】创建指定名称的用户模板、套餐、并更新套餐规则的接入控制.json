@@ -7,27 +7,32 @@
     {
       "name": "userTemplateName2test",
       "value": "autotest_用户模板",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "packageName2test",
       "value": "autotest_套餐",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "serviceId",
       "value": "autotest_接入控制",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -43,5 +48,8 @@
       "name": "packageRuleUuid2test",
       "expression": "$.data[?(@.userPackageName =~ /.*autotest_套餐.*/)].userPackageAreaDTOS[0].userPackageAreaRuleDTOS[0].packageRuleUuid[0]"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 2
+  }
 }

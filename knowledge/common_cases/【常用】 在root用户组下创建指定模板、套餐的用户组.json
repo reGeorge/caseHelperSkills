@@ -7,17 +7,20 @@
     {
       "name": "groupInfoId2test",
       "value": "groupInfoId_autotest_65291",
-      "note": ""
+      "note": "用户组标识",
+      "note_source": "inferred"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
   "outputs": [
@@ -53,5 +56,8 @@
       "name": "groupInfoUuid2test",
       "expression": "$.data.results[0].groupInfoUuid"
     }
-  ]
+  ],
+  "sync_metadata": {
+    "note_initialized_count": 3
+  }
 }

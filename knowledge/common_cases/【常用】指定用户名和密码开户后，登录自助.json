@@ -7,38 +7,48 @@
     {
       "name": "userId2test",
       "value": "autotest user 51412",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "password2test",
       "value": "12345aA!",
-      "note": ""
+      "note": "认证密码",
+      "note_source": "inferred"
     },
     {
       "name": "userName2test",
       "value": "autotest1",
-      "note": ""
+      "note": "认证用户名",
+      "note_source": "inferred"
     },
     {
       "name": "email2test",
       "value": "cui@qq.com",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "expTotal",
       "value": "0",
-      "note": ""
+      "note": "",
+      "note_source": "empty"
     },
     {
       "name": "userPackageUuid",
       "value": "DEFAULT_PACKAGE_FREE",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     },
     {
       "name": "userTemplateUuid",
       "value": "take_usegroup_default_value",
-      "note": ""
+      "note": "资源UUID",
+      "note_source": "inferred"
     }
   ],
-  "outputs": []
+  "outputs": [],
+  "sync_metadata": {
+    "note_initialized_count": 5
+  }
 }

@@ -1,0 +1,16 @@
+﻿{
+  "version": "2026-03-11",
+  "scenario": "dot1x_password_policy",
+  "dimensions": [
+    {"name": "首次登录强制修改", "on_pattern": "首次.*开启|首次.*强制", "off_pattern": "首次.*关闭|不启用首次"},
+    {"name": "弱密码强制处理", "on_pattern": "弱密码.*开启|强度.*开启", "off_pattern": "弱密码.*关闭|强度.*关闭"},
+    {"name": "定时强制修改", "on_pattern": "定时.*开启|周期.*开启", "off_pattern": "定时.*关闭|周期.*关闭"},
+    {"name": "提前短信通知", "on_pattern": "短信.*开启|提前通知.*开启", "off_pattern": "短信.*关闭|提前通知.*关闭"}
+  ],
+  "step_state_mapping": {
+    "66888": {"首次登录强制修改": true, "弱密码强制处理": true, "定时强制修改": true, "提前短信通知": true},
+    "66889": {"首次登录强制修改": false, "弱密码强制处理": true, "定时强制修改": true, "提前短信通知": false},
+    "66890": {"首次登录强制修改": true, "弱密码强制处理": false, "定时强制修改": false, "提前短信通知": false},
+    "66891": {"首次登录强制修改": false, "弱密码强制处理": false, "定时强制修改": false, "提前短信通知": false}
+  }
+}
