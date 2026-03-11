@@ -1,0 +1,1163 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "analysis_time": "2026-03-11T19:49:08.702556",
+    "total_cases": 61,
+    "insight_ref": "knowledge/case_design/insight.md"
+  },
+  "business_actions": [
+    {
+      "action_id": "BA_000",
+      "name": "组合操作(OTHER→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "PEAP-001",
+        "PEAP-009",
+        "PEAP-010",
+        "PEAP-011",
+        "PEAP-012",
+        "PEAP-013",
+        "PEAP-014",
+        "PEAP-015",
+        "PEAP-016",
+        "PEAP-017",
+        "PEAP-028",
+        "PEAP-029",
+        "PEAP-030",
+        "PEAP-031",
+        "PEAP-032",
+        "PEAP-033",
+        "PEAP-034",
+        "PEAP-035",
+        "PEAP-036",
+        "PEAP-041",
+        "PEAP-042",
+        "PEAP-043",
+        "PEAP-044",
+        "PEAP-045",
+        "PEAP-046",
+        "PEAP-047",
+        "PEAP-048",
+        "PEAP-049",
+        "PEAP-050",
+        "PEAP-051",
+        "PEAP-052",
+        "PEAP-053",
+        "PEAP-054",
+        "PEAP-055",
+        "PEAP-056"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER→EXECUTE)"
+    },
+    {
+      "action_id": "BA_001",
+      "name": "组合操作(OTHER→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_ids": [
+        "PEAP-004",
+        "PEAP-005",
+        "PEAP-007",
+        "PEAP-008",
+        "PEAP-023",
+        "PEAP-024",
+        "PEAP-026",
+        "PEAP-027"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER→EXECUTE)"
+    },
+    {
+      "action_id": "BA_002",
+      "name": "组合操作(OTHER→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "OTHER",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "PEAP-003",
+        "PEAP-006",
+        "PEAP-022",
+        "PEAP-025"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER→EXECUTE)"
+    },
+    {
+      "action_id": "BA_003",
+      "name": "组合操作(EXECUTE→INPUT)",
+      "intent_pattern": [
+        "EXECUTE",
+        "INPUT"
+      ],
+      "case_ids": [
+        "PEAP-019",
+        "PEAP-020",
+        "PEAP-038",
+        "PEAP-039"
+      ],
+      "data_injections": [
+        "错误密码"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→INPUT)（{错误密码}）"
+    },
+    {
+      "action_id": "BA_004",
+      "name": "组合操作(OTHER→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_ids": [
+        "PEAP-018",
+        "PEAP-037"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER→EXECUTE)"
+    },
+    {
+      "action_id": "BA_005",
+      "name": "组合操作(EXECUTE→INPUT)",
+      "intent_pattern": [
+        "EXECUTE",
+        "INPUT",
+        "INPUT"
+      ],
+      "case_ids": [
+        "PEAP-021",
+        "PEAP-040"
+      ],
+      "data_injections": [
+        "LDAP账户的密码",
+        "本地账户的密码"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→INPUT)（{LDAP账户的密码}, {本地账户的密码}）"
+    },
+    {
+      "action_id": "BA_006",
+      "name": "组合操作(OTHER→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "PEAP-002"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER→EXECUTE)"
+    },
+    {
+      "action_id": "BA_007",
+      "name": "组合操作(EXECUTE→SELECT→OTHER→INPUT)",
+      "intent_pattern": [
+        "SELECT",
+        "OTHER",
+        "OTHER",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "PEAP-057"
+      ],
+      "data_injections": [
+        "证书密码"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→SELECT→OTHER→INPUT)（{证书密码}）"
+    },
+    {
+      "action_id": "BA_008",
+      "name": "组合操作(SELECT)",
+      "intent_pattern": [
+        "SELECT",
+        "SELECT"
+      ],
+      "case_ids": [
+        "PEAP-058"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(SELECT)"
+    },
+    {
+      "action_id": "BA_009",
+      "name": "组合操作(EXECUTE→OTHER→INPUT)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "PEAP-059"
+      ],
+      "data_injections": [
+        "证书密码"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER→INPUT)（{证书密码}）"
+    },
+    {
+      "action_id": "BA_010",
+      "name": "组合操作(EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "PEAP-060"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE)"
+    },
+    {
+      "action_id": "BA_011",
+      "name": "组合操作(EXECUTE→INPUT)",
+      "intent_pattern": [
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "PEAP-061"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→INPUT)"
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "EAP协议",
+      "type": "enum",
+      "values": [
+        "EAP-TTLS",
+        "PEAP"
+      ]
+    },
+    {
+      "name": "认证源",
+      "type": "enum",
+      "values": [
+        "LDAP",
+        "本地"
+      ]
+    },
+    {
+      "name": "下线方式",
+      "type": "enum",
+      "values": [
+        "主动断开",
+        "管理端下线",
+        "自助端下线"
+      ]
+    }
+  ],
+  "cartesian_gaps": {
+    "total": 12,
+    "covered": 12,
+    "missing": []
+  },
+  "api_alignment": [
+    {
+      "dimension": "EAP协议",
+      "matched_step": "【公共】【认证】无线1X-PEAP（GTC）认证失败-3",
+      "matched_id": 65240,
+      "required_inputs": [
+        "peap_username",
+        "peap_password",
+        "nasIP",
+        "userIP",
+        "userMac",
+        "AD_username",
+        "ssid"
+      ]
+    },
+    {
+      "dimension": "认证源",
+      "matched_step": "【公共】新增LDAP认证源",
+      "matched_id": 62166,
+      "required_inputs": [
+        "ldapIdentifySourceName2test",
+        "userPackageUuid",
+        "userTemplateUuid"
+      ]
+    },
+    {
+      "dimension": "下线方式",
+      "matched_step": "",
+      "matched_id": 0,
+      "required_inputs": []
+    }
+  ],
+  "step_state_coverage": {
+    "rule_dimensions": [
+      "首次登录强制修改",
+      "弱密码强制处理",
+      "定时强制修改",
+      "提前短信通知"
+    ],
+    "total_combos": 16,
+    "covered_combos": 4,
+    "missing_combos": [
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      }
+    ],
+    "existing_step_ids": [
+      "66888",
+      "66889",
+      "66890",
+      "66891"
+    ]
+  },
+  "dual_verification": [
+    {
+      "case_id": "PEAP-001",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-002",
+      "frontend": [
+        "[UI_GENERAL] 用户不存在"
+      ],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-003",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-004",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-005",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-006",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-007",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-008",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-009",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-010",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-011",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-012",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-013",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-014",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-015",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-016",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-017",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-018",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态",
+        "[API_AUTH_RESULT] 用户信息和终端信息正确\n5.终端信息和用户信息显示正确\n8.用户及终端为离线状态\n9.认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-019",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-020",
+      "frontend": [
+        "[UI_GENERAL] 用户不存在"
+      ],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-021",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证失败\n3.认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-022",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-023",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端不断开信号仍是在线状态",
+        "[UI_GENERAL] 通过查看在线用户的“上线时间”判断是否下线成功"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-024",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-025",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-026",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-027",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n6.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-028",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-029",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-030",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-031",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-032",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-033",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-034",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-035",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-036",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-037",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 3.认证成功\n4.用户及终端为在线状态",
+        "[API_AUTH_RESULT] 用户信息和终端信息正确\n5.终端信息和用户信息显示正确\n8.用户及终端为离线状态\n9.认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-038",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-039",
+      "frontend": [
+        "[UI_GENERAL] 用户不存在"
+      ],
+      "backend": [
+        "[API_AUTH_REJECT] 认证失败"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-040",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证失败\n3.认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-041",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-042",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-043",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-044",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-045",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-046",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-047",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-048",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-049",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-050",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-051",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-052",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-053",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-054",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-055",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-056",
+      "frontend": [
+        "[UI_GENERAL] 用户信息和终端信息正确\n5.用户及终端为离线状态"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] 2.认证成功\n3.用户及终端为在线状态"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "PEAP-057",
+      "frontend": [
+        "[UI_TOAST] 1.提示文件格式错误\n2.提示文件大小超出限制\n3.上传成功\n5.弹出“注意”弹窗：“更换证书将重启认证服务（约60秒中断）",
+        "[UI_GENERAL] 建议在业务空闲时段操作”"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "PEAP-058",
+      "frontend": [
+        "[UI_GENERAL] 两种方式均可上传证书"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "PEAP-059",
+      "frontend": [
+        "[UI_GENERAL] 1.上传成功\n3.保存成功\n4.待服务重启完成后可以看到证书详情包含“生效时间”",
+        "[UI_GENERAL] “到期时间”"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "PEAP-060",
+      "frontend": [
+        "[UI_GENERAL] 帮助说明文本为：当客户端发起基于EAP协议的1x认证时",
+        "[UI_GENERAL] 若没有指定协议",
+        "[UI_GENERAL] UNC将会使用1x认证默认协议的配置来完成EAP协议的1x认证"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "PEAP-061",
+      "frontend": [
+        "[UI_GENERAL] 1.默认 1x认证默认协议为 PEAP\n2.不可修改为空\n3.点击保存后有“注意”弹窗"
+      ],
+      "backend": [],
+      "missing_backend": true
+    }
+  ],
+  "risks": [
+    {
+      "case_id": "PEAP-041",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 Win11 物理设备进行真实 802.1X 无线认证，无法通过 API 模拟",
+      "suggestion": "替代方案：降级为硬件兼容性手工测试，或在专用 Win11 终端测试环境中运行"
+    },
+    {
+      "case_id": "PEAP-042",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 Win11 物理设备进行真实 802.1X 无线认证，无法通过 API 模拟",
+      "suggestion": "替代方案：降级为硬件兼容性手工测试，或在专用 Win11 终端测试环境中运行"
+    },
+    {
+      "case_id": "PEAP-043",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 macOS 物理设备进行真实 802.1X 认证",
+      "suggestion": "替代方案：降级为硬件兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-044",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 macOS 物理设备进行真实 802.1X 认证",
+      "suggestion": "替代方案：降级为硬件兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-045",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+      "suggestion": "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"
+    },
+    {
+      "case_id": "PEAP-046",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+      "suggestion": "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"
+    },
+    {
+      "case_id": "PEAP-047",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+      "suggestion": "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"
+    },
+    {
+      "case_id": "PEAP-048",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+      "suggestion": "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"
+    },
+    {
+      "case_id": "PEAP-049",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-050",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-051",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-052",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-053",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+      "suggestion": "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"
+    },
+    {
+      "case_id": "PEAP-053",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-054",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+      "suggestion": "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"
+    },
+    {
+      "case_id": "PEAP-054",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-055",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-056",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+      "suggestion": "替代方案：降级为终端兼容性手工测试"
+    },
+    {
+      "case_id": "PEAP-057",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及文件选择器 UI 交互（选择证书文件）",
+      "suggestion": "替代方案：使用 API 证书上传接口（如 POST /cert/upload）直接绕过 UI"
+    },
+    {
+      "case_id": "PEAP-058",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及浏览器拖拽上传操作，无法通过 API 自动化",
+      "suggestion": "替代方案：使用 UI 自动化（Selenium / Playwright）模拟拖拽，或改用 API 上传接口"
+    },
+    {
+      "case_id": "PEAP-058",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及文件选择器 UI 交互（选择证书文件）",
+      "suggestion": "替代方案：使用 API 证书上传接口（如 POST /cert/upload）直接绕过 UI"
+    },
+    {
+      "case_id": "PEAP-059",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及文件选择器 UI 交互（选择证书文件）",
+      "suggestion": "替代方案：使用 API 证书上传接口（如 POST /cert/upload）直接绕过 UI"
+    },
+    {
+      "case_id": "PEAP-060",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及 hover 交互，属于 UI 视觉验证，不适合 API 自动化",
+      "suggestion": "替代方案：使用 UI 自动化（Playwright page.hover()），或评估是否可跳过"
+    }
+  ]
+}

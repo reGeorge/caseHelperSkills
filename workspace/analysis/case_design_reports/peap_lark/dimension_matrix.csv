@@ -1,0 +1,13 @@
+﻿编号,EAP协议,认证源,下线方式,状态,匹配用例
+1,EAP-TTLS,LDAP,主动断开,已覆盖,PEAP-036
+2,EAP-TTLS,LDAP,管理端下线,已覆盖,PEAP-061
+3,EAP-TTLS,LDAP,自助端下线,已覆盖,PEAP-061
+4,EAP-TTLS,本地,主动断开,已覆盖,PEAP-056
+5,EAP-TTLS,本地,管理端下线,已覆盖,PEAP-061
+6,EAP-TTLS,本地,自助端下线,已覆盖,PEAP-061
+7,PEAP,LDAP,主动断开,已覆盖,PEAP-017
+8,PEAP,LDAP,管理端下线,已覆盖,PEAP-008
+9,PEAP,LDAP,自助端下线,已覆盖,PEAP-060
+10,PEAP,本地,主动断开,已覆盖,PEAP-002
+11,PEAP,本地,管理端下线,已覆盖,PEAP-002
+12,PEAP,本地,自助端下线,已覆盖,PEAP-002

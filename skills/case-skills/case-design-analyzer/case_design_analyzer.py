@@ -225,6 +225,11 @@ class DimensionMiner:
             attrs = {}
             attrs.update(self._extract_from_precondition(case.precondition))
             attrs.update(self._extract_from_title(case.case_title, cases))
+            # 从步骤和标题补充提取（适用于前置条件格式不规范的场景）
+            step_attrs = self._extract_from_steps(case.steps, case.case_title)
+            for k, v in step_attrs.items():
+                if k not in attrs:  # 不覆盖已从前置条件提取的值
+                    attrs[k] = v
             case_attrs[case.case_id] = attrs
 
         # 对所有属性 key 做聚合，多值 key = 维度
@@ -252,11 +257,11 @@ class DimensionMiner:
 
         if re.search(r'有线|以太网|LAN', precondition, re.IGNORECASE):
             attrs["网络类型"] = "有线"
-        elif re.search(r'WiFi|无线|WLAN|SSID', precondition, re.IGNORECASE):
+        elif re.search(r'WiFi|无线|WLAN|SSID|1x信号|无线信号', precondition, re.IGNORECASE):
             attrs["网络类型"] = "无线"
 
         auth_map = [
-            (r'DOT1X|802\.?1[xX]', "DOT1X"),
+            (r'DOT1X|802\.?1[xX]|1x|1X', "DOT1X"),
             (r'WPA2', "WPA2"),
             (r'WPA(?!2)', "WPA"),
             (r'开放式|OPEN|无认证', "OPEN"),
@@ -266,6 +271,31 @@ class DimensionMiner:
         for pattern, value in auth_map:
             if re.search(pattern, precondition, re.IGNORECASE):
                 attrs["认证方式"] = value
+                break
+
+        # 802.1X EAP 子协议
+        eap_map = [
+            (r'PEAP\b|(?:协议|默认协议).*PEAP|PEAP.*协议', "PEAP"),
+            (r'EAP-TTLS|TTLS', "EAP-TTLS"),
+            (r'EAP-TLS\b', "EAP-TLS"),
+            (r'EAP-MD5\b', "EAP-MD5"),
+            (r'MSCHAPV2|MSCHAPv2|MSCHV2', "MSCHAPV2"),
+            (r'GTC\b', "GTC"),
+        ]
+        for pattern, value in eap_map:
+            if re.search(pattern, precondition, re.IGNORECASE):
+                attrs["EAP协议"] = value
+                break
+
+        # 认证源
+        auth_src_map = [
+            (r'LDAP.*认证源|认证源.*LDAP|对接.*LDAP|LDAP.*对接', "LDAP"),
+            (r'Radius.*认证|radius.*服务器', "Radius"),
+            (r'本地.*认证|不对接.*LDAP|无.*LDAP|本地账户', "本地"),
+        ]
+        for pattern, value in auth_src_map:
+            if re.search(pattern, precondition, re.IGNORECASE):
+                attrs["认证源"] = value
                 break
 
         role_map = [
@@ -304,6 +334,51 @@ class DimensionMiner:
                 attrs[dim_name] = "开启"
             elif re.search(off_pat, precondition, re.IGNORECASE):
                 attrs[dim_name] = "关闭"
+
+        return attrs
+
+    def _extract_from_steps(self, steps: List[Dict], title: str) -> Dict[str, str]:
+        """从步骤文本中提取维度（适用于前置条件不规范的场景）"""
+        attrs = {}
+        full_text = title + ' ' + ' '.join(s.get('description', '') for s in steps)
+
+        # EAP 子协议（从步骤/标题）
+        eap_map = [
+            (r'PEAP\b|使用PEAP|PEAP协议', "PEAP"),
+            (r'EAP-TTLS|TTLS', "EAP-TTLS"),
+            (r'EAP-TLS\b', "EAP-TLS"),
+            (r'EAP-MD5\b', "EAP-MD5"),
+        ]
+        for pattern, value in eap_map:
+            if re.search(pattern, full_text, re.IGNORECASE):
+                attrs["EAP协议"] = value
+                break
+
+        # 认证源（从标题）
+        if re.search(r'不对接LDAP|无LDAP|本地用户|本地账户', full_text, re.IGNORECASE):
+            attrs["认证源"] = "本地"
+        elif re.search(r'对接LDAP|LDAP用户|LDAP账户', full_text, re.IGNORECASE):
+            attrs["认证源"] = "LDAP"
+        elif re.search(r'Radius用户|Radius认证', full_text, re.IGNORECASE):
+            attrs["认证源"] = "Radius"
+
+        # 下线方式
+        offline_map = [
+            (r'主动下线|自然断开|信号断开|终端断开', "主动断开"),
+            (r'管理端下线|后台下线|强制下线', "管理端下线"),
+            (r'自助端下线', "自助端下线"),
+            (r'超时下线|超时断开', "超时下线"),
+        ]
+        for pattern, value in offline_map:
+            if re.search(pattern, full_text, re.IGNORECASE):
+                attrs["下线方式"] = value
+                break
+
+        # 黑名单类型（如果步骤中有加黑名单操作）
+        if re.search(r'黑名单.*MAC|MAC.*黑名单', full_text, re.IGNORECASE):
+            attrs["黑名单类型"] = "MAC"
+        elif re.search(r'黑名单.*用户|用户.*黑名单', full_text, re.IGNORECASE):
+            attrs["黑名单类型"] = "用户"
 
         return attrs
 
@@ -538,6 +613,29 @@ class RiskTagger:
         (r'扫描二维码|指纹|人脸识别|生物识别',
          "涉及生物识别或物理二维码扫描",
          "替代方案：使用 mock 服务返回预设的识别成功/失败结果"),
+        # ── 多终端设备兼容性（802.1X 真实终端场景）──
+        (r'(?:win11|windows\s*11).*(?:连接|认证)',
+         "需要 Win11 物理设备进行真实 802.1X 无线认证，无法通过 API 模拟",
+         "替代方案：降级为硬件兼容性手工测试，或在专用 Win11 终端测试环境中运行"),
+        (r'(?:macOS|mac\s*电脑|mac.*os).*(?:连接|认证)',
+         "需要 macOS 物理设备进行真实 802.1X 认证",
+         "替代方案：降级为硬件兼容性手工测试"),
+        (r'(?:小米|oppo|vivo|华为(?!.*管理)|荣耀|三星|安卓|android).*(?:手机|终端|设备).*(?:连接|认证)',
+         "需要特定品牌 Android 物理手机进行 802.1X 认证，无法 API 模拟",
+         "替代方案：降级为终端兼容性手工测试，整理兼容性矩阵"),
+        (r'(?:iPhone|iOS|ipad|pad|鸿蒙|harmonyOS).*(?:连接|认证)',
+         "需要 iOS/iPadOS/鸿蒙 物理设备进行 802.1X 认证",
+         "替代方案：降级为终端兼容性手工测试"),
+        # ── 浏览器 UI 交互（无法用 API 替代）──
+        (r'拖拽上传|drag.*upload|拖拽.*文件',
+         "涉及浏览器拖拽上传操作，无法通过 API 自动化",
+         "替代方案：使用 UI 自动化（Selenium / Playwright）模拟拖拽，或改用 API 上传接口"),
+        (r'鼠标悬停|hover|悬停.*(?:按钮|图标|帮助|说明)',
+         "涉及 hover 交互，属于 UI 视觉验证，不适合 API 自动化",
+         "替代方案：使用 UI 自动化（Playwright page.hover()），或评估是否可跳过"),
+        (r'(?:点击上传|选择.*证书文件|上传.*证书).*(?:文件|证书)',
+         "涉及文件选择器 UI 交互（选择证书文件）",
+         "替代方案：使用 API 证书上传接口（如 POST /cert/upload）直接绕过 UI"),
     ]
 
     # ═══ BLOCKER: 时间依赖（等待天级别 / 自然过期）═══

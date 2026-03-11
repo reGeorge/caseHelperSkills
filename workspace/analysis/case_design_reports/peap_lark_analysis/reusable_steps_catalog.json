@@ -1,0 +1,159 @@
+{
+  "automatable_actions": [
+    {
+      "action_id": "BA_000",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "EXECUTE"
+      ],
+      "case_count": 35,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_001",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_count": 8,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_002",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "OTHER",
+        "EXECUTE"
+      ],
+      "case_count": 4,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_003",
+      "name": "组合操作(INPUT→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "INPUT"
+      ],
+      "case_count": 4,
+      "suggested_step_name": "【公共】组合操作(INPUT→EXECUTE)（{错误密码}）",
+      "data_injections": [
+        "错误密码"
+      ]
+    },
+    {
+      "action_id": "BA_004",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_count": 2,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_005",
+      "name": "组合操作(INPUT→EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE",
+        "INPUT",
+        "INPUT"
+      ],
+      "case_count": 2,
+      "suggested_step_name": "【公共】组合操作(INPUT→EXECUTE)（{LDAP账户的密码}, {本地账户的密码}）",
+      "data_injections": [
+        "LDAP账户的密码",
+        "本地账户的密码"
+      ]
+    },
+    {
+      "action_id": "BA_006",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_007",
+      "name": "组合操作(OTHER→INPUT→EXECUTE→SELECT)",
+      "intent_pattern": [
+        "SELECT",
+        "OTHER",
+        "OTHER",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(OTHER→INPUT→EXECUTE→SELECT)（{证书密码}）",
+      "data_injections": [
+        "证书密码"
+      ]
+    },
+    {
+      "action_id": "BA_008",
+      "name": "组合操作(SELECT)",
+      "intent_pattern": [
+        "SELECT",
+        "SELECT"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(SELECT)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_009",
+      "name": "组合操作(INPUT→EXECUTE→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(INPUT→EXECUTE→OTHER)（{证书密码}）",
+      "data_injections": [
+        "证书密码"
+      ]
+    },
+    {
+      "action_id": "BA_010",
+      "name": "组合操作(EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(EXECUTE)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_011",
+      "name": "组合操作(INPUT→EXECUTE)",
+      "intent_pattern": [
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(INPUT→EXECUTE)",
+      "data_injections": []
+    }
+  ],
+  "non_automatable_actions": []
+}
