@@ -10,3 +10,15 @@ __pycache__/
 
 # Archive temp scripts
 archive/temp_root_scripts/
+
+# Workspace temporary files
+workspace/**/*_analysis.md
+workspace/**/*.tmp
+workspace/**/*.bak
+
+# Analysis reports with timestamps (keep only latest)
+workspace/analysis/case_design_reports/**/[0-9]*_*.md
+workspace/analysis/case_design_reports/**/[0-9]*_*.json
+
+# Duplicate or intermediate JSON files
+workspace/analysis/*_from_*.json
