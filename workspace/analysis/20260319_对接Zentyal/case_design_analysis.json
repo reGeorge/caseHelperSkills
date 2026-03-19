@@ -1,0 +1,754 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "analysis_time": "2026-03-19T10:41:04.832736",
+    "total_cases": 37,
+    "insight_ref": "knowledge/case_design/insight.md"
+  },
+  "business_actions": [
+    {
+      "action_id": "BA_000",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-008",
+        "对接zentyal-009",
+        "对接zentyal-010",
+        "对接zentyal-011",
+        "对接zentyal-012",
+        "对接zentyal-013",
+        "对接zentyal-014",
+        "对接zentyal-015",
+        "对接zentyal-016",
+        "对接zentyal-017",
+        "对接zentyal-018",
+        "对接zentyal-019",
+        "对接zentyal-020",
+        "对接zentyal-021",
+        "对接zentyal-022"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)"
+    },
+    {
+      "action_id": "BA_001",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-023",
+        "对接zentyal-027",
+        "对接zentyal-028",
+        "对接zentyal-029",
+        "对接zentyal-031",
+        "对接zentyal-033",
+        "对接zentyal-034",
+        "对接zentyal-035"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行操作"
+    },
+    {
+      "action_id": "BA_002",
+      "name": "组合操作(INPUT→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT"
+      ],
+      "case_ids": [
+        "对接zentyal-003",
+        "对接zentyal-004"
+      ],
+      "data_injections": [
+        "主服务器域名，点击保存。"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(INPUT→OTHER)（{主服务器域名，点击保存。}）"
+    },
+    {
+      "action_id": "BA_003",
+      "name": "组合操作(INPUT→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-025",
+        "对接zentyal-026"
+      ],
+      "data_injections": [
+        "Zentyal域参数，对接Zentyal主备域，同步Zentyal域中用户所在的用户组类型为安全组，配置用户组映射脚本"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(INPUT→OTHER)（{Zentyal域参数，对接Zentyal主备域，同步Zentyal域中用户所在的用户组类型为安全组，配置用户组映射脚本}）"
+    },
+    {
+      "action_id": "BA_004",
+      "name": "组合操作(OTHER)",
+      "intent_pattern": [
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-001"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(OTHER)"
+    },
+    {
+      "action_id": "BA_005",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "对接zentyal-002"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)"
+    },
+    {
+      "action_id": "BA_006",
+      "name": "组合操作(INPUT→EXECUTE→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "EXECUTE",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "对接zentyal-005"
+      ],
+      "data_injections": [
+        "服务器域名，保存。"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(INPUT→EXECUTE→OTHER)（{服务器域名，保存。}）"
+    },
+    {
+      "action_id": "BA_007",
+      "name": "组合操作(INPUT→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "INPUT",
+        "INPUT",
+        "INPUT",
+        "OTHER",
+        "INPUT"
+      ],
+      "case_ids": [
+        "对接zentyal-006"
+      ],
+      "data_injections": [
+        "服务器域名，开启证书校验开关，证书校验内容为公有证书，保存"
+      ],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(INPUT→OTHER)（{服务器域名，开启证书校验开关，证书校验内容为公有证书，保存}）"
+    },
+    {
+      "action_id": "BA_008",
+      "name": "组合操作(EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE"
+      ],
+      "case_ids": [
+        "对接zentyal-007"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(EXECUTE)"
+    },
+    {
+      "action_id": "BA_009",
+      "name": "组合操作(NAVIGATE→OTHER)",
+      "intent_pattern": [
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-030"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(NAVIGATE→OTHER)"
+    },
+    {
+      "action_id": "BA_010",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "NAVIGATE",
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-032"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行操作"
+    },
+    {
+      "action_id": "BA_011",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "SELECT",
+        "NAVIGATE",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "EXECUTE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-036"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行操作"
+    },
+    {
+      "action_id": "BA_012",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "SELECT",
+        "NAVIGATE",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-037"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】执行操作"
+    },
+    {
+      "action_id": "BA_013",
+      "name": "组合操作(SELECT→NAVIGATE→OTHER)",
+      "intent_pattern": [
+        "SELECT",
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_ids": [
+        "对接zentyal-038"
+      ],
+      "data_injections": [],
+      "parameterizable": true,
+      "suggested_step_name": "【公共】组合操作(SELECT→NAVIGATE→OTHER)"
+    }
+  ],
+  "dimensions": [
+    {
+      "name": "预期结局",
+      "type": "boolean",
+      "values": [
+        "关闭",
+        "开启"
+      ]
+    }
+  ],
+  "cartesian_gaps": {
+    "total": 2,
+    "covered": 2,
+    "missing": []
+  },
+  "api_alignment": [
+    {
+      "dimension": "预期结局",
+      "matched_step": "【公共】】新增_更新证书源-开启证书认证-证书吊销校验方式（不校验_CRL）",
+      "matched_id": 66136,
+      "required_inputs": [
+        "autoLearnUsers",
+        "enableCertAuth",
+        "verifyServerCert",
+        "certStatusCheckMode",
+        "certSubjectField",
+        "allowAuthIfCrlFailed"
+      ]
+    }
+  ],
+  "step_state_coverage": {
+    "rule_dimensions": [
+      "首次登录强制修改",
+      "弱密码强制处理",
+      "定时强制修改",
+      "提前短信通知"
+    ],
+    "total_combos": 16,
+    "covered_combos": 4,
+    "missing_combos": [
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "True",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "False",
+        "定时强制修改": "True",
+        "提前短信通知": "False"
+      },
+      {
+        "首次登录强制修改": "False",
+        "弱密码强制处理": "False",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      },
+      {
+        "首次登录强制修改": "True",
+        "弱密码强制处理": "True",
+        "定时强制修改": "False",
+        "提前短信通知": "True"
+      }
+    ],
+    "existing_step_ids": [
+      "66888",
+      "66889",
+      "66890",
+      "66891"
+    ]
+  },
+  "dual_verification": [
+    {
+      "case_id": "对接zentyal-001",
+      "frontend": [
+        "[UI_GENERAL] 1、SSL默认关闭"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-002",
+      "frontend": [
+        "[UI_GENERAL] 1、新增一个配置：主服务器域名",
+        "[UI_GENERAL] 填写父域或单域域名和其他配置",
+        "[UI_GENERAL] 连接测试通过"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-003",
+      "frontend": [
+        "[UI_GENERAL] 1、保存失败"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-004",
+      "frontend": [
+        "[UI_GENERAL] 1、保存成功",
+        "[UI_GENERAL] 域连接成功"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-005",
+      "frontend": [
+        "[UI_DISPLAY] 1、保存成功.\n2、证书校验内容显示公有证书\n3、保存失败",
+        "[UI_GENERAL] 必须上传证书",
+        "[UI_GENERAL] 4、查看Zentyal认证源",
+        "[UI_GENERAL] ssl开关关闭",
+        "[UI_GENERAL] 端口389"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-006",
+      "frontend": [
+        "[UI_GENERAL] 2、上传失败",
+        "[UI_TOAST] 提示：当前上传证书的后缀名无效",
+        "[UI_GENERAL] 请修改后重试\n3、上传失败",
+        "[UI_TOAST] 提示：当前上传证书文件大小不在范围内",
+        "[UI_GENERAL] 请修改后重试\n4、上传成功",
+        "[UI_TOAST] 5、二次确认提示：是否确定删除当前证书",
+        "[UI_GENERAL] 点击取消",
+        "[UI_GENERAL] 不删除",
+        "[UI_GENERAL] 点击确定",
+        "[UI_GENERAL] 证书删除成功\n6、修改成功"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-007",
+      "frontend": [
+        "[UI_GENERAL] 1. 上传证书成功",
+        "[UI_GENERAL] 无同名校验"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-008",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-009",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-010",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-011",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-012",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-013",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-014",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-015",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-016",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-017",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-018",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-019",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-020",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 2、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-021",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 3、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-022",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 3、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-023",
+      "frontend": [],
+      "backend": [
+        "[API_AUTH_RESULT] 3、认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-025",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] 学习到UNC本地",
+        "[UI_GENERAL] 对应用户组为group A（本身用户组有映射",
+        "[UI_GENERAL] 则学习到对应的映射关系中）",
+        "[UI_GENERAL] 用户对应的模板和套餐为用户组对应的模板套餐"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] test04认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-026",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] 学习到UNC本地",
+        "[UI_GENERAL] 对应用户组为默认用户组root（没有映射关系",
+        "[UI_GENERAL] 学习到设置的缺省用户组中）",
+        "[UI_GENERAL] 用户对应的模板和套餐为用户组对应的模板套餐"
+      ],
+      "backend": [
+        "[API_AUTH_RESULT] test06认证成功"
+      ],
+      "missing_backend": false
+    },
+    {
+      "case_id": "对接zentyal-027",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test ABCDEFGH"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-028",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test AB"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-029",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test CC"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-030",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test C"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-031",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-032",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] Zentyal_test02学习到本地",
+        "[UI_GENERAL] 对应缺省用户组yy"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-033",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test ABCD"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-034",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test ABCD"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-035",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test ABCD"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-036",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为root\n第3步",
+        "[UI_GENERAL] test01更新用户组为test ABC\n第4步",
+        "[UI_GENERAL] test01更新用户组为test AB\n第5步",
+        "[UI_GENERAL] test01更新用户组为test CC\n第6步",
+        "[UI_GENERAL] test01更新用户组为test C\n第7步",
+        "[UI_GENERAL] test01更新用户组为test"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-037",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test ABCD\n第3步",
+        "[UI_GENERAL] test01更新用户组为test ABC\n第4步",
+        "[UI_GENERAL] test01更新用户组为test AB\n第5步",
+        "[UI_GENERAL] test01更新用户组为test CC\n第6步",
+        "[UI_GENERAL] test01更新用户组为test C\n第7步",
+        "[UI_GENERAL] test01更新用户组为test"
+      ],
+      "backend": [],
+      "missing_backend": true
+    },
+    {
+      "case_id": "对接zentyal-038",
+      "frontend": [
+        "[UI_GENERAL] 第2步",
+        "[UI_GENERAL] test01学习到本地",
+        "[UI_GENERAL] 对应用户组为test ABCDEFGH"
+      ],
+      "backend": [],
+      "missing_backend": true
+    }
+  ],
+  "risks": [
+    {
+      "case_id": "对接zentyal-006",
+      "level": "BLOCKER",
+      "type": "PHYSICAL",
+      "description": "涉及文件选择器 UI 交互（选择证书文件）",
+      "suggestion": "替代方案：使用 API 证书上传接口（如 POST /cert/upload）直接绕过 UI"
+    }
+  ]
+}

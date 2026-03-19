@@ -1,0 +1,194 @@
+{
+  "automatable_actions": [
+    {
+      "action_id": "BA_000",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "EXECUTE",
+        "OTHER"
+      ],
+      "case_count": 15,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_001",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_count": 8,
+      "suggested_step_name": "【公共】执行操作",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_002",
+      "name": "组合操作(INPUT→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT"
+      ],
+      "case_count": 2,
+      "suggested_step_name": "【公共】组合操作(INPUT→OTHER)（{主服务器域名，点击保存。}）",
+      "data_injections": [
+        "主服务器域名，点击保存。"
+      ]
+    },
+    {
+      "action_id": "BA_003",
+      "name": "组合操作(INPUT→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_count": 2,
+      "suggested_step_name": "【公共】组合操作(INPUT→OTHER)（{Zentyal域参数，对接Zentyal主备域，同步Zentyal域中用户所在的用户组类型为安全组，配置用户组映射脚本}）",
+      "data_injections": [
+        "Zentyal域参数，对接Zentyal主备域，同步Zentyal域中用户所在的用户组类型为安全组，配置用户组映射脚本"
+      ]
+    },
+    {
+      "action_id": "BA_004",
+      "name": "组合操作(OTHER)",
+      "intent_pattern": [
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_005",
+      "name": "组合操作(EXECUTE→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(EXECUTE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_006",
+      "name": "组合操作(INPUT→EXECUTE→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "EXECUTE",
+        "INPUT",
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(INPUT→EXECUTE→OTHER)（{服务器域名，保存。}）",
+      "data_injections": [
+        "服务器域名，保存。"
+      ]
+    },
+    {
+      "action_id": "BA_007",
+      "name": "组合操作(INPUT→OTHER)",
+      "intent_pattern": [
+        "OTHER",
+        "INPUT",
+        "INPUT",
+        "INPUT",
+        "INPUT",
+        "OTHER",
+        "INPUT"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(INPUT→OTHER)（{服务器域名，开启证书校验开关，证书校验内容为公有证书，保存}）",
+      "data_injections": [
+        "服务器域名，开启证书校验开关，证书校验内容为公有证书，保存"
+      ]
+    },
+    {
+      "action_id": "BA_008",
+      "name": "组合操作(EXECUTE)",
+      "intent_pattern": [
+        "EXECUTE"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(EXECUTE)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_009",
+      "name": "组合操作(NAVIGATE→OTHER)",
+      "intent_pattern": [
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(NAVIGATE→OTHER)",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_010",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "NAVIGATE",
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】执行操作",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_011",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "SELECT",
+        "NAVIGATE",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "EXECUTE",
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】执行操作",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_012",
+      "name": "执行操作",
+      "intent_pattern": [
+        "EXECUTE",
+        "SELECT",
+        "NAVIGATE",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER",
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】执行操作",
+      "data_injections": []
+    },
+    {
+      "action_id": "BA_013",
+      "name": "组合操作(SELECT→NAVIGATE→OTHER)",
+      "intent_pattern": [
+        "SELECT",
+        "NAVIGATE",
+        "OTHER"
+      ],
+      "case_count": 1,
+      "suggested_step_name": "【公共】组合操作(SELECT→NAVIGATE→OTHER)",
+      "data_injections": []
+    }
+  ],
+  "non_automatable_actions": []
+}

@@ -1,0 +1,742 @@
+[
+  {
+    "case_id": "对接zentyal-001",
+    "case_title": "SSL配置检查 - 新增SSL配置",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "部署Zentyal(支持SSL)"
+      },
+      {
+        "step_id": 2,
+        "description": "对接Zentyal，查看SSL配置."
+      }
+    ],
+    "expected_result": "1、SSL默认关闭"
+  },
+  {
+    "case_id": "对接zentyal-002",
+    "case_title": "新增主服务器域名",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "部署Zentyal(支持SSL)"
+      },
+      {
+        "step_id": 2,
+        "description": "对接Zentyal， 开启SSL,"
+      }
+    ],
+    "expected_result": "1、新增一个配置：主服务器域名，填写父域或单域域名和其他配置，连接测试通过"
+  },
+  {
+    "case_id": "对接zentyal-003",
+    "case_title": "SSL配置检查 - 主服务器域名必填校验",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "部署Zentyal(支持SSL)"
+      },
+      {
+        "step_id": 2,
+        "description": "对接单域Zentyal，开启SSL,端口填充636，不填写主服务器域名，点击保存。"
+      }
+    ],
+    "expected_result": "1、保存失败。"
+  },
+  {
+    "case_id": "对接zentyal-004",
+    "case_title": "SSL配置检查 - 启用ssl，对接单域",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "部署Zentyal(支持SSL)"
+      },
+      {
+        "step_id": 2,
+        "description": "对接单域Zentyal，开启SSL,端口填充636，主服务器域名填写服务器域名保存。"
+      }
+    ],
+    "expected_result": "1、保存成功，域连接成功。"
+  },
+  {
+    "case_id": "对接zentyal-005",
+    "case_title": "SSL配置检查 - SSL配置修改",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "部署Zentyal(支持SSL)"
+      },
+      {
+        "step_id": 2,
+        "description": "对接Zentyal，开启SSL,端口填充636，主服务器域名填写服务器域名，保存。"
+      },
+      {
+        "step_id": 3,
+        "description": "开启证书校验开关，证书校验内容默认公有证书,保存"
+      },
+      {
+        "step_id": 4,
+        "description": "修改证书为自签名证书，不上传文件"
+      },
+      {
+        "step_id": 5,
+        "description": "关闭SSL，端口填充389，保存"
+      }
+    ],
+    "expected_result": "1、保存成功.\n2、证书校验内容显示公有证书\n3、保存失败，必须上传证书。\n4、查看Zentyal认证源，ssl开关关闭，端口389"
+  },
+  {
+    "case_id": "对接zentyal-006",
+    "case_title": "变更证书及证书校验 - 变更证书",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "部署Zentyal(支持域名，支持公有证书，支持自签名证书)"
+      },
+      {
+        "step_id": 2,
+        "description": "对接Zentyal，开启SSL,，主服务器域名填写服务器域名，开启证书校验开关，证书校验内容为公有证书，保存"
+      },
+      {
+        "step_id": 3,
+        "description": "修改公有证书为自签名证书，上传证书，证书后缀不是.crt"
+      },
+      {
+        "step_id": 4,
+        "description": "修改公有证书为自签名证书，上传证书，证书大小超过16MB"
+      },
+      {
+        "step_id": 5,
+        "description": "修改公有证书为自签名证书，上传正确的证书，保存"
+      },
+      {
+        "step_id": 6,
+        "description": "删除证书"
+      },
+      {
+        "step_id": 7,
+        "description": "修改自签名证书为公有证书，保存"
+      }
+    ],
+    "expected_result": "2、上传失败，提示：当前上传证书的后缀名无效，请修改后重试\n3、上传失败，提示：当前上传证书文件大小不在范围内，请修改后重试\n4、上传成功。\n5、二次确认提示：是否确定删除当前证书，点击取消，不删除；点击确定，证书删除成功\n6、修改成功。"
+  },
+  {
+    "case_id": "对接zentyal-007",
+    "case_title": "对接多个Zentyal上传证书。",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接两个Zentyal认证源，开启SSL，证书校验为自签名证书，证书上传名称相同"
+      }
+    ],
+    "expected_result": "1. 上传证书成功，无同名校验。"
+  },
+  {
+    "case_id": "对接zentyal-008",
+    "case_title": "对接Zentyal+关闭SSL，用户portal认证学习到本地 - 关闭SSL+portal",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，关闭ssl"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行portal认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-009",
+    "case_title": "对接Zentyal+关闭SSL，用户1x GTC 认证学习到本地 - 关闭SSL+1x GTC",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，关闭ssl"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x GTC认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-010",
+    "case_title": "对接Zentyal+关闭SSL，用户1x MschapV2 认证学习到本地 - 关闭SSL+1x MschapV2",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，关闭ssl"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x MschapV2 认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-011",
+    "case_title": "对接Zentyal+关闭SSL，用户1x TTLS 认证学习到本地 - 关闭SSL+1x TTLS",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，关闭ssl"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x TTLS 认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-012",
+    "case_title": "对接Zentyal+开启SSL，关闭证书校验，用户portal认证学习到本地 - 开启SSL，关闭证书校验+portal",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，关闭证书校验"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行portal认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-013",
+    "case_title": "对接Zentyal+开启SSL，关闭证书校验，用户1x GTC 认证学习到本地 - 开启SSL，关闭证书校验+1x GTC",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，关闭证书校验"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x GTC认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-014",
+    "case_title": "对接Zentyal+开启SSL，关闭证书校验，用户1x MschapV2 认证学习到本地 - 开启SSL，关闭证书校验+1x MschapV2",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，关闭证书校验"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x MschapV2 认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-015",
+    "case_title": "对接Zentyal+开启SSL，关闭证书校验，用户1x TTLS 认证学习到本地 - 开启SSL，关闭证书校验+1x TTLS",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，关闭证书校验"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x TTLS 认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-016",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验（公有证书），用户portal认证学习到本地 - 开启SSL，开启证书校验（公有证书）+portal",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验（公有证书）"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行portal认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-017",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验（公有证书），用户1x GTC 认证学习到本地 - 开启SSL，开启证书校验（公有证书）+1x GTC",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验（公有证书）"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x GTC认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-018",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验（公有证书），用户1x MschapV2 认证学习到本地 - 开启SSL，开启证书校验（公有证书）+1x MschapV2",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验（公有证书）"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x MschapV2 认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-019",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验（公有证书），用户1x TTLS 认证学习到本地 - 开启SSL，开启证书校验（公有证书）+1x TTLS",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验（公有证书）"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x MschapV2 认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-020",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验，配置自签名证书，用户portal认证学习到本地 - 开启SSL，开启证书校验，配置自签名证书+portal",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验，配置自签名证书"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行portal认证"
+      }
+    ],
+    "expected_result": "2、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-021",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验，配置自签名证书，用户1x GTC 认证学习到本地 - 开启SSL，开启证书校验，配置自签名证书+1x GTC",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验，配置自签名证书"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x GTC认证"
+      }
+    ],
+    "expected_result": "3、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-022",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验，配置自签名证书，用户1x MschapV2 认证学习到本地 - 开启SSL，开启证书校验，配置自签名证书+1x MschapV2",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验，配置自签名证书"
+      },
+      {
+        "step_id": 2,
+        "description": "用户xx0使用密码shyfzx@163进行1x MschapV2 认证"
+      }
+    ],
+    "expected_result": "3、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-023",
+    "case_title": "对接Zentyal+开启SSL，开启证书校验，配置自签名证书，用户1x TTLS 认证学习到本地 - 开启SSL，开启证书校验，配置自签名证书+1x TTLS",
+    "precondition": "1、Zentyal认证源支持SSL\n2、存在Zentyal用户Zentyalyy1，密码shyfzx@163",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal单域，开启SSL，开启证书校验，配置自签名证书"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证证书配置，修改1x认证默认协议：EAP-TTLS"
+      },
+      {
+        "step_id": 3,
+        "description": "用户xx0使用密码shyfzx@163进行1x TTLS 认证"
+      }
+    ],
+    "expected_result": "3、认证成功"
+  },
+  {
+    "case_id": "对接zentyal-025",
+    "case_title": "用户组类型为安全组 - 用户组同步-用户所属安全组有映射关系",
+    "precondition": "Zentyal域上添加多个安全组\n 安全组：\n group A\n group B\n group C",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "策略-》认证源-》添加Zentyal域配置"
+      },
+      {
+        "step_id": 2,
+        "description": "填写Zentyal域参数，对接Zentyal主备域，同步Zentyal域中用户所在的用户组类型为安全组，配置用户组映射脚本"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test04属于安全组group A，group A有配置映射关系"
+      },
+      {
+        "step_id": 4,
+        "description": "用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test04认证成功，学习到UNC本地，对应用户组为group A（本身用户组有映射，则学习到对应的映射关系中），用户对应的模板和套餐为用户组对应的模板套餐"
+  },
+  {
+    "case_id": "对接zentyal-026",
+    "case_title": "用户组类型为安全组 - 用户组同步-用户所属安全组没有映射关系",
+    "precondition": "Zentyal域上添加多个安全组\n 安全组：\n group A\n group B\n group C",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "策略-》认证源-》添加Zentyal域配置"
+      },
+      {
+        "step_id": 2,
+        "description": "填写Zentyal域参数，对接Zentyal主备域，同步Zentyal域中用户所在的用户组类型为安全组，配置用户组映射脚本"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test06属于安全组group D，group D没有配置映射关系"
+      },
+      {
+        "step_id": 4,
+        "description": "用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test06认证成功，学习到UNC本地，对应用户组为默认用户组root（没有映射关系，学习到设置的缺省用户组中），用户对应的模板和套餐为用户组对应的模板套餐"
+  },
+  {
+    "case_id": "对接zentyal-027",
+    "case_title": "用户所属组未映射，学习用户所属组上级组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test C\ntest->test C->test CC\ntest->test B\ntest->test B->test BB->test BBB\ntest->test A->test AB>test ABC->test ABCD->test ABCDE->test ABCDEF->test ABCDEFG->test ABCDEFGH->test ABCDEFGHI\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test ABCDEFGH映射到系统用户组test ABCDEFGH，用户组test ABCDEFGHI未映射"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户Zentyal_test01属于组织单位test ABCDEFGHI，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test ABCDEFGH"
+  },
+  {
+    "case_id": "对接zentyal-028",
+    "case_title": "用户所属组未映射，学习用户所属组上级组的上级组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test AB映射到系统用户组test AB，用户组test ABCD未映射"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test AB"
+  },
+  {
+    "case_id": "对接zentyal-029",
+    "case_title": "用户所属组未映射，学习用户所属组三级上级组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test CC映射到系统用户组test CC，用户组test ABCD未映射"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test CC"
+  },
+  {
+    "case_id": "对接zentyal-030",
+    "case_title": "用户所属组未映射，学习用户所属组四级上级组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test C映射到系统用户组test C，用户组test ABCD未映射"
+      },
+      {
+        "step_id": 2,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test C"
+  },
+  {
+    "case_id": "对接zentyal-031",
+    "case_title": "用户所属组未映射，学习用户所属组七级上级组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE>ABCDEF\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test映射到系统用户组test，用户组test ABCDEF未映射"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test01属于组织单位test ABCDEF，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test"
+  },
+  {
+    "case_id": "对接zentyal-032",
+    "case_title": "用户所属组未映射，用户组下级组有映射，学习用户组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，缺省用户组yy"
+      },
+      {
+        "step_id": 3,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test ABCDE映射到系统用户组test ABCDE，用户组test ABCD未映射"
+      },
+      {
+        "step_id": 4,
+        "description": "Zentyal域用户Zentyal_test02属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，Zentyal_test02学习到本地，对应缺省用户组yy"
+  },
+  {
+    "case_id": "对接zentyal-033",
+    "case_title": "用户所属组已映射，上级组也有映射，学习用户组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test ABC映射到系统用户组test ABC，用户组test ABCD映射到testABCD"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test ABCD"
+  },
+  {
+    "case_id": "对接zentyal-034",
+    "case_title": "用户所属组已映射，下级组也有映射，学习用户组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test ABCD映射到testABCD，用户组test ABCDE映射到系统用户组test ABCDE"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test ABCD"
+  },
+  {
+    "case_id": "对接zentyal-035",
+    "case_title": "用户所属组已映射，所有上级组无映射，下机组有映射，学习用户组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test ABCDE映射到系统用户组test ABCDE，用户组test ABCD映射到testABCD"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test ABCD"
+  },
+  {
+    "case_id": "对接zentyal-036",
+    "case_title": "用户所属组未映射变更到用户所属组上级组 - 用户组映射变更",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，自动学习中勾选自动更新用户组，保存"
+      },
+      {
+        "step_id": 3,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系,用户组test ABCD及上级组都未映射"
+      },
+      {
+        "step_id": 4,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      },
+      {
+        "step_id": 5,
+        "description": "修改映射，Zentyal域的用户组位test ABC映射到系统用户组位test ABC"
+      },
+      {
+        "step_id": 6,
+        "description": "修改映射，去掉Zentyal域的用户组位test ABC映射到系统用户组位test ABC，新增Zentyal域的用户组位test AB映射到系统用户组位test AB"
+      },
+      {
+        "step_id": 7,
+        "description": "修改映射，去掉Zentyal域的用户组位test AB映射到系统用户组位test AB，新增Zentyal域的用户组位test CC映射到系统用户组位test CC"
+      },
+      {
+        "step_id": 8,
+        "description": "修改映射，去掉Zentyal域的用户组位test CC 映射到系统用户组位test CC，新增Zentyal域的用户组位test C映射到系统用户组位test C"
+      },
+      {
+        "step_id": 9,
+        "description": "修改映射，去掉Zentyal域的用户组位test  C映射到系统用户组位test  C，新增Zentyal域的用户组位test 映射到系统用户组位0、对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 10,
+        "description": "test"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为root\n第3步，test01更新用户组为test ABC\n第4步，test01更新用户组为test AB\n第5步，test01更新用户组为test CC\n第6步，test01更新用户组为test C\n第7步，test01更新用户组为test"
+  },
+  {
+    "case_id": "对接zentyal-037",
+    "case_title": "用户所属组已映射变更到用户所属组上级组 - 用户组映射变更",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test A\ntest->test A->test AA\ntest->test B\ntest->test B->test BB->test BBB\ntest->test C->test CC>test AB>test ABC->test ABCD->test ABCDE\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，关闭SSL"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，自动学习中勾选自动更新用户组，保存"
+      },
+      {
+        "step_id": 3,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系,用户组test ABCD映射到本地组test ABCD,所有上级组都未映射"
+      },
+      {
+        "step_id": 4,
+        "description": "Zentyal域用户test01属于组织单位test ABCD，用户进行portal认证"
+      },
+      {
+        "step_id": 5,
+        "description": "修改映射，Zentyal域的用户组位test ABC映射到系统用户组位test ABC"
+      },
+      {
+        "step_id": 6,
+        "description": "修改映射，去掉Zentyal域的用户组位test ABC映射到系统用户组位test ABC，新增Zentyal域的用户组位test AB映射到系统用户组位test AB"
+      },
+      {
+        "step_id": 7,
+        "description": "修改映射，去掉Zentyal域的用户组位test AB映射到系统用户组位test AB，新增Zentyal域的用户组位test CC映射到系统用户组位test CC"
+      },
+      {
+        "step_id": 8,
+        "description": "修改映射，去掉Zentyal域的用户组位test CC 映射到系统用户组位test CC，新增Zentyal域的用户组位test C映射到系统用户组位test C"
+      },
+      {
+        "step_id": 9,
+        "description": "修改映射，去掉Zentyal域的用户组位test  C映射到系统用户组位test  C，新增Zentyal域的用户组位test 映射到系统用户组位test"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test ABCD\n第3步，test01更新用户组为test ABC\n第4步，test01更新用户组为test AB\n第5步，test01更新用户组为test CC\n第6步，test01更新用户组为test C\n第7步，test01更新用户组为test"
+  },
+  {
+    "case_id": "对接zentyal-038",
+    "case_title": "用户所属组未映射，学习用户所属组上级组 - 用户组模糊映射",
+    "precondition": "1、Zentyal域上添加多层级OU\n层级如下：\ntest\ntest->test C\ntest->test C->test CC\ntest->test B\ntest->test B->test BB->test BBB\ntest->test A->test AB>test ABC->test ABCD->test ABCDE->test ABCDEF->test ABCDEFG->test ABCDEFGH->test ABCDEFGHI\n2、对接Zentyal认证源",
+    "steps": [
+      {
+        "step_id": 1,
+        "description": "对接Zentyal，开启SSL,选择私有证书"
+      },
+      {
+        "step_id": 2,
+        "description": "进入认证管理/认证源,修改Zentyal认证源，上传映射关系，Zentyal域的用户组test ABCDEFGH映射到系统用户组test ABCDEFGH，用户组test ABCDEFGHI未映射"
+      },
+      {
+        "step_id": 3,
+        "description": "Zentyal域用户Zentyal_test01属于组织单位test ABCDEFGHI，用户进行portal认证"
+      }
+    ],
+    "expected_result": "第2步，test01学习到本地，对应用户组为test ABCDEFGH"
+  }
+]
