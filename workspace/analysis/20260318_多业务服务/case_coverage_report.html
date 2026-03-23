@@ -117,10 +117,11 @@
   <div class="stats">
     <div class="stat-card"><div class="num c-green">18</div><div class="label">手工用例总数</div></div>
     <div class="stat-card"><div class="num c-blue">6</div><div class="label">独立维度</div></div>
-    <div class="stat-card"><div class="num c-purple">6</div><div class="label">推荐公共步骤</div></div>
+    <div class="stat-card"><div class="num c-purple">10</div><div class="label">推荐公共步骤</div></div>
     <div class="stat-card"><div class="num c-orange">3</div><div class="label">目录层级</div></div>
     <div class="stat-card"><div class="num c-blue">0</div><div class="label">已创建用例</div></div>
     <div class="stat-card"><div class="num c-green">0</div><div class="label">已创建公共步骤</div></div>
+    <div class="stat-card"><div class="num c-orange">8</div><div class="label">待补充API步骤</div></div>
   </div>
 
   <div class="two-col">
@@ -135,15 +136,24 @@
             ✅ 用例ID前缀验证通过 (多业务服务-007 ~ 多业务服务-032)<br>
             ✅ 维度拆解完成 (6个独立维度)<br>
             ✅ 目录结构设计完成 (3层结构)<br>
-            ✅ 公共步骤设计完成 (6个推荐步骤)
+            ✅ 公共步骤设计完成 (10个推荐步骤: 3个配置层 + 7个用户层)<br>
+            ⚠️ 发现缺失: 用户开户/销户/开通/修改/解锁/恢复API待提供
           </div>
         </div>
         <div class="tl-item">
           <div class="tl-dot warn"></div>
-          <div class="tl-title">Phase 1 — 公共步骤建设</div>
+          <div class="tl-title">Phase 1.1 — 业务服务配置层 (可开始)</div>
           <div class="tl-desc">
             ⚠️ 待审批后执行<br>
-            任务: 在SDET平台创建6个公共步骤
+            任务: 创建3个公共步骤 (新增+查询+删除业务服务)
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot skip"></div>
+          <div class="tl-title">Phase 1.2 — 业务服务用户层 (等待API)</div>
+          <div class="tl-desc">
+            ⏸️ 等待用户提供7个API后执行<br>
+            任务: 创建7个公共步骤 (开户/销户/开通/修改/解锁/恢复/查询)
           </div>
         </div>
         <div class="tl-item">
@@ -298,45 +308,123 @@
       <b>重要更新</b>: 根据用户提供的实际API,公共步骤设计已调整。<br>
       详情见: <a href="materials/02_actual_api_contract.md" target="_blank" style="color:var(--accent);">materials/02_actual_api_contract.md</a>
     </div>
-    <table>
-      <tr>
-        <th>步骤ID</th>
-        <th>步骤名称</th>
-        <th>API端点</th>
-        <th>说明</th>
-        <th>状态</th>
-      </tr>
-      <tr>
-        <td><b>51401</b></td>
-        <td>【公共】登录管理端</td>
-        <td>-</td>
-        <td>已存在公共步骤,可直接引用</td>
-        <td><span class="chip chip-green">✅ 已存在</span></td>
-      </tr>
-      <tr>
-        <td>待创建</td>
-        <td>【公共】新增业务服务</td>
-        <td><code>/sam/api/admin/businessServer/add</code></td>
-        <td>创建业务服务配置(打印机/IP/邮箱)</td>
-        <td><span class="chip chip-orange">⏸ 用户创建</span></td>
-      </tr>
-      <tr>
-        <td>待创建</td>
-        <td>【公共】查询业务服务</td>
-        <td><code>/sam/api/admin/businessServer/query</code></td>
-        <td>查询业务服务列表</td>
-        <td><span class="chip chip-orange">⏸ 用户创建</span></td>
-      </tr>
-      <tr>
-        <td>待创建</td>
-        <td>【公共】删除业务服务</td>
-        <td><code>/sam/api/admin/businessServer/delete</code></td>
-        <td>删除业务服务配置</td>
-        <td><span class="chip chip-orange">⏸ 用户创建</span></td>
-      </tr>
-    </table>
-    <div class="info" style="margin-top:12px">
-      <b>调整说明</b>: 原计划6个公共步骤,实际需要3个(1个已存在)。原设计的"业务服务用户管理"API实际不存在,实际API是"业务服务配置管理"。
+
+    <div class="accordion">
+      <div class="acc-header">
+        <span>📁 业务服务配置层 (3个步骤 - 已有API)</span>
+        <span class="acc-arrow">▶</span>
+      </div>
+      <div class="acc-body">
+        <table>
+          <tr>
+            <th>步骤ID</th>
+            <th>步骤名称</th>
+            <th>API端点</th>
+            <th>说明</th>
+            <th>状态</th>
+          </tr>
+          <tr>
+            <td><b>51401</b></td>
+            <td>【公共】登录管理端</td>
+            <td>-</td>
+            <td>已存在公共步骤,可直接引用</td>
+            <td><span class="chip chip-green">✅ 已存在</span></td>
+          </tr>
+          <tr>
+            <td>待创建</td>
+            <td>【公共】新增业务服务</td>
+            <td><code>/sam/api/admin/businessServer/add</code></td>
+            <td>创建业务服务配置(打印机/IP/邮箱)</td>
+            <td><span class="chip chip-orange">⏸ 用户创建</span></td>
+          </tr>
+          <tr>
+            <td>待创建</td>
+            <td>【公共】查询业务服务</td>
+            <td><code>/sam/api/admin/businessServer/query</code></td>
+            <td>查询业务服务列表</td>
+            <td><span class="chip chip-orange">⏸ 用户创建</span></td>
+          </tr>
+          <tr>
+            <td>待创建</td>
+            <td>【公共】删除业务服务</td>
+            <td><code>/sam/api/admin/businessServer/delete</code></td>
+            <td>删除业务服务配置</td>
+            <td><span class="chip chip-orange">⏸ 用户创建</span></td>
+          </tr>
+        </table>
+        <div class="info" style="margin-top:12px">
+          <b>调整说明</b>: 原计划6个公共步骤,实际需要3个(1个已存在)。原设计的"业务服务用户管理"API实际不存在,实际API是"业务服务配置管理"。
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-header">
+        <span>📁 业务服务用户层 (7个步骤 - ⚠️ 待补充API)</span>
+        <span class="acc-arrow">▶</span>
+      </div>
+      <div class="acc-body">
+        <table>
+          <tr>
+            <th>步骤名称</th>
+            <th>API端点</th>
+            <th>用例编号</th>
+            <th>状态</th>
+          </tr>
+          <tr>
+            <td>【公共】用户开户（第三方接口）</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-013</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】用户销户（上网服务）</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-017</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】开通业务服务用户</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-019/020/021</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】修改业务服务用户</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-022</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】业务服务用户销户</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-023</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】业务服务用户解锁</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-025</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】业务服务用户恢复</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-026</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+          <tr>
+            <td>【公共】查询业务服务用户</td>
+            <td>❓ 待提供</td>
+            <td>多业务服务-027</td>
+            <td><span class="chip chip-red">⚠️ 缺失API</span></td>
+          </tr>
+        </table>
+        <div class="note" style="margin-top:12px">
+          <b>⚠️ 重要提示</b>: 用户层的7个公共步骤对应的API信息缺失，需要用户提供后才可创建这些步骤。
+          <br>请参考 <a href="materials/02_actual_api_contract.md" target="_blank" style="color:var(--accent);">materials/02_actual_api_contract.md</a> 获取详细信息。
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -488,12 +576,19 @@
   <div class="section">
     <div class="section-title">📊 用例分类统计</div>
     <div class="stats" style="grid-template-columns: repeat(auto-fill, minmax(140px,1fr));">
-      <div class="stat-card"><div class="num c-green">10</div><div class="label">可自动化用例</div></div>
-      <div class="stat-card"><div class="num c-orange">8</div><div class="label">需进一步调研</div></div>
-      <div class="stat-card"><div class="num c-blue">3</div><div class="label">公共步骤</div></div>
+      <div class="stat-card"><div class="num c-green">6</div><div class="label">可自动化用例(配置层)</div></div>
+      <div class="stat-card"><div class="num c-orange">8</div><div class="label">待API补充(用户层)</div></div>
+      <div class="stat-card"><div class="num c-blue">4</div><div class="label">需进一步调研</div></div>
+      <div class="stat-card"><div class="num c-purple">10</div><div class="label">公共步骤总数</div></div>
     </div>
     <div class="note" style="margin-top:12px;">
-      <b>说明</b>: 基于实际API,10条用例可使用现有API自动化,8条用例需要UI自动化或人工测试。详见 <a href="materials/02_actual_api_contract.md" target="_blank" style="color:var(--accent);">API契约文档</a>
+      <b>说明</b>: 
+      <ul style="margin-left:20px;margin-top:8px;">
+        <li><b>配置层(6条)</b>: 使用现有API可立即自动化 (新增+查询+删除业务服务)</li>
+        <li><b>用户层(8条)</b>: 需要用户提供7个API后才能自动化 (开户/销户/开通/修改/解锁/恢复/查询)</li>
+        <li><b>需调研(4条)</b>: 需要进一步了解业务逻辑或UI自动化支持</li>
+      </ul>
+      详见 <a href="materials/02_actual_api_contract.md" target="_blank" style="color:var(--accent);">API契约文档</a>
     </div>
   </div>
 </div>
@@ -537,11 +632,18 @@
         <td>HTML模板渲染</td>
       </tr>
       <tr>
-        <td><b>公共步骤(6个)</b></td>
+        <td><b>公共步骤-配置层(3个)</b></td>
         <td>SDET平台</td>
-        <td><span class="chip chip-orange">⏸ 待创建</span></td>
-        <td>待Phase 1创建后填入</td>
+        <td><span class="chip chip-orange">⏸ 待Phase 1.1创建</span></td>
+        <td>待创建后填入</td>
         <td>platform-client.create_step()</td>
+      </tr>
+      <tr>
+        <td><b>公共步骤-用户层(7个)</b></td>
+        <td>SDET平台</td>
+        <td><span class="chip chip-red">⚠️ 待补充API</span></td>
+        <td>待API提供后创建</td>
+        <td>等待用户提供API</td>
       </tr>
       <tr>
         <td><b>目录结构(15个)</b></td>
@@ -675,13 +777,13 @@ function switchTab(tabId) {
   // Update tab styles
   document.querySelectorAll('.tab').forEach(tab => {
     tab.classList.remove('active');
-    if (tab.textContent.includes(tabId === 'overview' ? '总览' : 
+    if (tab.textContent.includes(tabId === 'overview' ? '总览' :
                                            tabId === 'dimensions' ? '维度' :
                                            tabId === 'cases' ? '用例' : '生命周期')) {
       tab.classList.add('active');
     }
   });
-  
+
   // Update page visibility
   document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
   document.getElementById('page-' + tabId).classList.add('active');
@@ -691,6 +793,15 @@ function toggleAcc(header) {
   const acc = header.parentElement;
   acc.classList.toggle('open');
 }
+
+// 初始化手风琴点击事件
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.acc-header').forEach(header => {
+    header.addEventListener('click', function() {
+      toggleAcc(this);
+    });
+  });
+});
 </script>
 
 </body>
