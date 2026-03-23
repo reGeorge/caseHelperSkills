@@ -257,6 +257,37 @@ Step E  [AI]   确认结构达标后，写入知识库 manifest.json，后续批
 | SSL+自签名证书校验 | 68290 | 【打流】 | 对接zentyal-022 | **68313** | MschapV2 | 67314→55645 |
 | SSL+自签名证书校验 | 68290 | 【打流】 | 对接zentyal-023 | **68314** | TTLS | 67313→55645 |
 
+### ✅ Phase 2b（已完成）：OU模糊映射算法用例（027-035, 038）
+
+**目标目录：68329（OU映射模糊查找算法）** | 完成时间：2026-03-20
+
+| 飞书ID | 类型 | case_id | 用户 | 映射规则 | 期望用户组 | 验证逻辑 |
+|---|---|:---:|---|---|---|---|
+| — | 【状态机】027 | **68330** | Zentyal_test01 | ABCDEFGH→testABCDEFGH | testABCDEFGH | 溯1级命中 |
+| 对接zentyal-027 | 【打流】 | **68331** | Zentyal_test01 | — | testABCDEFGH | GTC+清理 |
+| — | 【状态机】028 | **68333** | Zentyal_test02 | test AB→testAB | testAB | 溯2级命中 |
+| 对接zentyal-028 | 【打流】 | **68334** | Zentyal_test02 | — | testAB | GTC+清理 |
+| — | 【状态机】029 | **68335** | Zentyal_test02 | test A→testA | testA | 溯3级命中 |
+| 对接zentyal-029 | 【打流】 | **68336** | Zentyal_test02 | — | testA | GTC+清理 |
+| — | 【状态机】030 | **68337** | Zentyal_test02 | test(根)→testRoot | testRoot | 溯4级命中(根OU) |
+| 对接zentyal-030 | 【打流】 | **68338** | Zentyal_test02 | — | testRoot | GTC+清理 |
+| — | 【状态机】031 | **68339** | Zentyal_test01 | test AB→testAB | testAB | 溯7级命中 |
+| 对接zentyal-031 | 【打流】 | **68340** | Zentyal_test01 | — | testAB | GTC+清理 |
+| — | 【状态机】032 | **68341** | Zentyal_test02 | test ABCDE→testABCDE（子节点，不触发溯回）| yy（缺省组）| 全祖先链无映射 |
+| 对接zentyal-032 | 【打流】 | **68342** | Zentyal_test02 | — | yy（缺省组）| GTC+清理 |
+| — | 【状态机】033 | **68343** | Zentyal_test02 | test ABC→testABC + test ABCD→testABCD | testABCD | 自身命中优先于父 |
+| 对接zentyal-033 | 【打流】 | **68344** | Zentyal_test02 | — | testABCD | GTC+清理 |
+| — | 【状态机】034 | **68345** | Zentyal_test02 | test ABCD→testABCD + test ABCDE→testABCDE（子节点）| testABCD | 自身命中，子节点不干扰 |
+| 对接zentyal-034 | 【打流】 | **68346** | Zentyal_test02 | — | testABCD | GTC+清理 |
+| — | 【状态机】035 | **68347** | Zentyal_test02 | 同034规则顺序互换 | testABCD | 规则顺序幂等 |
+| 对接zentyal-035 | 【打流】 | **68348** | Zentyal_test02 | — | testABCD | GTC+清理 |
+| — | 【状态机】038 | **68349** | Zentyal_test01 | Step1=68280(SSL+自签名)+Step2=68282(OU) | testABCDEFGH | 溯1级+SSL |
+| 对接zentyal-038 | 【打流】 | **68350** | Zentyal_test01 | — | testABCDEFGH | GTC+清理 |
+
+> **032 注意**：`autoAllocationUserGroupId`（缺省用户组ID）需在平台手动配置为对应"yy"用户组的 ID；organizationMapScript 中的 test ABCDE 为子节点，不触发溯回。
+
+> **038 注意**：状态机使用2步设计（68280→68282），需验证第二步是否会覆盖第一步的SSL配置。如有冲突，可改为68282单步 + 用例级SSL变量覆盖。
+
 ### Phase 2a：安全组映射用例批量创建（025-026）
 
 **目标目录：68276** | 引用公共步骤：68281（syncOrganizationType = "group"）
@@ -287,16 +318,16 @@ Step E  [AI]   确认结构达标后，写入知识库 manifest.json，后续批
 
 ### 6.1 安全组场景（对接zentyal-025 ~ 026）
 
-#### Zentyal 服务器侧（靶机预置）
+#### Zentyal 服务器侧（靶机预置）✅ 已创建（2026-03-20）
 
-| 对象 | 名称 | 说明 |
-|---|---|---|
-| 安全组 | group A | 有映射，映射到本地组 groupA |
-| 安全组 | group B | 有映射，映射到本地组 groupB |
-| 安全组 | group C | 有映射，映射到本地组 groupC |
-| 安全组 | group D | **无映射**（026 场景用，应落入缺省组） |
-| 域用户 | test04 | 属于 group A（025 场景） |
-| 域用户 | test06 | 属于 group D（026 场景，无映射） |
+| 对象 | 名称 | 密码 | 说明 |
+|---|---|---|---|
+| 安全组 | group A | — | 有映射，映射到本地组 groupA |
+| 安全组 | group B | — | 有映射，映射到本地组 groupB |
+| 安全组 | group C | — | 有映射，映射到本地组 groupC |
+| 安全组 | group D | — | **无映射**（026 场景用，应落入缺省组） |
+| 域用户 | test04 | `zentyal@123` | CN=Users；已加入 group A（025 场景） |
+| 域用户 | test06 | `zentyal@123` | CN=Users；已加入 group D（026 场景，无映射） |
 
 #### UNC 侧配置
 
@@ -318,7 +349,7 @@ Step E  [AI]   确认结构达标后，写入知识库 manifest.json，后续批
 
 ### 6.2 OU 模糊映射场景（对接zentyal-027 ~ 038）
 
-#### Zentyal 服务器侧 — OU 层级结构（靶机预置）
+#### Zentyal 服务器侧 — OU 层级结构（靶机预置）✅ 已创建（2026-03-20）
 
 ```
 zentyal-domain.lan (根)
@@ -332,46 +363,57 @@ zentyal-domain.lan (根)
 │       └── test CC
 ```
 
-> 注：test ABCDE → test ABCDEF 这一段的层级深度因用例而异，参见各用例前置条件。
+> 注：以上 15 个 OU 均已通过 samba-tool 在 172.17.9.183 创建并验证，层级结构与文档一致。
 
-#### 测试用户
+#### 测试用户 ✅ 已创建（2026-03-20）
 
-| 用户名 | 所属 OU | 用于用例 |
-|---|---|---|
-| Zentyal_test01 / test01 | test ABCDEFGHI（最深叶子节点）| 027, 028~035, 038 |
-| Zentyal_test02 | test ABCD | 032（落入缺省组场景） |
+| 用户名 | 密码 | 所属 OU（服务器实测 DN） | 用于用例 |
+|---|---|---|---|
+| Zentyal_test01 | `zentyal@123` | OU=test ABCDEFGHI（最深叶子，祖先链长度9级）| **027, 031, 038** |
+| Zentyal_test02 | `zentyal@123` | OU=test ABCD（祖先链长度4级） | **028~030, 032~035** |
+
+> ⚠️ test04、test06 实际在 `CN=Users`（系统默认容器），不在任何 OU 下，属于安全组场景，不涉及 OU 映射算法。
 
 #### 映射脚本格式（syncOrganizationType = "ou"）
 
 ```json
 {
-  "zentyal-domain.lan/test/test A/test AB": "test AB本地组",
-  "zentyal-domain.lan/test/test A/test AB/test ABC": "test ABC本地组"
+  "ZENTYAL.RUISHAN.CC/test/test A/test AB": "testAB",
+  "ZENTYAL.RUISHAN.CC/test/test A/test AB/test ABC": "testABC"
 }
 ```
 
-> ⚠️ 确认点：OU 路径的分隔符和根路径前缀格式需在靶机实际对接时验证，平台上 `organizationMapScript` 字段接受的 key 格式（是 DN 还是 "/" 路径？）需要人工确认。
+> ⚠️ **待实测确认**：`organizationMapScript` key 格式（`域名/OU/子OU` 斜杠路径 vs LDAP DN 格式）在首条样本对接时通过靶机验证确认，确认后填入下方矩阵的正式 key 值。路径前缀域名统一用 `ZENTYAL.RUISHAN.CC`（大写，域名大小写敏感）。
 
 #### 用例级变量覆盖矩阵
 
 | 用例 | 映射规则（OU路径→本地组） | 被测用户 OU | 期望落入用户组 |
 |---|---|---|---|
-| 027 | test ABCDEFGH → 本地A（test ABCDEFGHI 未映射）| test ABCDEFGHI | test ABCDEFGH（溯1级） |
-| 028 | test AB → testAB（test ABCD 未映射）| test ABCD | test AB（溯2级） |
-| 029 | test CC → testCC（test ABCD 未映射）| test ABCD | test CC（溯3级） |
-| 030 | test C → testC | test ABCD | test C（溯4级） |
-| 031 | test（根）→ testRoot | test ABCDEF | test（溯7级） |
-| 032 | test ABCDE → testABCDE（test ABCD 未映射）| test ABCD（用户Zentyal_test02） | yy（缺省组，全祖先无映射） |
-| 033 | test ABC → testABC；test ABCD → testABCD | test ABCD | testABCD（直接命中，优先于父） |
-| 034 | test ABCD → testABCD；test ABCDE → testABCDE | test ABCD | testABCD（命中自身，不看子） |
-| 035 | test ABCDE → testABCDE；test ABCD → testABCD | test ABCD | testABCD（命中自身，不影响） |
-| 038 | test ABCDEFGH → testABCDEFGH（SSL+自签名） | test ABCDEFGHI | test ABCDEFGH（溯1级，开启SSL） |
+| 用例 | 用户 | 用户 OU | 注入映射规则 | 期望用户组 | 验证逻辑 |
+|---|---|---|---|---|---|
+| 027 | Zentyal_test01 | test ABCDEFGHI | `test ABCDEFGH → testABCDEFGH`（ABCDEFGHI 无映射）| testABCDEFGH | 溯1级命中 |
+| 028 | Zentyal_test02 | test ABCD | `test AB → testAB`（test ABCD、test ABC 无映射）| testAB | 溯2级命中 |
+| 029 | Zentyal_test02 | test ABCD | `test A → testA`（test ABCD、test ABC、test AB 无映射）| testA | 溯3级命中 |
+| 030 | Zentyal_test02 | test ABCD | `test → testRoot`（test ABCD~A 无映射）| testRoot | 溯4级命中（根OU） |
+| 031 | Zentyal_test01 | test ABCDEFGHI | `test AB → testAB`（ABCDEFGH~ABC 无映射）| testAB | 溯7级命中 |
+| 032 | Zentyal_test02 | test ABCD | `test ABCDE → testABCDE`（ABCDE 是 ABCD 的**子**，非祖先，全祖先链无映射）| yy（缺省组）| 子节点映射不触发，落缺省 |
+| 033 | Zentyal_test02 | test ABCD | `test ABC → testABC` + `test ABCD → testABCD` | testABCD | 自身命中，优先于父 |
+| 034 | Zentyal_test02 | test ABCD | `test ABCD → testABCD` + `test ABCDE → testABCDE` | testABCD | 自身命中，子节点映射不干扰 |
+| 035 | Zentyal_test02 | test ABCD | `test ABCDE → testABCDE` + `test ABCD → testABCD` | testABCD | 同 034，规则顺序不影响结果 |
+| 038 | Zentyal_test01 | test ABCDEFGHI | `test ABCDEFGH → testABCDEFGH`，SSL+自签名证书 | testABCDEFGH | 溯1级 + SSL场景 |
+
+#### 祖先链速查
+
+| 用户 | OU 祖先链（由近到远） |
+|---|---|
+| Zentyal_test01 (ABCDEFGHI) | ABCDEFGH(1)→G(2)→F(3)→E(4)→D(5)→C(6)→AB(7)→A(8)→test(9) |
+| Zentyal_test02 (ABCD) | ABC(1)→AB(2)→A(3)→test(4) |
 
 #### 缺省用户组配置
 
 | 场景 | 缺省组名称 | 说明 |
 |---|---|---|
-| 032 | `yy` | 所有祖先 OU 均无映射，落入缺省组 |
+| 032 | `yy` | 全祖先链无映射；test ABCDE 映射无效（是子节点，非祖先） |
 | 其他 | 任意（不影响断言）| 这些用例期望命中某个映射，缺省组不会被触发 |
 
 ---
@@ -381,7 +423,7 @@ zentyal-domain.lan (根)
 | 前置配置 | 值 |
 |---|---|
 | `existsAutoUpdateUserGroup` | `true`（需在68281中通过用例变量覆盖） |
-| 被测用户 | test01（属于 test ABCD） |
+| 被测用户 | Zentyal_test02 / `zentyal@123`（属于 OU=test ABCD，已创建） |
 
 > ⚠️ 038 与 027 是同一逻辑的 SSL 变体：038 额外要求开启 SSL+自签名证书，在步骤级需引用 68280（自签名SSL公共步骤）而非 68277（关闭SSL），两者步骤链不同，需单独处理。
 

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>NAC 对接 Zentyal — 自动化用例落地全景</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #1a1d2e; --card: #1e2235;
+    --border: #2e3250; --accent: #4f8ef7; --green: #3ecf8e;
+    --orange: #f59e0b; --red: #f87171; --purple: #a78bfa;
+    --muted: #6b7280; --text: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+  
+  /* ── Header ── */
+  header { background: linear-gradient(135deg, #1e2235 0%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 24px 32px; }
+  header h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  header p { color: var(--muted); font-size: 13px; }
+  
+  /* ── Nav tabs ── */
+  .tabs { display: flex; gap: 4px; padding: 16px 32px 0; border-bottom: 1px solid var(--border); background: var(--panel); }
+  .tab { padding: 10px 20px; border-radius: 8px 8px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); border: 1px solid transparent; border-bottom: none; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--card); }
+  .tab.active { color: var(--accent); background: var(--bg); border-color: var(--border); }
+
+  /* ── Layout ── */
+  .page { display: none; padding: 28px 32px; max-width: 1400px; }
+  .page.active { display: block; }
+
+  /* ── Stats ── */
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .stat-card .num { font-size: 32px; font-weight: 800; }
+  .stat-card .label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .c-green { color: var(--green); } .c-blue { color: var(--accent); } .c-orange { color: var(--orange); } .c-purple { color: var(--purple); }
+
+  /* ── Section ── */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-green { background: rgba(62,207,142,.15); color: var(--green); }
+  .badge-blue  { background: rgba(79,142,247,.15); color: var(--accent); }
+  .badge-orange{ background: rgba(245,158,11,.15); color: var(--orange); }
+  .badge-grey  { background: rgba(107,114,128,.15); color: var(--muted); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content:''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-dot { position: absolute; left: -21px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+  .tl-dot.done  { background: var(--green);  border-color: var(--green); }
+  .tl-dot.warn  { background: var(--orange); border-color: var(--orange); }
+  .tl-dot.skip  { background: var(--muted);  border-color: var(--muted); }
+  .tl-title { font-weight: 700; font-size: 13px; color: #fff; }
+  .tl-desc  { color: var(--muted); font-size: 12px; margin-top: 5px; line-height: 1.7; }
+
+  /* ── Matrix ── */
+  .matrix-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: var(--panel); color: var(--muted); font-weight: 600; text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1e2235; vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,.03); }
+  .chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .chip-green  { background: rgba(62,207,142,.15);  color: var(--green);  }
+  .chip-blue   { background: rgba(79,142,247,.15);  color: var(--accent); }
+  .chip-orange { background: rgba(245,158,11,.15);  color: var(--orange); }
+  .chip-purple { background: rgba(167,139,250,.15); color: var(--purple); }
+  .chip-grey   { background: rgba(107,114,128,.15); color: var(--muted);  }
+
+  /* ── Flow diagram ── */
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+  .flow-box { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 12px; text-align: center; min-width: 110px; }
+  .flow-box .fb-title { font-weight: 700; color: #fff; }
+  .flow-box .fb-sub   { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .flow-arrow { color: var(--border); font-size: 20px; padding: 0 6px; }
+  .flow-box.done  { border-color: var(--green);  }
+  .flow-box.warn  { border-color: var(--orange); }
+
+  /* ── Accordion ── */
+  .accordion { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+  .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; background: var(--card); font-weight: 600; font-size: 13px; gap: 8px; }
+  .acc-header:hover { background: #232640; }
+  .acc-arrow { color: var(--muted); transition: transform .2s; font-size: 16px; }
+  .accordion.open .acc-arrow { transform: rotate(90deg); }
+  .acc-body { display: none; padding: 14px 16px; background: var(--panel); border-top: 1px solid var(--border); }
+  .accordion.open .acc-body { display: block; }
+
+  /* ── Two-col ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Code block ── */
+  pre { background: #0a0c14; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 11px; overflow-x: auto; color: #a5d6ff; line-height: 1.6; }
+  
+  .note { background: rgba(245,158,11,.08); border-left: 3px solid var(--orange); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: var(--orange); margin-top: 10px; }
+  .info { background: rgba(79,142,247,.08); border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #93c5fd; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧪 NAC 对接 Zentyal — 自动化用例落地全景报告</h1>
+  <p>手工用例 37 条 &nbsp;|&nbsp; 已覆盖 27 条 &nbsp;|&nbsp; 平台用例总数（含状态机） 57 条 &nbsp;|&nbsp; 更新时间：2026-03-20</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">📊 总览</div>
+  <div class="tab" onclick="switchTab('ssl')">🔐 SSL×协议矩阵</div>
+  <div class="tab" onclick="switchTab('ou')">🌳 OU模糊映射算法</div>
+  <div class="tab" onclick="switchTab('ids')">🗂 完整ID索引</div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: 总览 ══════════════════════════════════════════ -->
+<div id="page-overview" class="page active">
+
+  <div class="stats">
+    <div class="stat-card"><div class="num c-green">27</div><div class="label">手工用例已覆盖 / 37</div></div>
+    <div class="stat-card"><div class="num c-blue">57</div><div class="label">平台用例总数（含状态机）</div></div>
+    <div class="stat-card"><div class="num c-purple">7</div><div class="label">公共步骤（Phase 0）</div></div>
+    <div class="stat-card"><div class="num c-green">20</div><div class="label">SSL×协议 打流用例</div></div>
+    <div class="stat-card"><div class="num c-blue">10</div><div class="label">OU映射 打流用例</div></div>
+    <div class="stat-card"><div class="num c-orange">10</div><div class="label">挂起待决策</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">整体进度 <span class="badge badge-green">Phase 0-2b 完成</span></div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-title">Phase 0 — 公共步骤建设（7条）</div>
+          <div class="tl-desc">
+            AD配置模板(68274)、关闭SSL(68277)、SSL不校验(68278)、<br>
+            公有证书(68279)、自签名(68280)、安全组模式(68281)、OU模式(68282)<br>
+            ✓ 真实环境变量注入 &nbsp;✓ 测试用户参数化 &nbsp;✓ 域名大写修正
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-title">Phase 1 — SSL×协议矩阵（手工用例 008-023）</div>
+          <div class="tl-desc">
+            4个SSL子目录 × 4种协议 = 16条打流用例 + 4条状态机用例 = <b>20条</b><br>
+            ✓ 每个子目录一机独立状态机 &nbsp;✓ 打流用例不含状态机步骤<br>
+            ✓ Portal/GTC/TTLS/MschapV2 变量差异已处理
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-title">Phase 2b — OU模糊映射算法（手工用例 027-035, 038）</div>
+          <div class="tl-desc">
+            10条打流 + 10条状态机 = <b>20条</b><br>
+            ✓ 祖先链分析对齐 &nbsp;✓ organizationMapScript key格式实测确认<br>
+            ✓ 状态机备注含完整测试数据特征描述
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot warn"></div>
+          <div class="tl-title">Phase 2a — 安全组场景（手工用例 025-026）</div>
+          <div class="tl-desc">025 样本已建(68284)，026 待建。靶机数据已就绪(test04/test06)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot skip"></div>
+          <div class="tl-title">Phase 3 — 挂起用例（001-007, 036-037）</div>
+          <div class="tl-desc">
+            001-007：偏UI表单，006含文件上传(BLOCKER)<br>
+            036-037：实时映射更新，需框架支持多轮断言
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">手工用例覆盖分布</div>
+      <table>
+        <tr><th>飞书用例范围</th><th>场景</th><th>状态</th><th>平台用例数</th></tr>
+        <tr><td>001-007</td><td>SSL表单字段校验</td><td><span class="chip chip-grey">挂起</span></td><td>—</td></tr>
+        <tr><td>008-023</td><td>SSL×协议认证矩阵</td><td><span class="chip chip-green">✓ 完成</span></td><td>20</td></tr>
+        <tr><td>025</td><td>安全组有映射</td><td><span class="chip chip-orange">样本</span></td><td>1</td></tr>
+        <tr><td>026</td><td>安全组无映射</td><td><span class="chip chip-grey">待建</span></td><td>—</td></tr>
+        <tr><td>027-035</td><td>OU模糊映射算法</td><td><span class="chip chip-green">✓ 完成</span></td><td>18</td></tr>
+        <tr><td>036-037</td><td>映射变更实时更新</td><td><span class="chip chip-grey">挂起</span></td><td>—</td></tr>
+        <tr><td>038</td><td>OU映射+SSL自签名</td><td><span class="chip chip-green">✓ 完成</span></td><td>2</td></tr>
+      </table>
+      <div class="info">注：024 在飞书表格中缺失，不计入总数。手工用例实际 37 条（001-038 缺 024）。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: SSL矩阵 ══════════════════════════════════════════ -->
+<div id="page-ssl" class="page">
+
+  <div class="section">
+    <div class="section-title">🔐 场景设计 — SSL×协议 认证矩阵</div>
+    <div class="tl-desc" style="margin-bottom:16px;color:var(--text)">
+      设计者从"SSL通道能否打开"出发，构造了一个<b>4×4 = 16格二维矩阵</b>：纵轴是 SSL 证书状态，横轴是认证协议。每个格子断言：在该 SSL 配置下，对应协议的认证链路是否能打通。
+    </div>
+    <div class="matrix-wrap">
+      <table>
+        <tr>
+          <th>SSL状态</th>
+          <th>Portal<br><small>62033</small></th>
+          <th>1x GTC<br><small>67312</small></th>
+          <th>1x MschapV2<br><small>67314</small></th>
+          <th>1x TTLS<br><small>67313</small></th>
+          <th>状态机用例</th>
+          <th>子目录ID</th>
+        </tr>
+        <tr>
+          <td><b>关闭SSL</b><br><small style="color:var(--muted)">port 389</small></td>
+          <td><span class="chip chip-green">68300</span></td>
+          <td><span class="chip chip-green">68299</span></td>
+          <td><span class="chip chip-green">68301</span></td>
+          <td><span class="chip chip-green">68302</span></td>
+          <td><span class="chip chip-purple">68291</span><br><small>引用68277</small></td>
+          <td>68287</td>
+        </tr>
+        <tr>
+          <td><b>SSL+关闭证书校验</b><br><small style="color:var(--muted)">port 636</small></td>
+          <td><span class="chip chip-green">68303</span></td>
+          <td><span class="chip chip-green">68304</span></td>
+          <td><span class="chip chip-green">68305</span></td>
+          <td><span class="chip chip-green">68306</span></td>
+          <td><span class="chip chip-purple">68292</span><br><small>引用68278</small></td>
+          <td>68288</td>
+        </tr>
+        <tr>
+          <td><b>SSL+公有证书校验</b></td>
+          <td><span class="chip chip-green">68307</span></td>
+          <td><span class="chip chip-green">68308</span></td>
+          <td><span class="chip chip-green">68309</span></td>
+          <td><span class="chip chip-green">68310</span></td>
+          <td><span class="chip chip-purple">68293</span><br><small>引用68279</small></td>
+          <td>68289</td>
+        </tr>
+        <tr>
+          <td><b>SSL+自签名证书校验</b></td>
+          <td><span class="chip chip-green">68311</span></td>
+          <td><span class="chip chip-green">68312</span></td>
+          <td><span class="chip chip-green">68313</span></td>
+          <td><span class="chip chip-green">68314</span></td>
+          <td><span class="chip chip-purple">68294</span><br><small>引用68280</small></td>
+          <td>68290</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">⚙️ 数据设计 — 变量分层注入</div>
+    <div class="two-col">
+      <div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:8px">公共步骤级（所有场景统一）</div>
+        <pre>ad_ip_primary:           172.17.9.183
+ad_domainName:           ZENTYAL.RUISHAN.CC
+ad_netbiosDomainName:    zentyal
+ad_mainServerDomainName: ZENTYAL.RUISHAN.CC
+ad_adminAccount:         admindc
+ad_adminPassword:        shyfzx@163
+ad_queryAccount:         CN=jitian xu,CN=Users,
+                         DC=zentyal,DC=ruishan,DC=cc
+auth_username:           xujitian
+auth_password:           shyfzx@163</pre>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:8px">用例级（按协议差异注入）</div>
+        <pre># Portal (62033)
+Portal_username: xujitian
+Portal_password: shyfzx@163
+ssid:            ADZentyal
+userId2test:     xujitian
+
+# GTC / TTLS (67312 / 67313)
+peap_username:  xujitian
+peap_password:  shyfzx@163
+ssid:           ADZentyal
+userId2test:    xujitian
+
+# MschapV2 (67314) — 额外字段
+src_username:   xujitian   ← 额外变量</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🏗️ 自动化实现 — 用例结构设计</div>
+    <div class="info" style="margin-bottom:16px">状态机与打流<b>完全独立</b>——状态机只负责建立 AD 认证源环境，打流用例步骤链中<b>不引入任何配置步骤</b>。</div>
+    <div class="two-col">
+      <div class="accordion open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span>【状态机】用例结构</span><span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="flow" style="margin-bottom:12px">
+            <div class="flow-box done"><div class="fb-title">Step 1</div><div class="fb-sub">AD配置公共步骤<br>68277/78/79/80</div></div>
+          </div>
+          <div style="color:var(--muted);font-size:12px;margin-top:8px">
+            ✓ 每个 SSL 子目录一条独立状态机<br>
+            ✓ 状态机可单独执行，建立测试环境<br>
+            ✓ 可在打流前手动运行，也可按需重置
+          </div>
+        </div>
+      </div>
+      <div class="accordion open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span>【打流】用例结构</span><span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="flow" style="margin-bottom:12px">
+            <div class="flow-box done"><div class="fb-title">Step 1</div><div class="fb-sub">协议认证<br>Portal/GTC/TTLS/MSchap</div></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box done"><div class="fb-title">Step 2</div><div class="fb-sub">数据清理<br>55645 销户</div></div>
+          </div>
+          <div style="color:var(--muted);font-size:12px;margin-top:8px">
+            ✓ 共 2 步，不含 AD 配置步骤<br>
+            ✓ 依赖状态机已预先建立好认证源<br>
+            ✓ 清理步骤确保测试数据幂等
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="note">历史教训：初版设计中打流用例为3步（AD配置→认证→清理），后改为状态机与打流分离。因结构调整导致已建4条 Portal 样本（68295-68298）废弃重建，耗时约1h。</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: OU映射 ══════════════════════════════════════════ -->
+<div id="page-ou" class="page">
+
+  <div class="section">
+    <div class="section-title">🌳 场景设计 — OU模糊映射算法验证</div>
+    <div class="tl-desc" style="color:var(--text);margin-bottom:16px">
+      被测逻辑：用户属于某个 OU，若该 OU 无映射关系，系统会<b>向祖先 OU 逐级溯回</b>，直到找到有映射的 OU 为止，找不到则落入缺省用户组。
+      设计者构造了7个核心验证场景，从溯回1级到溯回7级，以及"子节点映射不触发"、"自身优先于父级"、"顺序幂等"等边界情况。
+    </div>
+
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;font-size:12px">
+      <div style="font-weight:700;color:#fff;margin-bottom:12px">靶机 OU 层级结构（已创建 2026-03-20）</div>
+      <pre style="background:transparent;border:none;padding:0;color:var(--text)">zentyal域根
+└── test（根OU）
+    ├── test A
+    │   └── test AB → test ABC → test ABCD → test ABCDE
+    │                             ↑               → test ABCDEF → test ABCDEFG → test ABCDEFGH → test ABCDEFGHI
+    │                          [test02]                                                           [test01]
+    ├── test B
+    │   └── test BB → test BBB
+    └── test C
+        └── test CC</pre>
+      <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
+        <div><span class="chip chip-blue">Zentyal_test01</span> OU=test ABCDEFGHI（最深，祖先链9级）</div>
+        <div><span class="chip chip-purple">Zentyal_test02</span> OU=test ABCD（祖先链4级）</div>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>飞书ID</th><th>验证逻辑</th><th>用户</th><th>用户OU</th><th>映射规则</th><th>期望用户组</th><th>状态机</th><th>打流</th></tr>
+      <tr>
+        <td>027</td><td>溯回<b>1</b>级命中</td><td>test01</td><td>ABCDEFGHI</td>
+        <td><code>test ABCDEFGH → testABCDEFGH</code><br><small style="color:var(--muted)">ABCDEFGHI无映射</small></td>
+        <td><span class="chip chip-green">testABCDEFGH</span></td>
+        <td>68330</td><td>68331</td>
+      </tr>
+      <tr>
+        <td>028</td><td>溯回<b>2</b>级命中</td><td>test02</td><td>ABCD</td>
+        <td><code>test AB → testAB</code><br><small style="color:var(--muted)">ABCD、ABC无映射</small></td>
+        <td><span class="chip chip-green">testAB</span></td>
+        <td>68333</td><td>68334</td>
+      </tr>
+      <tr>
+        <td>029</td><td>溯回<b>3</b>级命中</td><td>test02</td><td>ABCD</td>
+        <td><code>test A → testA</code><br><small style="color:var(--muted)">ABCD、ABC、AB无映射</small></td>
+        <td><span class="chip chip-green">testA</span></td>
+        <td>68335</td><td>68336</td>
+      </tr>
+      <tr>
+        <td>030</td><td>溯回<b>4</b>级命中根OU</td><td>test02</td><td>ABCD</td>
+        <td><code>test(根) → testRoot</code><br><small style="color:var(--muted)">4级祖先均无映射</small></td>
+        <td><span class="chip chip-green">testRoot</span></td>
+        <td>68337</td><td>68338</td>
+      </tr>
+      <tr>
+        <td>031</td><td>溯回<b>7</b>级命中</td><td>test01</td><td>ABCDEFGHI</td>
+        <td><code>test AB → testAB</code><br><small style="color:var(--muted)">ABCDEFGH~ABC均无映射</small></td>
+        <td><span class="chip chip-green">testAB</span></td>
+        <td>68339</td><td>68340</td>
+      </tr>
+      <tr>
+        <td>032</td><td>子节点映射不触发溯回</td><td>test02</td><td>ABCD</td>
+        <td><code>test ABCDE → testABCDE</code><br><small style="color:var(--muted)">ABCDE是子节点，全祖先链无映射</small></td>
+        <td><span class="chip chip-orange">yy（缺省组）</span></td>
+        <td>68341</td><td>68342</td>
+      </tr>
+      <tr>
+        <td>033</td><td>自身命中，优先于父级</td><td>test02</td><td>ABCD</td>
+        <td><code>test ABC → testABC</code><br><code>test ABCD → testABCD</code></td>
+        <td><span class="chip chip-green">testABCD</span></td>
+        <td>68343</td><td>68344</td>
+      </tr>
+      <tr>
+        <td>034</td><td>自身命中，子节点不干扰</td><td>test02</td><td>ABCD</td>
+        <td><code>test ABCD → testABCD</code><br><code>test ABCDE → testABCDE</code></td>
+        <td><span class="chip chip-green">testABCD</span></td>
+        <td>68345</td><td>68346</td>
+      </tr>
+      <tr>
+        <td>035</td><td>规则顺序幂等（同034）</td><td>test02</td><td>ABCD</td>
+        <td><code>test ABCDE → testABCDE</code><br><code>test ABCD → testABCD</code></td>
+        <td><span class="chip chip-green">testABCD</span></td>
+        <td>68347</td><td>68348</td>
+      </tr>
+      <tr>
+        <td>038</td><td>溯回1级 + SSL+自签名</td><td>test01</td><td>ABCDEFGHI</td>
+        <td><code>test ABCDEFGH → testABCDEFGH</code></td>
+        <td><span class="chip chip-green">testABCDEFGH</span></td>
+        <td>68349<br><small style="color:var(--muted)">2步:68280→68282</small></td><td>68350</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">⚙️ 数据设计 — organizationMapScript 格式</div>
+    <div class="two-col">
+      <div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:8px">key 格式（实测来自 updateADRequest.md）</div>
+        <pre>// 斜杠路径分隔，从根OU到目标OU
+// 域名前缀大写（域名大小写敏感）
+{
+  "ZENTYAL.RUISHAN.CC/test/test A/test AB": "本地组名"
+}</pre>
+        <div class="info" style="margin-top:8px">⚠️ 域名 <code>ZENTYAL.RUISHAN.CC</code> 必须大写，小写形式无法匹配</div>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:8px">case 027 完整示例</div>
+        <pre>{
+  "ZENTYAL.RUISHAN.CC/test/test A/test AB/
+   test ABC/test ABCD/test ABCDE/
+   test ABCDEF/test ABCDEFG/
+   test ABCDEFGH": "testABCDEFGH"
+}
+// 用户在 test ABCDEFGHI（无映射）
+// 溯回1级找到 test ABCDEFGH → 命中</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🏗️ 自动化实现 — OU场景用例结构</div>
+    <div class="two-col">
+      <div class="accordion open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span>【状态机】结构（含详细备注）</span><span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="flow" style="margin-bottom:12px">
+            <div class="flow-box done"><div class="fb-title">Step 1</div><div class="fb-sub">OU配置公共步骤<br>68282</div></div>
+          </div>
+          <div style="color:var(--muted);font-size:12px;margin-top:8px">
+            ✓ 用例级变量：<code>organizationMapScript</code> 硬编码完整映射 JSON<br>
+            ✓ 备注中写明：被测用户、所属OU、映射文件内容、预期用户组、验证逻辑<br>
+            ✓ 038例外：Step1=68280（SSL+自签名）+ Step2=68282（OU配置）
+          </div>
+        </div>
+      </div>
+      <div class="accordion open">
+        <div class="acc-header" onclick="toggleAcc(this)">
+          <span>【打流】结构</span><span class="acc-arrow">▶</span>
+        </div>
+        <div class="acc-body">
+          <div class="flow" style="margin-bottom:12px">
+            <div class="flow-box done"><div class="fb-title">Step 1</div><div class="fb-sub">GTC认证<br>67312</div></div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box done"><div class="fb-title">Step 2</div><div class="fb-sub">数据清理<br>55645</div></div>
+          </div>
+          <div style="color:var(--muted);font-size:12px;margin-top:8px">
+            ✓ 用例级变量：<code>peap_username</code> = 实际用户名（Zentyal_test01/02）<br>
+            ✓ <code>peap_password</code> = zentyal@123<br>
+            ✓ <code>userId2test</code> = 用户名（用于清理步骤定位数据）
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: ID索引 ══════════════════════════════════════════ -->
+<div id="page-ids" class="page">
+
+  <div class="section">
+    <div class="section-title">公共步骤（Phase 0）</div>
+    <table>
+      <tr><th>ID</th><th>名称</th><th>用途</th><th>关键变量</th></tr>
+      <tr><td>68274</td><td>通用Zentyal-AD源配置模板</td><td>参数化基准模板</td><td>全参数化</td></tr>
+      <tr><td>68277</td><td>新增并更新Zentyal认证源（关闭SSL）</td><td>008-011 状态机</td><td>ssl_enable=false, port=389</td></tr>
+      <tr><td>68278</td><td>新增并更新Zentyal认证源（SSL+不校验证书）</td><td>012-015 状态机</td><td>ssl_enable=true, certCheck=false</td></tr>
+      <tr><td>68279</td><td>新增并更新Zentyal认证源（SSL+公有证书）</td><td>016-019 状态机</td><td>ssl_enable=true, certCheck=true, certType=0</td></tr>
+      <tr><td>68280</td><td>新增并更新Zentyal认证源（SSL+自签名证书）</td><td>020-023 状态机 + 038</td><td>ssl_enable=true, certCheck=true, certType=1</td></tr>
+      <tr><td>68281</td><td>新增并更新Zentyal认证源（安全组模式）</td><td>025-026 状态机</td><td>syncOrganizationType=group</td></tr>
+      <tr><td>68282</td><td>新增并更新Zentyal认证源（OU映射模式）</td><td>027-035, 038 状态机</td><td>syncOrganizationType=ou</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">打流公共步骤</div>
+    <table>
+      <tr><th>ID</th><th>名称</th><th>用户名变量</th><th>额外变量</th></tr>
+      <tr><td>62033</td><td>有线二代Portal认证+记账开始+下线</td><td>Portal_username / Portal_password</td><td>—</td></tr>
+      <tr><td>67312</td><td>有线1X-PEAP(GTC)</td><td>peap_username / peap_password</td><td>—</td></tr>
+      <tr><td>67313</td><td>有线1X(TTLS-PAP)</td><td>peap_username / peap_password</td><td>—</td></tr>
+      <tr><td>67314</td><td>有线1X-PEAP(MschapV2)</td><td>peap_username / peap_password</td><td>src_username</td></tr>
+      <tr><td>55645</td><td>数据清理（销户）</td><td>—</td><td>userId2test</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">SSL×协议矩阵 — 全部 Case ID</div>
+    <table>
+      <tr><th>飞书ID</th><th>用例名</th><th>case_id</th><th>类型</th><th>父目录</th></tr>
+      <tr><td>—</td><td>【状态机】关闭SSL</td><td>68291</td><td><span class="chip chip-purple">状态机</span></td><td>68287</td></tr>
+      <tr><td>008</td><td>关闭SSL + Portal</td><td>68300</td><td><span class="chip chip-green">打流</span></td><td>68287</td></tr>
+      <tr><td>009</td><td>关闭SSL + GTC</td><td>68299</td><td><span class="chip chip-green">打流</span></td><td>68287</td></tr>
+      <tr><td>010</td><td>关闭SSL + MschapV2</td><td>68301</td><td><span class="chip chip-green">打流</span></td><td>68287</td></tr>
+      <tr><td>011</td><td>关闭SSL + TTLS</td><td>68302</td><td><span class="chip chip-green">打流</span></td><td>68287</td></tr>
+      <tr><td>—</td><td>【状态机】SSL+不校验</td><td>68292</td><td><span class="chip chip-purple">状态机</span></td><td>68288</td></tr>
+      <tr><td>012</td><td>SSL+不校验 + Portal</td><td>68303</td><td><span class="chip chip-green">打流</span></td><td>68288</td></tr>
+      <tr><td>013</td><td>SSL+不校验 + GTC</td><td>68304</td><td><span class="chip chip-green">打流</span></td><td>68288</td></tr>
+      <tr><td>014</td><td>SSL+不校验 + MschapV2</td><td>68305</td><td><span class="chip chip-green">打流</span></td><td>68288</td></tr>
+      <tr><td>015</td><td>SSL+不校验 + TTLS</td><td>68306</td><td><span class="chip chip-green">打流</span></td><td>68288</td></tr>
+      <tr><td>—</td><td>【状态机】SSL+公有证书</td><td>68293</td><td><span class="chip chip-purple">状态机</span></td><td>68289</td></tr>
+      <tr><td>016</td><td>SSL+公有证书 + Portal</td><td>68307</td><td><span class="chip chip-green">打流</span></td><td>68289</td></tr>
+      <tr><td>017</td><td>SSL+公有证书 + GTC</td><td>68308</td><td><span class="chip chip-green">打流</span></td><td>68289</td></tr>
+      <tr><td>018</td><td>SSL+公有证书 + MschapV2</td><td>68309</td><td><span class="chip chip-green">打流</span></td><td>68289</td></tr>
+      <tr><td>019</td><td>SSL+公有证书 + TTLS</td><td>68310</td><td><span class="chip chip-green">打流</span></td><td>68289</td></tr>
+      <tr><td>—</td><td>【状态机】SSL+自签名</td><td>68294</td><td><span class="chip chip-purple">状态机</span></td><td>68290</td></tr>
+      <tr><td>020</td><td>SSL+自签名 + Portal</td><td>68311</td><td><span class="chip chip-green">打流</span></td><td>68290</td></tr>
+      <tr><td>021</td><td>SSL+自签名 + GTC</td><td>68312</td><td><span class="chip chip-green">打流</span></td><td>68290</td></tr>
+      <tr><td>022</td><td>SSL+自签名 + MschapV2</td><td>68313</td><td><span class="chip chip-green">打流</span></td><td>68290</td></tr>
+      <tr><td>023</td><td>SSL+自签名 + TTLS</td><td>68314</td><td><span class="chip chip-green">打流</span></td><td>68290</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">OU模糊映射 — 全部 Case ID</div>
+    <table>
+      <tr><th>飞书ID</th><th>用例名（简）</th><th>case_id（状态机）</th><th>case_id（打流）</th><th>用户</th><th>期望用户组</th></tr>
+      <tr><td>027</td><td>溯回1级</td><td>68330</td><td>68331</td><td>Zentyal_test01</td><td>testABCDEFGH</td></tr>
+      <tr><td>028</td><td>溯回2级</td><td>68333</td><td>68334</td><td>Zentyal_test02</td><td>testAB</td></tr>
+      <tr><td>029</td><td>溯回3级</td><td>68335</td><td>68336</td><td>Zentyal_test02</td><td>testA</td></tr>
+      <tr><td>030</td><td>溯回4级（根OU）</td><td>68337</td><td>68338</td><td>Zentyal_test02</td><td>testRoot</td></tr>
+      <tr><td>031</td><td>溯回7级</td><td>68339</td><td>68340</td><td>Zentyal_test01</td><td>testAB</td></tr>
+      <tr><td>032</td><td>全祖先无映射→缺省组</td><td>68341</td><td>68342</td><td>Zentyal_test02</td><td>yy（缺省组）</td></tr>
+      <tr><td>033</td><td>自身命中优先于父</td><td>68343</td><td>68344</td><td>Zentyal_test02</td><td>testABCD</td></tr>
+      <tr><td>034</td><td>自身命中，子节点无关</td><td>68345</td><td>68346</td><td>Zentyal_test02</td><td>testABCD</td></tr>
+      <tr><td>035</td><td>规则顺序幂等</td><td>68347</td><td>68348</td><td>Zentyal_test02</td><td>testABCD</td></tr>
+      <tr><td>038</td><td>溯回1级+SSL+自签名</td><td>68349</td><td>68350</td><td>Zentyal_test01</td><td>testABCDEFGH</td></tr>
+    </table>
+  </div>
+</div>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('page-' + name).classList.add('active');
+}
+function toggleAcc(header) {
+  header.parentElement.classList.toggle('open');
+}
+</script>
+</body>
+</html>
