@@ -1,0 +1,311 @@
+{
+  "skills": [
+    {
+      "id": "case-ai-overview",
+      "name": "测试用例AI概述生成器",
+      "category": "case-skills",
+      "path": "skills\\case-skills\\case-ai-overview",
+      "description": "读取飞书表格中的测试用例数据",
+      "keywords": [
+        "读取飞书表格中的测试用例数据",
+        "测试用例AI概述生成器"
+      ],
+      "api_class": "CaseAiOverview",
+      "main_file": "case_ai_overview.py",
+      "documentation": "SKILL.md",
+      "capabilities": [
+        "读取飞书表格中的测试用例数据",
+        "分析每条用例的预置条件、测试步骤、期望结果",
+        "使用AI生成一句话的用例概述",
+        "将概述添加到表格的新列中",
+        "支持批量处理大量用例"
+      ],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "case-design-analyzer",
+      "name": "Case Design Analyzer - 测试用例设计分析器",
+      "category": "case-skills",
+      "path": "skills\\case-skills\\case-design-analyzer",
+      "description": "在手工用例向自动化用例转换过程中，通过深度分析手工用例的设计模式，生成中间分析报告，指导自动化步骤的设计和参数化变量的构造。",
+      "keywords": [
+        "测试用例设计分析器",
+        "Design",
+        "通过深度分析手工用例的设计模式",
+        "指导自动化步骤的设计和参数化变量的构造",
+        "Case",
+        "生成中间分析报告",
+        "Analyzer",
+        "在手工用例向自动化用例转换过程中"
+      ],
+      "api_class": "CaseDesignAnalyzer",
+      "main_file": "case_design_analyzer.py",
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": [
+        "前置步骤聚合建议（步骤粒度分析）"
+      ]
+    },
+    {
+      "id": "script-name-generator",
+      "name": "自动化用例标题生成器",
+      "category": "case-skills",
+      "path": "skills\\case-skills\\script-name-generator",
+      "description": "自动生成测试用例的脚本名称和脚本步骤,支持写入飞书表格。",
+      "keywords": [
+        "自动化用例标题生成器",
+        "自动生成测试用例的脚本名称和脚本步骤",
+        "支持写入飞书表格"
+      ],
+      "api_class": "ScriptNameGenerator",
+      "main_file": "script_name_generator.py",
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "lark-access-token",
+      "name": "飞书Access Token获取器",
+      "category": "lark-skills",
+      "path": "skills\\lark-skills\\lark-access-token",
+      "description": "使用飞书应用的app_id和app_secret获取access_token",
+      "keywords": [
+        "飞书Access",
+        "Token获取器",
+        "使用飞书应用的app_id和app_secret获取access_token"
+      ],
+      "api_class": "LarkAccessToken",
+      "main_file": "lark_access_token.py",
+      "documentation": "SKILL.md",
+      "capabilities": [
+        "使用飞书应用的app_id和app_secret获取access_token",
+        "自动处理API请求和错误处理",
+        "提供清晰的输出结果"
+      ],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "lark-api-helper",
+      "name": "飞书API综合助手",
+      "category": "lark-skills",
+      "path": "skills\\lark-skills\\lark-api-helper",
+      "description": "这个skill提供飞书API的完整操作支持，包括认证、表格操作等功能。",
+      "keywords": [
+        "表格操作等功能",
+        "飞书API综合助手",
+        "包括认证",
+        "这个skill提供飞书API的完整操作支持"
+      ],
+      "api_class": "LarkAccessToken",
+      "main_file": "lark_access_token.py",
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "lark-sheet-reader",
+      "name": "飞书表格内容读取器",
+      "category": "lark-skills",
+      "path": "skills\\lark-skills\\lark-sheet-reader",
+      "description": "读取指定飞书表格链接的内容",
+      "keywords": [
+        "读取指定飞书表格链接的内容",
+        "飞书表格内容读取器"
+      ],
+      "api_class": "ExampleUsage",
+      "main_file": "example_usage.py",
+      "documentation": "SKILL.md",
+      "capabilities": [
+        "读取指定飞书表格链接的内容",
+        "支持读取测试用例表格",
+        "自动识别表头作为JSON的key",
+        "输出标准JSON格式数据",
+        "支持多工作表读取"
+      ],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "lark-sheet-writer",
+      "name": "飞书表格记录写入器",
+      "category": "lark-skills",
+      "path": "skills\\lark-skills\\lark-sheet-writer",
+      "description": "写入新记录到指定工作表",
+      "keywords": [
+        "写入新记录到指定工作表",
+        "飞书表格记录写入器"
+      ],
+      "api_class": "ExampleUsage",
+      "main_file": "example_usage.py",
+      "documentation": "SKILL.md",
+      "capabilities": [
+        "写入新记录到指定工作表",
+        "编辑现有记录",
+        "批量写入和更新记录",
+        "支持从JSON文件导入数据",
+        "自动处理表头和数据映射"
+      ],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "lark-sheets",
+      "name": "飞书表格工作表列表获取器",
+      "category": "lark-skills",
+      "path": "skills\\lark-skills\\lark-sheets",
+      "description": "获取指定飞书表格的所有工作表信息",
+      "keywords": [
+        "飞书表格工作表列表获取器",
+        "获取指定飞书表格的所有工作表信息"
+      ],
+      "api_class": "LarkSheets",
+      "main_file": "lark_sheets.py",
+      "documentation": "SKILL.md",
+      "capabilities": [
+        "获取指定飞书表格的所有工作表信息",
+        "返回每个工作表的ID和名称",
+        "支持多个API端点自动尝试",
+        "提供详细的错误处理和调试信息"
+      ],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "batch-case-creator",
+      "name": "Batch Case Creator",
+      "category": "sdet-skills",
+      "path": "skills\\sdet-skills\\batch-case-creator",
+      "description": "从飞书表格批量创建测试用例到SDET平台的自动化工具。该技能支持：",
+      "keywords": [
+        "Creator",
+        "Case",
+        "Batch",
+        "该技能支持",
+        "从飞书表格批量创建测试用例到SDET平台的自动化工具"
+      ],
+      "api_class": null,
+      "main_file": null,
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "case-debugger",
+      "name": "用例调试器 (Case Debugger)",
+      "category": "sdet-skills",
+      "path": "skills\\sdet-skills\\case-debugger",
+      "description": "自动化用例质量审计与偏差修复技能。输入**业务用例目录**和**公共用例目录**，自动完成：状态机分析、偏差检测、公共用例补充、业务用例修复。",
+      "keywords": [
+        "和",
+        "自动化用例质量审计与偏差修复技能",
+        "公共用例目录",
+        "业务用例目录",
+        "Debugger",
+        "Case",
+        "输入",
+        "用例调试器"
+      ],
+      "api_class": "CaseDebugger",
+      "main_file": "case_debugger.py",
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "case-id-backfiller",
+      "name": "用例ID回填工具",
+      "category": "sdet-skills",
+      "path": "skills\\sdet-skills\\case-id-backfiller",
+      "description": "从SDET平台获取用例信息（用例ID和用例名称）",
+      "keywords": [
+        "用例ID和用例名称",
+        "从SDET平台获取用例信息",
+        "用例ID回填工具"
+      ],
+      "api_class": null,
+      "main_file": null,
+      "documentation": "SKILL.md",
+      "capabilities": [
+        "从SDET平台获取用例信息（用例ID和用例名称）",
+        "读取飞书表格中的测试用例数据",
+        "通过用例名称匹配SDET用例与飞书表格记录",
+        "将匹配的用例ID回写到飞书表格的\"脚本序号\"列",
+        "支持批量处理多个用例"
+      ],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "platform-client",
+      "name": "platform-client",
+      "category": "sdet-skills",
+      "path": "skills\\sdet-skills\\platform-client",
+      "description": "﻿# 平台客户端 Skill",
+      "keywords": [
+        "平台客户端",
+        "Skill"
+      ],
+      "api_class": "DiagnoseAuth",
+      "main_file": "diagnose_auth.py",
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "sdet-login",
+      "name": "SDET平台登录工具",
+      "category": "sdet-skills",
+      "path": "skills\\sdet-skills\\sdet-login",
+      "description": "处理SDET平台401鉴权失效场景，通过账号密码登录获取新的token。",
+      "keywords": [
+        "SDET平台登录工具",
+        "通过账号密码登录获取新的token",
+        "处理SDET平台401鉴权失效场景"
+      ],
+      "api_class": "SdetLogin",
+      "main_file": "sdet_login.py",
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [
+        "调用SDET API时遇到401 Unauthorized错误",
+        "Token过期需要重新获取",
+        "首次使用SDET平台时获取token"
+      ],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    }
+  ]
+}

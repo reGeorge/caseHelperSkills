@@ -1,0 +1,50 @@
+{
+  "skills": [
+    {
+      "id": "case-skills",
+      "name": "测试用例技能集合 (Case Skills Collection)",
+      "category": "skills",
+      "path": "skills\\case-skills",
+      "description": "```",
+      "keywords": [
+        "Case",
+        "Collection",
+        "Skills",
+        "测试用例技能集合"
+      ],
+      "api_class": null,
+      "main_file": null,
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    },
+    {
+      "id": "lark-skills",
+      "name": "飞书技能集合 (Lark Skills Collection)",
+      "category": "skills",
+      "path": "skills\\lark-skills",
+      "description": "这是飞书相关技能的总入口，集成了所有飞书API操作的技能模块。通过这个技能，你可以完整地使用飞书平台的各种功能。",
+      "keywords": [
+        "Lark",
+        "通过这个技能",
+        "你可以完整地使用飞书平台的各种功能",
+        "这是飞书相关技能的总入口",
+        "Collection",
+        "集成了所有飞书API操作的技能模块",
+        "Skills",
+        "飞书技能集合"
+      ],
+      "api_class": null,
+      "main_file": null,
+      "documentation": "SKILL.md",
+      "capabilities": [],
+      "use_cases": [],
+      "required_params": [],
+      "optional_params": [],
+      "examples": []
+    }
+  ]
+}

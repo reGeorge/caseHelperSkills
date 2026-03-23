@@ -27,9 +27,94 @@ skills/
     └── ...
 ```
 
+## 🔧 Skills 自动发现和推荐系统
+
+项目内置了智能的 skills 发现和推荐系统,帮助你快速找到合适的 skill。
+
+### 核心组件
+
+#### 1. SkillsDiscovery - Skills 发现工具
+
+自动扫描 `skills/` 目录,索引所有可用的技能。
+
+```python
+from skills_discovery import SkillsDiscovery
+
+# 初始化
+discovery = SkillsDiscovery()
+
+# 搜索
+results = discovery.search("飞书", limit=5)
+
+# 按分类获取
+lark_skills = discovery.get_by_category("lark-skills")
+
+# 获取所有分类
+categories = discovery.list_categories()
+```
+
+#### 2. SkillsAssistant - 智能推荐助手
+
+根据需求智能推荐合适的 skills。
+
+```python
+from skills_assistant import SkillsAssistant
+
+# 初始化
+assistant = SkillsAssistant()
+
+# 智能推荐
+recommendations = assistant.interactive_recommend("批量创建测试用例到SDET平台")
+print(recommendations)
+```
+
+### 特性
+
+- **自动索引**: 自动扫描 skills 目录,无需手动维护
+- **智能搜索**: 支持关键词搜索,按相关度排序
+- **意图识别**: 识别用户需求,自动推荐合适的 skills
+- **多维度匹配**: 基于 ID、名称、描述、关键词、能力等多维度匹配
+- **使用指导**: 提供使用提示和代码示例
+
+### 使用场景
+
+1. **不确定需要哪个 skill?** → 使用 SkillsAssistant 智能推荐
+2. **想浏览所有技能?** → 使用 SkillsDiscovery.list_categories()
+3. **按功能查找?** → 使用 SkillsDiscovery.search()
+4. **学习如何使用?** → 查看推荐结果的使用提示
+
 ## 🔍 如何查找需要的能力
 
-### 方法1: 按功能分类查找
+### 方法1: 使用 SkillsAssistant 智能推荐 (推荐)
+
+使用内置的智能推荐系统,根据需求自动匹配合适的skills:
+
+```python
+from skills_assistant import SkillsAssistant
+
+# 初始化助手
+assistant = SkillsAssistant()
+
+# 智能推荐
+recommendations = assistant.interactive_recommend("我想读取飞书表格中的测试用例数据")
+print(recommendations)
+
+# 示例输出:
+# # 根据需求推荐Skills
+#
+# **您的需求**: 我想要读取飞书表格中的测试用例数据
+#
+# ## 推荐结果 (2个)
+#
+# ### 1. 飞书表格内容读取器
+# **置信度**: 92%
+# **路径**: `skills/lark-skills/lark-sheet-reader`
+#
+# **推荐理由**: 名称匹配'飞书'; 关键词匹配: 飞书, 表格, 读取; 适用场景: 读取测试用例表格
+# **使用提示**: 位置: lark-skills/lark-sheet-reader | 场景: 读取测试用例表格 | 主文件: lark_sheet_reader.py | 类名: LarkSheetReader
+```
+
+### 方法2: 按功能分类查找
 
 | 功能需求 | 对应Skill | 位置 |
 |---------|----------|------|
@@ -43,7 +128,7 @@ skills/
 | 平台API封装 | platform-client | `skills/sdet-skills/platform-client/` |
 | 用例ID回写 | case-id-backfiller | `skills/sdet-skills/case-id-backfiller/` |
 
-### 方法2: 搜索文件名
+### 方法3: 搜索文件名
 
 ```bash
 # Windows PowerShell
@@ -53,14 +138,34 @@ Get-ChildItem -Path skills -Recurse -Filter "*writer*"
 find skills -name "*writer*"
 ```
 
-### 方法3: 搜索关键词
+### 方法4: 搜索关键词
 
 ```bash
 # Windows PowerShell
 Get-ChildItem -Path skills -Recurse -Filter "*.py" | Select-String "keyword"
 
-# Linux/Mac  
+# Linux/Mac
 grep -r "keyword" skills/
+```
+
+### 方法5: 使用 SkillsDiscovery 工具
+
+```python
+from skills_discovery import SkillsDiscovery
+
+# 初始化发现工具
+discovery = SkillsDiscovery()
+
+# 搜索skills
+results = discovery.search("飞书")
+for skill in results:
+    print(f"- {skill.name}: {skill.description}")
+
+# 按分类浏览
+for category in discovery.list_categories():
+    print(f"\n{category}:")
+    for skill in discovery.get_by_category(category):
+        print(f"  - {skill.name}")
 ```
 
 ## 📖 如何使用Skill
@@ -192,4 +297,57 @@ skill-name/
 
 ---
 
-**最后更新**: 2026-03-03
+**最后更新**: 2026-03-18
+
+---
+
+## 🤖 Skills 自动化工具
+
+### 工具文件说明
+
+- **skills-discovery.py**: Skills 发现和索引工具
+  - 自动扫描 skills/ 目录
+  - 索引所有可用技能
+  - 提供搜索功能
+  - 生成 skills-registry.json
+
+- **skills-assistant.py**: Skills 智能推荐助手
+  - 分析用户需求
+  - 智能推荐合适的 skills
+  - 提供使用指导
+  - 生成推荐报告
+
+- **skills-registry.json**: Skills 注册表
+  - 存储所有 skills 的元数据
+  - 自动生成,手动维护
+  - 用于快速查询和推荐
+
+### 快速开始
+
+```bash
+# 1. 更新注册表(首次使用或新增skill后)
+python skills/skills-discovery.py
+
+# 2. 使用智能推荐
+python skills/skills-assistant.py
+```
+
+### 技术架构
+
+```
+skills/
+├── skills-discovery.py      # 发现工具: 扫描和索引
+├── skills-assistant.py      # 推荐助手: 智能推荐
+├── skills-registry.json     # 注册表: 元数据存储
+├── lark-skills/            # 飞书技能
+├── sdet-skills/            # SDET平台技能
+└── case-skills/            # 用例处理技能
+```
+
+### 工作流程
+
+1. **扫描阶段**: `SkillsDiscovery` 扫描所有 SKILL.md 文件
+2. **索引阶段**: 解析文档,提取元数据,生成注册表
+3. **搜索阶段**: 根据关键词搜索相关 skills
+4. **推荐阶段**: `SkillsAssistant` 分析需求,智能推荐
+5. **使用阶段**: 提供使用指导和代码示例
