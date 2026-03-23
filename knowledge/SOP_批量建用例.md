@@ -1,6 +1,6 @@
 # SOP — 自动化用例批量生成标准操作程序
 
-> 版本：v1.1 | 创建日期：2026-03-20 | 基于 Zentyal 项目复盘修订
+> 版本：v1.2 | 创建日期：2026-03-20 | 更新日期：2026-03-23 | 基于 Zentyal 项目复盘修订
 > 适用场景：根据飞书手工用例批量在 SDET 平台创建自动化用例
 
 ---
@@ -48,6 +48,97 @@ GET /api/sdet-atp/case/{step_id}
 | 步骤 ID | 步骤名称 | 变量名 | 默认值 | 用例级需覆盖? |
 |:---:|---|---|---|:---:|
 | 62033 | 【公共】Portal 认证 | `Portal_username` | `testUser` | ✅ |
+
+> ⚠️ 不同协议步骤的变量名**可能不同**，务必提前核查，不可假设统一。
+
+---
+
+### 2.3.1 实际API确认（⚡ 新增检查点 - v1.2更新）
+
+**在创建公共步骤前，必须先确认实际API接口。**
+
+#### 步骤1: 用户确认或提供API
+
+- 用户主动提供实际API端点和契约信息
+- 或通过以下方式获取:
+  - API文档
+  - Postman测试
+  - 已有成功调用记录
+
+#### 步骤2: 记录API契约
+
+创建 `materials/02_actual_api_contract.md` 文件,记录:
+
+1. **已有公共步骤清单**
+   - 从 `knowledge/common_cases_manifest.json` 提取
+   - 标注哪些步骤已存在、哪些需新建
+
+2. **实际API信息**
+   - API端点: `/api/xxx/xxx`
+   - 请求方法: GET/POST/DELETE
+   - 请求格式: JSON示例
+   - 响应格式: JSON示例
+   - 错误码和错误消息
+
+3. **关键发现**
+   - API范围差异: 初始理解 vs 实际需求
+   - 公共步骤精简: 原计划 vs 实际需要
+   - 自动化范围调整: 哪些用例可自动化、哪些需UI/人工
+
+#### 步骤3: 更新设计
+
+根据实际API调整:
+
+| 调整项 | 原设计 | 实际需要 |
+|-------|--------|---------|
+| 公共步骤数量 | 6个 | N个(根据实际API) |
+| 可自动化用例 | 18条 | M条(根据可用API) |
+| 实施策略 | 全部API自动化 | 混合策略(API+UI+人工) |
+
+#### 步骤4: 更新交互报告
+
+在 `case_coverage_report.html` 中:
+
+1. 更新"公共步骤设计"表格
+2. 更新"用例清单"状态(可自动化/需调研)
+3. 添加链接到 `materials/02_actual_api_contract.md`
+4. 更新统计卡片(实际可自动化用例数)
+
+---
+
+#### 示例: 多业务服务项目
+
+**用户提供信息**:
+- 登录管理端step_id: 51401
+- 新增业务服务: `/sam/api/admin/businessServer/add`
+- 查询业务服务: `/sam/api/admin/businessServer/query`
+- 删除业务服务: `/sam/api/admin/businessServer/delete`
+
+**记录到 `02_actual_api_contract.md`**:
+```markdown
+### API 1: 新增业务服务
+**端点**: /sam/api/admin/businessServer/add
+**方法**: POST
+
+**请求示例**:
+{
+  "authBusinessServer": true,
+  "businessServerShort": "DYJ",
+  "businessServerId": "打印机",
+  "businessServerDes": "打印机服务"
+}
+```
+
+**调整公共步骤**:
+- 原计划6个步骤 → 实际需要3个(1个已存在)
+- 原设计"业务服务用户管理" → 实际是"业务服务配置管理"
+
+**更新交互报告**:
+- 公共步骤: 6个 → 3个
+- 可自动化用例: 18条 → 10条
+- 需调研用例: 0条 → 8条
+
+---
 | 67312 | 【公共】1X GTC | `peap_username` | `testUser` | ✅ |
 | … | … | … | … | … |
 

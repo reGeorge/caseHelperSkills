@@ -293,65 +293,51 @@
   </div>
 
   <div class="section">
-    <div class="section-title">📌 公共步骤设计</div>
+    <div class="section-title">📌 实际公共步骤设计</div>
+    <div class="note" style="margin-bottom:16px;">
+      <b>重要更新</b>: 根据用户提供的实际API,公共步骤设计已调整。<br>
+      详情见: <a href="materials/02_actual_api_contract.md" target="_blank" style="color:var(--accent);">materials/02_actual_api_contract.md</a>
+    </div>
     <table>
       <tr>
-        <th>步骤ID(拟)</th>
+        <th>步骤ID</th>
         <th>步骤名称</th>
-        <th>变量名</th>
-        <th>默认值</th>
-        <th>用例级需覆盖?</th>
+        <th>API端点</th>
+        <th>说明</th>
         <th>状态</th>
       </tr>
       <tr>
-        <td>待创建</td>
+        <td><b>51401</b></td>
         <td>【公共】登录管理端</td>
-        <td><code>admin_username</code><br><code>admin_password</code></td>
-        <td>admin<br>password</td>
-        <td><span class="chip chip-green">✅</span></td>
-        <td><span class="chip chip-orange">待创建</span></td>
+        <td>-</td>
+        <td>已存在公共步骤,可直接引用</td>
+        <td><span class="chip chip-green">✅ 已存在</span></td>
       </tr>
       <tr>
         <td>待创建</td>
-        <td>【公共】开通上网服务用户</td>
-        <td><code>username</code><br><code>password</code><br><code>template</code></td>
-        <td>zhangsan<br>pass123<br>默认模板</td>
-        <td><span class="chip chip-green">✅</span></td>
-        <td><span class="chip chip-orange">待创建</span></td>
+        <td>【公共】新增业务服务</td>
+        <td><code>/sam/api/admin/businessServer/add</code></td>
+        <td>创建业务服务配置(打印机/IP/邮箱)</td>
+        <td><span class="chip chip-orange">⏸ 用户创建</span></td>
       </tr>
       <tr>
         <td>待创建</td>
-        <td>【公共】新增业务服务用户</td>
-        <td><code>service_type</code><br><code>username</code><br><code>password</code><br><code>template</code></td>
-        <td>打印机<br>zhangsan<br>pass123<br>默认模板</td>
-        <td><span class="chip chip-green">✅</span></td>
-        <td><span class="chip chip-orange">待创建</span></td>
+        <td>【公共】查询业务服务</td>
+        <td><code>/sam/api/admin/businessServer/query</code></td>
+        <td>查询业务服务列表</td>
+        <td><span class="chip chip-orange">⏸ 用户创建</span></td>
       </tr>
       <tr>
         <td>待创建</td>
-        <td>【公共】删除业务服务用户</td>
-        <td><code>service_username</code></td>
-        <td>Pr_zhangsan</td>
-        <td><span class="chip chip-green">✅</span></td>
-        <td><span class="chip chip-orange">待创建</span></td>
-      </tr>
-      <tr>
-        <td>待创建</td>
-        <td>【公共】批量操作</td>
-        <td><code>action</code><br><code>user_list</code></td>
-        <td>暂停<br>[...]</td>
-        <td><span class="chip chip-green">✅</span></td>
-        <td><span class="chip chip-orange">待创建</span></td>
-      </tr>
-      <tr>
-        <td>待创建</td>
-        <td>【公共】业务服务用户查询</td>
-        <td><code>query_type</code><br><code>query_value</code></td>
-        <td>username<br>zhangsan</td>
-        <td><span class="chip chip-green">✅</span></td>
-        <td><span class="chip chip-orange">待创建</span></td>
+        <td>【公共】删除业务服务</td>
+        <td><code>/sam/api/admin/businessServer/delete</code></td>
+        <td>删除业务服务配置</td>
+        <td><span class="chip chip-orange">⏸ 用户创建</span></td>
       </tr>
     </table>
+    <div class="info" style="margin-top:12px">
+      <b>调整说明</b>: 原计划6个公共步骤,实际需要3个(1个已存在)。原设计的"业务服务用户管理"API实际不存在,实际API是"业务服务配置管理"。
+    </div>
   </div>
 </div>
 
@@ -502,11 +488,12 @@
   <div class="section">
     <div class="section-title">📊 用例分类统计</div>
     <div class="stats" style="grid-template-columns: repeat(auto-fill, minmax(140px,1fr));">
-      <div class="stat-card"><div class="num c-green">6</div><div class="label">新增用例</div></div>
-      <div class="stat-card"><div class="num c-blue">3</div><div class="label">删除用例</div></div>
-      <div class="stat-card"><div class="num c-purple">1</div><div class="label">编辑用例</div></div>
-      <div class="stat-card"><div class="num c-orange">5</div><div class="label">状态管理用例</div></div>
-      <div class="stat-card"><div class="num c-blue">3</div><div class="label">查询用例</div></div>
+      <div class="stat-card"><div class="num c-green">10</div><div class="label">可自动化用例</div></div>
+      <div class="stat-card"><div class="num c-orange">8</div><div class="label">需进一步调研</div></div>
+      <div class="stat-card"><div class="num c-blue">3</div><div class="label">公共步骤</div></div>
+    </div>
+    <div class="note" style="margin-top:12px;">
+      <b>说明</b>: 基于实际API,10条用例可使用现有API自动化,8条用例需要UI自动化或人工测试。详见 <a href="materials/02_actual_api_contract.md" target="_blank" style="color:var(--accent);">API契约文档</a>
     </div>
   </div>
 </div>
