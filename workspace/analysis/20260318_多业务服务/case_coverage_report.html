@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>多业务服务 — 自动化用例落地全景</title>
+<style>
+  :root {
+    --bg: #0f1117; --panel: #1a1d2e; --card: #1e2235;
+    --border: #2e3250; --accent: #4f8ef7; --green: #3ecf8e;
+    --orange: #f59e0b; --red: #f87171; --purple: #a78bfa;
+    --muted: #6b7280; --text: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; font-size: 14px; }
+  
+  /* ── Header ── */
+  header { background: linear-gradient(135deg, #1e2235 0%, #0f1117 100%); border-bottom: 1px solid var(--border); padding: 24px 32px; }
+  header h1 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  header p { color: var(--muted); font-size: 13px; }
+  
+  /* ── Nav tabs ── */
+  .tabs { display: flex; gap: 4px; padding: 16px 32px 0; border-bottom: 1px solid var(--border); background: var(--panel); }
+  .tab { padding: 10px 20px; border-radius: 8px 8px 0 0; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--muted); border: 1px solid transparent; border-bottom: none; transition: all .15s; }
+  .tab:hover { color: var(--text); background: var(--card); }
+  .tab.active { color: var(--accent); background: var(--bg); border-color: var(--border); }
+
+  /* ── Layout ── */
+  .page { display: none; padding: 28px 32px; max-width: 1400px; }
+  .page.active { display: block; }
+
+  /* ── Stats ── */
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 28px; }
+  .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px 18px; }
+  .stat-card .num { font-size: 32px; font-weight: 800; }
+  .stat-card .label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+  .c-green { color: var(--green); } .c-blue { color: var(--accent); } .c-orange { color: var(--orange); } .c-purple { color: var(--purple); }
+
+  /* ── Section ── */
+  .section { margin-bottom: 28px; }
+  .section-title { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .badge-green { background: rgba(62,207,142,.15); color: var(--green); }
+  .badge-blue  { background: rgba(79,142,247,.15); color: var(--accent); }
+  .badge-orange{ background: rgba(245,158,11,.15); color: var(--orange); }
+  .badge-grey  { background: rgba(107,114,128,.15); color: var(--muted); }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 24px; }
+  .timeline::before { content:''; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 2px; background: var(--border); }
+  .tl-item { position: relative; margin-bottom: 20px; }
+  .tl-dot { position: absolute; left: -21px; top: 4px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid; }
+  .tl-dot.done  { background: var(--green); border-color: var(--green); }
+  .tl-dot.warn  { background: var(--orange); border-color: var(--orange); }
+  .tl-dot.skip  { background: var(--muted); border-color: var(--muted); }
+  .tl-title { font-weight: 700; font-size: 13px; color: #fff; }
+  .tl-desc  { color: var(--muted); font-size: 12px; margin-top: 5px; line-height: 1.7; }
+
+  /* ── Matrix ── */
+  .matrix-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th { background: var(--panel); color: var(--muted); font-weight: 600; text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid #1e2235; vertical-align: top; }
+  tr:hover td { background: rgba(255,255,255,.03); }
+  .chip { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .chip-green  { background: rgba(62,207,142,.15); color: var(--green); }
+  .chip-blue   { background: rgba(79,142,247,.15); color: var(--accent); }
+  .chip-orange { background: rgba(245,158,11,.15); color: var(--orange); }
+  .chip-purple { background: rgba(167,139,250,.15); color: var(--purple); }
+  .chip-grey   { background: rgba(107,114,128,.15); color: var(--muted); }
+
+  /* ── Flow diagram ── */
+  .flow { display: flex; align-items: center; gap: 0; flex-wrap: wrap; }
+  .flow-box { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 12px; text-align: center; min-width: 110px; }
+  .flow-box .fb-title { font-weight: 700; color: #fff; }
+  .flow-box .fb-sub   { color: var(--muted); font-size: 11px; margin-top: 2px; }
+  .flow-arrow { color: var(--border); font-size: 20px; padding: 0 6px; }
+  .flow-box.done  { border-color: var(--green); }
+  .flow-box.warn  { border-color: var(--orange); }
+
+  /* ── Accordion ── */
+  .accordion { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+  .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; background: var(--card); font-weight: 600; font-size: 13px; gap: 8px; }
+  .acc-header:hover { background: #232640; }
+  .acc-arrow { color: var(--muted); transition: transform .2s; font-size: 16px; }
+  .accordion.open .acc-arrow { transform: rotate(90deg); }
+  .acc-body { display: none; padding: 14px 16px; background: var(--panel); border-top: 1px solid var(--border); }
+  .accordion.open .acc-body { display: block; }
+
+  /* ── Two-col ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── Code block ── */
+  pre { background: #0a0c14; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 11px; overflow-x: auto; color: #a5d6ff; line-height: 1.6; }
+
+  .note { background: rgba(245,158,11,.08); border-left: 3px solid var(--orange); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: var(--orange); margin-top: 10px; }
+  .info { background: rgba(79,142,247,.08); border-left: 3px solid var(--accent); padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 12px; color: #93c5fd; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧪 多业务服务 — 自动化用例落地全景</h1>
+  <p>手工用例 18 条 &nbsp;|&nbsp; 已覆盖 0 条 &nbsp;|&nbsp; 平台用例总数 &nbsp;|&nbsp; 分析时间：2026-03-18</p>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('overview')">📊 总览</div>
+  <div class="tab" onclick="switchTab('dimensions')">🔢 维度拆解</div>
+  <div class="tab" onclick="switchTab('cases')">📋 用例清单</div>
+  <div class="tab" onclick="switchTab('lifecycle')">🔄 数据生命周期</div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: 总览 ══════════════════════════════════════════ -->
+<div id="page-overview" class="page active">
+
+  <div class="stats">
+    <div class="stat-card"><div class="num c-green">18</div><div class="label">手工用例总数</div></div>
+    <div class="stat-card"><div class="num c-blue">6</div><div class="label">独立维度</div></div>
+    <div class="stat-card"><div class="num c-purple">6</div><div class="label">推荐公共步骤</div></div>
+    <div class="stat-card"><div class="num c-orange">3</div><div class="label">目录层级</div></div>
+    <div class="stat-card"><div class="num c-blue">0</div><div class="label">已创建用例</div></div>
+    <div class="stat-card"><div class="num c-green">0</div><div class="label">已创建公共步骤</div></div>
+  </div>
+
+  <div class="two-col">
+    <div class="section">
+      <div class="section-title">整体进度 <span class="badge badge-orange">Phase 0 分析完成</span></div>
+      <div class="timeline">
+        <div class="tl-item">
+          <div class="tl-dot done"></div>
+          <div class="tl-title">Phase 0 — 数据读取与分析</div>
+          <div class="tl-desc">
+            ✅ 飞书表格读取成功 (18条用例)<br>
+            ✅ 用例ID前缀验证通过 (多业务服务-007 ~ 多业务服务-032)<br>
+            ✅ 维度拆解完成 (6个独立维度)<br>
+            ✅ 目录结构设计完成 (3层结构)<br>
+            ✅ 公共步骤设计完成 (6个推荐步骤)
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot warn"></div>
+          <div class="tl-title">Phase 1 — 公共步骤建设</div>
+          <div class="tl-desc">
+            ⚠️ 待审批后执行<br>
+            任务: 在SDET平台创建6个公共步骤
+          </div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot skip"></div>
+          <div class="tl-title">Phase 2 — 目录结构与用例创建</div>
+          <div class="tl-desc">
+            ⏸️ 待Phase 1完成后执行<br>
+            任务: 创建3层目录结构 + 18条自动化用例
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">自动化方案对比</div>
+      <div class="note" style="margin-bottom:12px">
+        当前所有用例都是<b>手工UI测试用例</b>,不存在可复用的自动化公共步骤
+      </div>
+      <table>
+        <tr><th>方案</th><th>优点</th><th>缺点</th><th>推荐度</th></tr>
+        <tr>
+          <td><b>方案A: UI自动化</b></td>
+          <td>快速上手,风险低,直接复用手工步骤</td>
+          <td>维护成本高,执行速度慢,稳定性差</td>
+          <td><span class="chip chip-grey">一般</span></td>
+        </tr>
+        <tr>
+          <td><b>方案B: API自动化</b></td>
+          <td>执行快,稳定性好,维护成本低</td>
+          <td>前期投入大,需建设公共步骤</td>
+          <td><span class="chip chip-green">推荐</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: 维度拆解 ══════════════════════════════════════════ -->
+<div id="page-dimensions" class="page">
+
+  <div class="section">
+    <div class="section-title">🔢 状态维度拆解</div>
+    <p style="color:var(--muted);margin-bottom:14px;">
+      通过分析18条用例,提取以下6个独立维度。维度组合数 = 3×2×4×6×4×2 = 1152 (理论值),实际用例覆盖18种场景。
+    </p>
+    <table>
+      <tr>
+        <th>维度ID</th>
+        <th>维度名称</th>
+        <th>类型</th>
+        <th>值域</th>
+        <th>基数</th>
+        <th>用例覆盖</th>
+      </tr>
+      <tr>
+        <td><b>D1</b></td>
+        <td>业务服务类型</td>
+        <td>枚举</td>
+        <td>打印机、IP、邮箱、未指定</td>
+        <td>4</td>
+        <td><span class="chip chip-green">✓ 18条</span></td>
+      </tr>
+      <tr>
+        <td><b>D2</b></td>
+        <td>用户状态</td>
+        <td>枚举</td>
+        <td>正常、锁定</td>
+        <td>2</td>
+        <td><span class="chip chip-green">✓ 2条</span></td>
+      </tr>
+      <tr>
+        <td><b>D3</b></td>
+        <td>业务服务数量</td>
+        <td>数字</td>
+        <td>0个、1个、2个、3个</td>
+        <td>4</td>
+        <td><span class="chip chip-green">✓ 18条</span></td>
+      </tr>
+      <tr>
+        <td><b>D4</b></td>
+        <td>操作类型</td>
+        <td>枚举</td>
+        <td>新增、删除、编辑、查询、暂停/恢复/销户、解锁</td>
+        <td>6</td>
+        <td><span class="chip chip-green">✓ 18条</span></td>
+      </tr>
+      <tr>
+        <td><b>D5</b></td>
+        <td>输入数据质量</td>
+        <td>枚举</td>
+        <td>正常、错误、重复、空值</td>
+        <td>4</td>
+        <td><span class="chip chip-green">✓ 18条</span></td>
+      </tr>
+      <tr>
+        <td><b>D6</b></td>
+        <td>批量操作</td>
+        <td>布尔</td>
+        <td>是、否</td>
+        <td>2</td>
+        <td><span class="chip chip-green">✓ 1条</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🏗️ 目录结构设计</div>
+    <div class="two-col">
+      <div>
+        <pre style="font-size:11px;color:var(--text);">
+根目录/
+├── 环境配置/
+│   ├── 新增业务服务用户/
+│   │   ├── 打印机服务/
+│   │   ├── IP服务/
+│   │   └── 邮箱服务/
+│   └── 多服务用户管理/
+├── 业务操作/
+│   ├── 删除操作/
+│   │   ├── 非关联服务删除/
+│   │   └── 已关联服务删除/
+│   ├── 编辑操作/
+│   │   └── 业务服务编辑/
+│   ├── 状态管理/
+│   │   ├── 暂停恢复/
+│   │   ├── 销户/
+│   │   └── 解锁/
+│   ├── 批量操作/
+│   └── 查询功能/
+└── 第三方集成/
+    └── 接口开通用户/</pre>
+      </div>
+      <div>
+        <div class="info" style="margin-bottom:12px">
+          <b>设计原则</b>:
+          <ul style="margin:8px 0 0 16px 16px;">
+            <li>3层结构: 根目录 → 业务类别 → 具体场景</li>
+            <li>叶子节点对应1个基准状态组合</li>
+            <li>避免扁平化,便于管理和维护</li>
+          </ul>
+        </div>
+        <div class="note">
+          ⚠️ 所有目录和公共步骤都需在Phase 1中创建,预计需要创建约15个目录 + 6个公共步骤
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📌 公共步骤设计</div>
+    <table>
+      <tr>
+        <th>步骤ID(拟)</th>
+        <th>步骤名称</th>
+        <th>变量名</th>
+        <th>默认值</th>
+        <th>用例级需覆盖?</th>
+        <th>状态</th>
+      </tr>
+      <tr>
+        <td>待创建</td>
+        <td>【公共】登录管理端</td>
+        <td><code>admin_username</code><br><code>admin_password</code></td>
+        <td>admin<br>password</td>
+        <td><span class="chip chip-green">✅</span></td>
+        <td><span class="chip chip-orange">待创建</span></td>
+      </tr>
+      <tr>
+        <td>待创建</td>
+        <td>【公共】开通上网服务用户</td>
+        <td><code>username</code><br><code>password</code><br><code>template</code></td>
+        <td>zhangsan<br>pass123<br>默认模板</td>
+        <td><span class="chip chip-green">✅</span></td>
+        <td><span class="chip chip-orange">待创建</span></td>
+      </tr>
+      <tr>
+        <td>待创建</td>
+        <td>【公共】新增业务服务用户</td>
+        <td><code>service_type</code><br><code>username</code><br><code>password</code><br><code>template</code></td>
+        <td>打印机<br>zhangsan<br>pass123<br>默认模板</td>
+        <td><span class="chip chip-green">✅</span></td>
+        <td><span class="chip chip-orange">待创建</span></td>
+      </tr>
+      <tr>
+        <td>待创建</td>
+        <td>【公共】删除业务服务用户</td>
+        <td><code>service_username</code></td>
+        <td>Pr_zhangsan</td>
+        <td><span class="chip chip-green">✅</span></td>
+        <td><span class="chip chip-orange">待创建</span></td>
+      </tr>
+      <tr>
+        <td>待创建</td>
+        <td>【公共】批量操作</td>
+        <td><code>action</code><br><code>user_list</code></td>
+        <td>暂停<br>[...]</td>
+        <td><span class="chip chip-green">✅</span></td>
+        <td><span class="chip chip-orange">待创建</span></td>
+      </tr>
+      <tr>
+        <td>待创建</td>
+        <td>【公共】业务服务用户查询</td>
+        <td><code>query_type</code><br><code>query_value</code></td>
+        <td>username<br>zhangsan</td>
+        <td><span class="chip chip-green">✅</span></td>
+        <td><span class="chip chip-orange">待创建</span></td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: 用例清单 ══════════════════════════════════════════ -->
+<div id="page-cases" class="page">
+
+  <div class="section">
+    <div class="section-title">📋 手工用例清单 (18条)</div>
+    <div class="matrix-wrap">
+      <table>
+        <tr>
+          <th style="width:50px">序号</th>
+          <th style="width:120px">用例编号</th>
+          <th style="width:200px">用例名称</th>
+          <th>操作类型</th>
+          <th>状态</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>多业务服务-007</td>
+          <td>删除非关联业务服务校验</td>
+          <td><span class="chip chip-blue">删除</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>多业务服务-008</td>
+          <td>删除已关联业务服务校验</td>
+          <td><span class="chip chip-blue">删除</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>多业务服务-010</td>
+          <td>业务服务分页功能校验</td>
+          <td><span class="chip chip-purple">查询</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>多业务服务-012</td>
+          <td>服务实例字段展示与跳转校验</td>
+          <td><span class="chip chip-purple">查询</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>多业务服务-013</td>
+          <td>通过第三方接口开通账户\n开通业务服务用户</td>
+          <td><span class="chip chip-green">新增</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>多业务服务-014</td>
+          <td>业务服务开通数量限制校验</td>
+          <td><span class="chip chip-green">新增</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>多业务服务-016</td>
+          <td>用户导出新增业务服务字段校验</td>
+          <td><span class="chip chip-purple">查询</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>多业务服务-017</td>
+          <td>上网服务用户销户校验</td>
+          <td><span class="chip chip-blue">删除</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>多业务服务-019</td>
+          <td>新增普通业务服务用户(非IP/邮箱)校验</td>
+          <td><span class="chip chip-green">新增</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td>多业务服务-020</td>
+          <td>新增IP业务服务用户校验</td>
+          <td><span class="chip chip-green">新增</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>11</td>
+          <td>多业务服务-021</td>
+          <td>新增邮箱业务服务用户校验</td>
+          <td><span class="chip chip-green">新增</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>多业务服务-022</td>
+          <td>业务服务用户编辑功能校验</td>
+          <td><span class="chip chip-purple">编辑</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>13</td>
+          <td>多业务服务-023</td>
+          <td>单个业务服务用户销户校验</td>
+          <td><span class="chip chip-blue">删除</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>14</td>
+          <td>多业务服务-024</td>
+          <td>批量操作功能校验</td>
+          <td><span class="chip chip-blue">状态管理</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>15</td>
+          <td>多业务服务-025</td>
+          <td>业务服务用户解锁功能校验</td>
+          <td><span class="chip chip-blue">状态管理</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>16</td>
+          <td>多业务服务-026</td>
+          <td>锁定用户点击恢复</td>
+          <td><span class="chip chip-blue">状态管理</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>17</td>
+          <td>多业务服务-027</td>
+          <td>业务服务用户查询功能校验</td>
+          <td><span class="chip chip-purple">查询</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+        <tr>
+          <td>18</td>
+          <td>多业务服务-032</td>
+          <td>多服务相关的功能只在SAM上有 包括菜单的操作按钮等</td>
+          <td><span class="chip chip-purple">查询</span></td>
+          <td><span class="chip chip-orange">待创建</span></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📊 用例分类统计</div>
+    <div class="stats" style="grid-template-columns: repeat(auto-fill, minmax(140px,1fr));">
+      <div class="stat-card"><div class="num c-green">6</div><div class="label">新增用例</div></div>
+      <div class="stat-card"><div class="num c-blue">3</div><div class="label">删除用例</div></div>
+      <div class="stat-card"><div class="num c-purple">1</div><div class="label">编辑用例</div></div>
+      <div class="stat-card"><div class="num c-orange">5</div><div class="label">状态管理用例</div></div>
+      <div class="stat-card"><div class="num c-blue">3</div><div class="label">查询用例</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════ PAGE: 数据生命周期 ══════════════════════════════════════════ -->
+<div id="page-lifecycle" class="page">
+
+  <div class="section">
+    <div class="section-title">🔄 数据生命周期管理</div>
+    <div class="info" style="margin-bottom:16px;">
+      本页面展示从手工用例到自动化用例的完整数据流转过程,包括待创建、创建中、已创建三个阶段的数据状态。
+    </div>
+
+    <table>
+      <tr>
+        <th style="width:200px;">数据类型</th>
+        <th>数据源</th>
+        <th>当前状态</th>
+        <th>数据文件</th>
+        <th>创建方式</th>
+      </tr>
+      <tr>
+        <td><b>手工用例原始数据</b></td>
+        <td>飞书表格</td>
+        <td><span class="chip chip-green">✓ 已读取</span></td>
+        <td><code>sandbox/workspace/lark_test_cases.json</code></td>
+        <td>飞书API读取</td>
+      </tr>
+      <tr>
+        <td><b>分析报告</b></td>
+        <td>系统生成</td>
+        <td><span class="chip chip-green">✓ 已生成</span></td>
+        <td><code>workspace/analysis/20260318_多业务服务/case_design_analysis.md</code></td>
+        <td>规则引擎生成</td>
+      </tr>
+      <tr>
+        <td><b>可视化报告</b></td>
+        <td>系统生成</td>
+        <td><span class="chip chip-green">✓ 已生成</span></td>
+        <td><code>workspace/analysis/20260318_多业务服务/case_coverage_report.html</code></td>
+        <td>HTML模板渲染</td>
+      </tr>
+      <tr>
+        <td><b>公共步骤(6个)</b></td>
+        <td>SDET平台</td>
+        <td><span class="chip chip-orange">⏸ 待创建</span></td>
+        <td>待Phase 1创建后填入</td>
+        <td>platform-client.create_step()</td>
+      </tr>
+      <tr>
+        <td><b>目录结构(15个)</b></td>
+        <td>SDET平台</td>
+        <td><span class="chip chip-orange">⏸ 待创建</span></td>
+        <td>待Phase 1创建后填入</td>
+        <td>platform-client.create_directory()</td>
+      </tr>
+      <tr>
+        <td><b>自动化用例(18条)</b></td>
+        <td>SDET平台</td>
+        <td><span class="chip chip-grey">⏸ 待Phase 2创建</span></td>
+        <td>待Phase 2创建后填入</td>
+        <td>platform-client.create_case()</td>
+      </tr>
+      <tr>
+        <td><b>用例ID回写</b></td>
+        <td>飞书表格</td>
+        <td><span class="chip chip-grey">⏸ 待Phase 3回写</span></td>
+        <td>待Phase 3执行后填入</td>
+        <td>飞书API写入</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📂 物料清单</div>
+    <div class="two-col">
+      <div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:8px">已生成的物料</div>
+        <ul style="margin:0 0 0 16px 16px;color:var(--text);font-size:13px;">
+          <li style="margin-bottom:8px;">
+            <b>📄 lark_test_cases.json</b><br>
+            <span style="color:var(--muted);font-size:11px;">手工用例原始数据(18条)</span>
+          </li>
+          <li style="margin-bottom:8px;">
+            <b>📄 case_design_analysis.md</b><br>
+            <span style="color:var(--muted);font-size:11px;">Phase 0详细分析报告</span>
+          </li>
+          <li style="margin-bottom:8px;">
+            <b>🌐 case_coverage_report.html</b><br>
+            <span style="color:var(--muted);font-size:11px;">可视化交互页面(本文件)</span>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:8px">待创建的物料</div>
+        <ul style="margin:0 0 0 16px 16px;color:var(--text);font-size:13px;">
+          <li style="margin-bottom:8px;">
+            <b>📄 create_phase1_public_steps.py</b><br>
+            <span style="color:var(--muted);font-size:11px;">Phase 1批量创建公共步骤脚本</span>
+          </li>
+          <li style="margin-bottom:8px;">
+            <b>📄 create_phase2_directories.py</b><br>
+            <span style="color:var(--muted);font-size:11px;">Phase 1批量创建目录脚本</span>
+          </li>
+          <li style="margin-bottom:8px;">
+            <b>📄 create_phase3_cases.py</b><br>
+            <span style="color:var(--muted);font-size:11px;">Phase 2批量创建自动化用例脚本</span>
+          </li>
+          <li style="margin-bottom:8px;">
+            <b>📄 writeback_case_ids.py</b><br>
+            <span style="color:var(--muted);font-size:11px;">Phase 3飞书ID回写脚本</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔗 数据流转图</div>
+    <div class="flow" style="justify-content: center; margin: 24px 0;">
+      <div class="flow-box done"><div class="fb-title">飞书表格</div><div class="fb-sub">手工用例</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box done"><div class="fb-title">lark_sheet_reader</div><div class="fb-sub">读取数据</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box done"><div class="fb-title">lark_test_cases.json</div><div class="fb-sub">原始数据</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box done"><div class="fb-title">分析引擎</div><div class="fb-sub">Phase 0</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box done"><div class="fb-title">case_design_analysis.md</div><div class="fb-sub">分析报告</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box done"><div class="fb-title">可视化页面</div><div class="fb-sub">HTML报告</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box warn"><div class="fb-title">⏸ 用户审批</div><div class="fb-sub">Approve</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box warn"><div class="fb-title">Phase 1</div><div class="fb-sub">公共步骤+目录</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box skip"><div class="fb-title">⏸ Phase 2</div><div class="fb-sub">批量用例</div></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-box skip"><div class="fb-title">⏸ Phase 3</div><div class="fb-sub">ID回写</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">📂 Phase 1 准备工作</div>
+    <div class="note" style="margin-bottom:16px;">
+      在创建公共步骤前,请完成以下准备工作:
+    </div>
+    <div style="background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px;">
+      <div style="font-weight:700;margin-bottom:12px;color:#fff;">步骤1: 查阅已有公共步骤</div>
+      <p style="color:var(--muted);margin-bottom:8px;">
+        查看 <code>knowledge/common_cases_manifest.json</code>,了解现有的公共步骤。<br>
+        <span style="color:var(--orange);">⚠️ 结论: 无直接可复用的业务服务公共步骤</span>
+      </p>
+      
+      <div style="font-weight:700;margin-bottom:12px;margin-top:20px;color:#fff;">步骤2: 阅读公共步骤创建引导</div>
+      <p style="color:var(--muted);margin-bottom:8px;">
+        打开 <a href="materials/01_step_creation_guide.md" target="_blank" style="color:var(--accent);font-weight:600;">materials/01_step_creation_guide.md</a><br>
+        该文档包含:
+      </p>
+      <ul style="color:var(--text);margin:0 0 0 16px 16px;">
+        <li>✅ 已有公共步骤ID清单(从manifest中提取)</li>
+        <li>✅ 6个待创建公共步骤的详细API契约</li>
+        <li>✅ 每个步骤的变量清单和测试数据</li>
+        <li>✅ API端点、请求格式、响应格式</li>
+        <li>✅ 错误码和错误消息示例</li>
+        <li>✅ 测试数据准备清单</li>
+      </ul>
+      
+      <div style="font-weight:700;margin-bottom:12px;margin-top:20px;color:#fff;">步骤3: 确认API文档</div>
+      <p style="color:var(--muted);">
+        通过Postman或其他工具测试API,确认契约准确性
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(tabId) {
+  // Update tab styles
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.classList.remove('active');
+    if (tab.textContent.includes(tabId === 'overview' ? '总览' : 
+                                           tabId === 'dimensions' ? '维度' :
+                                           tabId === 'cases' ? '用例' : '生命周期')) {
+      tab.classList.add('active');
+    }
+  });
+  
+  // Update page visibility
+  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  document.getElementById('page-' + tabId).classList.add('active');
+}
+
+function toggleAcc(header) {
+  const acc = header.parentElement;
+  acc.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
